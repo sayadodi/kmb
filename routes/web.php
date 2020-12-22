@@ -45,8 +45,9 @@ Route::get('/aturhak/{id}','controlPengaturan@settingHak')->name('sethak');
 Route::get('/requestvendor','controlGudang@daftarvendor');
 Route::get('/requestvendor/{id}','controlGudang@detailvendor');
 Route::get('/requestvendor/terima/{id}','controlGudang@terimavendor');
+
+
 // Vendor daftar
- 
 // Vendor proses
 Route::group(['middleware' => ['cekbrowser']],function(){
     Route::get('/loginvendor','controlVendor@login');
@@ -54,6 +55,9 @@ Route::group(['middleware' => ['cekbrowser']],function(){
     Route::get('/daftar','controlDaftar@index');
     Route::post('/daftar','controlDaftar@postDaftar');
     Route::get('/daftarsukses','controlDaftar@sukses');
+    Route::get('/lupapassword','controlDaftar@lupapassword');
+    Route::post('/lupapassword','controlDaftar@kirimemaillupa');
+    Route::get('/infolupaspassword','controlDaftar@infolupapassword');
 });
 
 // Akses rute vendor

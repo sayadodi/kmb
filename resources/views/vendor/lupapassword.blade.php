@@ -30,32 +30,25 @@
   <div class="login-box-body">
     <p class="login-box-msg"><img src="{{asset('images/sasas.png')}}" width="80%" height="70"></p>
 
-    <form action="{{url('loginvendor')}}" method="post">
+    <form action="{{url('lupapassword')}}" method="post">
       {{ csrf_field() }}
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Email" name="username" required="">
+        <input type="text" class="form-control" placeholder="Masukkan email anda" name="email" required="">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password" name="password" required="">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
+
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-danger btn-block btn-flat">Sign In</button>
-          <a class="btn btn-info btn-block btn-flat" href="{{url('daftar')}}">Daftar</a>
+          <button type="submit" class="btn btn-danger btn-block btn-flat">Proses</button>
+          <a href="{{url('daftar')}}">Kembali</a>
         </div>
       </div>
     </form>
     <br>
     <div align="center">Copyright &copy; PT PJB UBJOM Paiton</div>
     <br>
-    <div align="center"><a href="{{url('lupapassword')}}">Lupa Password?</a></div>
-    @if(session('status')=='salah')
-        <div class="alert alert-danger alert-dismissible fade in" role="alert">
-          <i class="fa fa-warning"></i> Maaf, data yang dimasukkan salah!
-        </div>
-    @endif
+    <div align="center"><a href="{{url('loginvendor')}}">Kembali</a></div>
+    
   </div>
   <!-- /.login-box-body -->
 </div>

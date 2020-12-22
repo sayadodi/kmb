@@ -32,4 +32,16 @@ class controlDaftar extends Controller
         return view('vendor.berhasil');
     }
 
+    public function lupapassword(){
+        return view('vendor.lupapassword');
+    }
+
+    public function kirimemaillupa(){
+        
+    }
+
+    public function infolupapassword(){
+        return view('vendor.infolupa');
+    }
+
 }
