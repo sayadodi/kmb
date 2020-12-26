@@ -45,6 +45,7 @@ Route::get('/aturhak/{id}','controlPengaturan@settingHak')->name('sethak');
 Route::get('/requestvendor','controlGudang@daftarvendor');
 Route::get('/requestvendor/{id}','controlGudang@detailvendor');
 Route::get('/requestvendor/terima/{id}','controlGudang@terimavendor');
+Route::get('/terimavendor','controlGudang@terimavendor');
 
 
 // Vendor daftar

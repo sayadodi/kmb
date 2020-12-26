@@ -44,4 +44,5 @@ class controlDaftar extends Controller
         return view('vendor.infolupa');
     }
 
+    
 }
