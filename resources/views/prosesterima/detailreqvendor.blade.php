@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="box-body">
-          {{ Form::model($vendor,array('method' => 'PUT', 'url' => 'requestvendor/edit/'.$vendor->kdvendor, 'class' => 'form', 'files' => true)) }}
+          {{ Form::model($vendor,array('method' => 'PUT', 'url' => 'terimavendor/'.$vendor->kdvendor, 'class' => 'form', 'files' => true)) }}
               <div class="box-body">
                 @if($errors->any())
 					<div class="form-group {{ $errors->has('namavendor') ? 'has-error' : 'has-success' }}">
@@ -74,8 +74,8 @@
 				</div>
 
                 <div class="form-group">
-                {{ Form::label('xalamat','Alasan') }}
-                {{ Form::textarea('My text', null, [
+                {{ Form::label('xalasan','Alasan') }}
+                {{ Form::textarea('alasan', null, [
                     'class'      => 'form-control',
                     'rows'       => 1, 
                     'name'       => 'alasan',
