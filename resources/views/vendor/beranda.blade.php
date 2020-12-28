@@ -21,7 +21,7 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 				<div class="text-right">
-					<a href="{{url('formvendor')}}" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+					<a href="{{url('kirimbarang')}}" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Tambah</a>
               		<a href="{{url('daftarvendor')}}" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> Segarkan</a>					
 				</div>
 				<br>

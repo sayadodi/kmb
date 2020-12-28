@@ -40,7 +40,6 @@
       <div class="row">
         <div class="col-xs-12">
           <button type="submit" class="btn btn-danger btn-block btn-flat">Proses</button>
-          <a href="{{url('daftar')}}">Kembali</a>
         </div>
       </div>
     </form>

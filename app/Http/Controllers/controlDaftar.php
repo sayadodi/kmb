@@ -36,8 +36,18 @@ class controlDaftar extends Controller
         return view('vendor.lupapassword');
     }
 
-    public function kirimemaillupa(){
-        
+    public function kirimemaillupa(Request $r){
+        $email = $r->email;
+        $password = "1234";
+        Mail::send('email.lupapassword', array('password' => $password) , function($m) use($email){
+            $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'UBJOM U9');
+            $m->to($email,'Verifikasi')->subject('Reset Password KMBarang');
+            
+        });
+        $simpan = modelMasterVendor::findOrFail($id);
+        $simpan->password = md5($password);
+        $simpan->save();
+        return redirect('infolupaspassword');
     }
 
     public function infolupapassword(){

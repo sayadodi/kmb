@@ -31,25 +31,24 @@
       </ol>
     @endif
 
-    @if(is_active('pernahmasuk'))
+    @if(is_active('berandavendor'))
       <h1>
-      Tamu Pernah Masuk
-      <small>Isi dengan baik dan benar</small>
+      Beranda
+      <small>Selamat datang</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
-        <li class="active">Pernah Masuk</li>
       </ol>
     @endif
 
-    @if(is_active('kirimanpo'))
+    @if(is_active('kirimbarang'))
       <h1>
-      Kiriman barang
-      <small>Berisi data kiriman dari PO / WO yang sudah selesai</small>
+      Kirim barang
+      <small>Atur isian dengan sebaik-baiknya</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
-        <li class="active">Kiriman Barang</li>
+        <li class="active">Kirim Barang</li>
       </ol>
     @endif
 

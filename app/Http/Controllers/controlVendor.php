@@ -57,4 +57,8 @@ class controlVendor extends Controller
         }
         return redirect('ubahpassv');
     }
+
+    public function kirimbarang(){
+        return view('vendor.kirimbarang');
+    }
 }

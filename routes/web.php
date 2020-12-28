@@ -44,8 +44,7 @@ Route::get('/aturhak/{id}','controlPengaturan@settingHak')->name('sethak');
 // Penerimaan vendor
 Route::get('/requestvendor','controlGudang@daftarvendor');
 Route::get('/requestvendor/{id}','controlGudang@detailvendor');
-Route::get('/requestvendor/terima/{id}','controlGudang@terimavendor');
-Route::post('/terimavendor/{id}','controlGudang@terimavendor');
+Route::post('/requestvendor/{id}','controlGudang@terimavendor');
 
 
 // Vendor daftar
@@ -67,6 +66,7 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/keluarvendor','controlVendor@logout');
     Route::get('/ubahpassv','controlVendor@ubahpass');
     Route::post('/ubahpassv','controlVendor@storepass');
+    Route::get('/kirimbarang','controlVendor@kirimbarang');
 });
 
 

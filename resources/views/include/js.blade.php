@@ -16,3 +16,5 @@
 {{-- Message --}}
 {!! Html::script('js/pesan.js')!!}
 {!! Html::script('plugins/iCheck/icheck.min.js')!!}
+<!-- Kirim barang js -->
+{!! Html::script('js/kirimbarangstep.js')!!}

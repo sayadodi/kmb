@@ -1,6 +1,14 @@
 @extends('index')
 @section('konten')
-	<div class="col-md-9">
+	<div class="col-md-12">
+    	<div class="callout callout-danger">
+            <h4><i class="icon fa fa-ban"></i> Perhatian!</h4>
+                - Harap pastikan data sesuai dengan yang terdaftar pada unit <br>
+				- Silahkan terima jika data ada dan berikan saran<br>
+				- Tolak jika data vendor tidak sesuai
+        </div>
+    </div>
+	<div class="col-md-12">
       <div class="box box-primary">
         <div class="box-header with-border">
           <h3 class="box-title">Form Vendor</h3>
@@ -9,93 +17,51 @@
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div>
         </div>
-        <div class="box-body">
-          {{ Form::model($vendor,array('method' => 'PUT', 'url' => 'terimavendor/'.$vendor->kdvendor, 'class' => 'form', 'files' => true)) }}
-              <div class="box-body">
-                @if($errors->any())
-					<div class="form-group {{ $errors->has('namavendor') ? 'has-error' : 'has-success' }}">
-				@else
-					<div class="form-group">
-				@endif
-					{{ Form::label('xnam','Nama Vendor') }}
-					{{ Form::text('namavendor',null,array('placeholder' => 'Masukkan nama', 'class' => 'form-control', 'disabled')) }}
-					@if ($errors->has('namavendor'))
-						<span class="help-block">{{ $errors->first('namavendor') }}</span>
-					@endif
+		<form action="{{url('requestvendor/'.$vendor->kdvendor)}}" method="post">
+			<div class="box-body">
+			{{ csrf_field() }}
+				<input type="hidden" name="kdvendor" value="{{$vendor->kdvendor}}">
+				<div class="form-group has-success">					
+					<label>Nama Vendor</label>
+					<input type="text" name="namavendor" class="form-control" readonly value="{{$vendor->namavendor}}">
 				</div>
 
-				@if($errors->any())
-					<div class="form-group {{ $errors->has('telepon') ? 'has-error' : 'has-success' }}">
-				@else
-					<div class="form-group">
-				@endif
-					{{ Form::label('xtlp','Telepon') }}
-					{{ Form::text('telepon',null,array('placeholder' => 'Masukkan telepon', 'class' => 'form-control', 'disabled')) }}
-					@if ($errors->has('telepon'))
-						<span class="help-block">{{ $errors->first('telepon') }}</span>
-					@endif
+				<div class="form-group has-success">					
+					<label>No. Telepon</label>
+					<input type="text" name="telepon" class="form-control" readonly value="{{$vendor->telepon}}">
 				</div>
-				
-				@if($errors->any())
-					<div class="form-group {{ $errors->has('email') ? 'has-error' : 'has-success' }}">
-				@else
-					<div class="form-group">
-				@endif
-					{{ Form::label('xmail','Email') }}
-					{{ Form::text('email',null,array('placeholder' => 'Masukkan Email', 'class' => 'form-control','disabled')) }}
-					@if ($errors->has('email'))
-						<span class="help-block">{{ $errors->first('email') }}</span>
-					@endif
+
+				<div class="form-group has-success">					
+					<label>Email</label>
+					<input type="text" name="email" class="form-control" readonly value="{{$vendor->email}}">
 				</div>	
 
-
-				@if($errors->any())
-					<div class="form-group {{ $errors->has('alamat') ? 'has-error' : 'has-success' }}">
-				@else
-					<div class="form-group">
-				@endif
-					{{ Form::label('xalamat','Alamat') }}
-					{{ Form::text('alamat',null,array('placeholder' => 'Masukkan Alamat', 'class' => 'form-control','disabled')) }}
-					@if ($errors->has('alamat'))
-						<span class="help-block">{{ $errors->first('alamat') }}</span>
-					@endif
+				<div class="form-group has-success">					
+					<label>Alamat</label>
+					<textarea name="alamat" rows="3" class="form-control" readonly>{{$vendor->alamat}}</textarea>
+				</div>
+				
+				<div class="form-group">					
+					<label>Status</label>
+					<select name="status" class="form-control" required>
+						<option>Pilih Status</option>
+						<option value="Aktif">Terima</option>
+						<option value="Ditolak">Tolak</option>
+					</select>
 				</div>
 
-                @if($errors->any())
-					<div class="form-group {{ $errors->has('status') ? 'has-error' : 'has-success' }}">
-				@else
-					<div class="form-group">
-				@endif
-					{{ Form::label('xstatus','Status') }}
-					{{ Form::select('status',array('1' => 'Terima','0' => 'Tolak'),null,['class'=>'form-control']) }}
-					@if ($errors->has('status'))
-						<span class="help-block">{{ $errors->first('status') }}</span>
-					@endif
+				<div class="form-group">					
+					<label>Alasan</label>
+					<textarea name="alasan" rows="5" class="form-control" placeholder="Contoh ditolak: Maaf nomor telepon anda salah , contoh diterima: Lanjutkan pengiriman"></textarea>
 				</div>
 
-                <div class="form-group">
-                {{ Form::label('xalasan','Alasan') }}
-                {{ Form::textarea('alasan', null, [
-                    'class'      => 'form-control',
-                    'rows'       => 1, 
-                    'name'       => 'alasan',
-                    'id'         => 'alasan',
-                    'placeholder' => 'Contoh ditolak: Maaf nomor telepon anda salah , contoh diterima: Lanjutkan pengiriman'
-                ]) }}
-                </div>
-
-              </div>
-              <div class="box-footer">
-                {{ Form::submit('Submit',array('class' => 'btn btn-primary'))}}
-              </div>
-            {{ Form::close() }}
-        </div>
+				<div class="box-footer">
+					<input type="submit" value="Kirim" class="btn btn-flat btn-primary">
+					<a href="{{url('requestvendor')}}" class="btn btn-warning">Kembali</a>
+				</div>
+			</div>
+		</form>
       </div>
     </div>
-    <div class="col-md-3">
-    	<div class="callout callout-danger">
-            <h4><i class="icon fa fa-ban"></i> Perhatian!</h4>
-                - Harap isikan data dengan sebenar-benarnya <br>
-        </div>
-    </div>
+    
 @endsection
