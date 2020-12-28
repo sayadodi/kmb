@@ -7,113 +7,202 @@
 	</div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="stepwizard">
-            <div class="stepwizard-row setup-panel">
-                <div class="stepwizard-step col-xs-3"> 
-                    <a href="#step-1" type="button" class="btn btn-success btn-circle"><i class="fa fa-archive"></i></a>
-                    <p><small>Data Barang</small></p>
-                </div>
-                <div class="stepwizard-step col-xs-3"> 
-                    <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-users"></i></a>
-                    <p><small>Pembawa barang</small></p>
-                </div>
-                <div class="stepwizard-step col-xs-3"> 
-                    <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-gears"></i></a>
-                    <p><small>Tools Tambahan</small></p>
-                </div>
-                <div class="stepwizard-step col-xs-3"> 
-                    <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled"><i class="fa fa-map-marker"></i></a>
-                    <p><small>Kendaraan dan Tujuan</small></p>
-                </div>
+    <div class="col-md-2">
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+            <p class="text-muted text-center">Nama CV</p>
+
+            <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                <b>Jumlah Barang</b> <a class="pull-right">14</a>
+                </li>
+                <li class="list-group-item">
+                <b>Pembawa Barang</b> <a class="pull-right">2</a>
+                </li>
+                <li class="list-group-item">
+                <b>Jumlah Tools</b> <a class="pull-right">0</a>
+                </li>
+            </ul>
+
             </div>
+            <!-- /.box-body -->
         </div>
-    
-        <form role="form">
-            <div class="panel panel-primary setup-content" id="step-1">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Barang</h3>
+
+        <div class="callout callout-danger">
+            <h4><i class="icon fa fa-ban"></i> Perhatian!</h4>
+                - Harap pastikan data sesuai dengan yang terdaftar pada unit <br>
+                - Silahkan terima jika data ada dan berikan saran<br>
+                - Tolak jika data vendor tidak sesuai
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-10">
+      <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li><a href="#barang" data-toggle="tab">Barang</a></li>
+          <li><a href="#pembawa" data-toggle="tab">Pembawa barang</a></li>
+          <li><a href="#tools" data-toggle="tab">Tools</a></li>
+          <li><a href="#tujuan" data-toggle="tab">Tujuan dan Kendaraan</a></li>
+
+        </ul>
+        <div class="tab-content">
+            {{-- Barang --}}
+            <div class="active tab-pane" id="barang">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Form barang</h4>
+                        <div class="progress" style="height: 2px;">
+                            <div class="progress-bar" role="progressbar" style="width: 8%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="form-group nb">
+                            <label class="col-md-12 col-sm-12 col-xs-12 namb">Nama Barang<code>*</code></label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input type="text" name="" id="" class="form-control">
+                            </div>
+                        </div>
+        
+                        <div class="form-group jb">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Jumlah / Satuan<code>*</code></label>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <input type="number" name="jumlah" class="form-control jumlah" placeholder="Masukkan Jumlah">
+                                <span class="errorj help-block hidden"></span>
+                            </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" name="satuan" class="form-control satuan" placeholder="Masukkan Satuan" readonly>
+                            </div>
+                        </div>
+                        <p class="et text-center alert alert-danger hidden"></p>
+        
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Keterangan</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <textarea class="form-control keterangan" name="keterangan"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group gb">
+                            
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-md-12 col-sm-12 col-xs-12">Gambar<code>*</code></label>
+                                <input type="file" name="gambar" class="form-control gambar">
+                                <span class="errorg help-block hidden"></span>
+                            </div>
+                            
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <label class="col-md-6 col-sm-12 col-xs-12">Berkas</label>
+                                <input type="file" name="berkas" class="form-control berkas">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">Nama barang</label>
-                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="Contoh : Lampu neon 90W" />
+                <br>
+                <div class="table-responsive">
+                    <h4>Daftar barang</h4>
+                    <div class="progress" style="height: 2px;">
+                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 8%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Jumlah</label>
-                        <input type="number" required="required" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Satuan</label>
-                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="Contoh : LOT, EA, Dll" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Deskripsi</label>
-                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="Contoh: Lebar 22mm x 33mm" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Gambar barang</label>
-                        <input type="file" required="required" class="form-control" placeholder="" />
-                    </div>
-                    <div class="table-responsive">
-					
-				</div>
-                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-                </div>
+                    <table id="table-barang" class="table table-condensed table-striped">
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nama barang</th>
+                        <th>Jumlah</th>
+                        <th>Gambar</th>
+                        <th>Dokumen</th>
+                        <th>Keterangan</th>
+                        <th>Aksi</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            {{-- Pembawa barang --}}
+            <div class="tab-pane" id="pembawa">
+                <h4>Pengantar barang</h4>
+                <hr>
+                <div class="table-responsive">
+                    <table id="table-ikut" class="table table-condensed table-striped">
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Identitas</th>
+                        <th>Nama</th>
+                        <th>Foto</th>
+                        <th>Kontak</th>
+                        <th>Alamat</th>
+                        <th>Jabatan</th>
+                        <th>Aksi</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+
+                      <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>Lihat</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            {{-- Tools --}}
+            <div class="tab-pane" id="tools">
+                <h4>Daftar tools tambahan</h4>
+                <small>Jika membawa barang tambahan berupa tools tambahan yang bukan termasuk order</small>
+                <hr>
+                <div class="table-responsive">
+                    <table id="table-barangb" class="table table-condensed table-striped">
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nama barang</th>
+                        <th>Jumlah</th>
+                        <th>Gambar</th>
+                        <th>Dokumen</th>
+                        <th>Keterangan</th>
+                        <th>Aksi</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+
+            {{-- Tujuan dan kendaraan --}}
+            <div class="tab-pane" id="tujuan">
                 
             </div>
-            
-            <div class="panel panel-primary setup-content" id="step-2">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Destination</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">Company Name</label>
-                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Company Address</label>
-                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address" />
-                    </div>
-                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-                </div>
-            </div>
-            
-            <div class="panel panel-primary setup-content" id="step-3">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Schedule</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">Company Name</label>
-                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Company Address</label>
-                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address" />
-                    </div>
-                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
-                </div>
-            </div>
-            
-            <div class="panel panel-primary setup-content" id="step-4">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Cargo</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label class="control-label">Company Name</label>
-                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Name" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Company Address</label>
-                        <input maxlength="200" type="text" required="required" class="form-control" placeholder="Enter Company Address" />
-                    </div>
-                    <button class="btn btn-success pull-right" type="submit">Finish!</button>
-                </div>
-            </div>
-        </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+</section>
 @endsection

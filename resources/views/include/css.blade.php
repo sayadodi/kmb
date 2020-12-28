@@ -5,4 +5,3 @@
 {!! Html::style('plugins/select2/dist/css/select2.min.css') !!}
 {!! Html::style('plugins/datatables/datatables.net-bs/css/dataTables.bootstrap.min.css') !!}
 {!! Html::style('plugins/iCheck/square/blue.css') !!}
-{!! Html::style('css/cssstep.css') !!}
