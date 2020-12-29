@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
+use App\Models\modelPengiriman;
+use Validator;
 
 class controlVendor extends Controller
 {
@@ -60,6 +62,32 @@ class controlVendor extends Controller
 
     public function daftarkiriman(){
         return view('vendor.daftarkiriman');
+    }
+
+    public function datadaftarkiriman(){
+        $vendor = session('idvendor');
+        $data = modelPengiriman::where('kodevendor',$vendor)->get();
+        return view('vendor.include.daftarkiriman',compact('data'));
+    }
+
+    public function tambahpo(Request $r){
+        $input = $r->all();
+        $validator = Validator::make($input,[
+                'nopo' => 'required',
+                'keperluan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return \Response::json(array('errors' => $validator->getMessageBag()->toarray()));
+        }
+        $nopo = $r->nopo;
+        $simpan = new modelPengiriman();
+        $simpan->nopo = $nopo;
+        $simpan->keperluan = $r->keperluan;
+        $simpan->tglbuat = date("Y-m-d H:i:s");
+        $simpan->kodevendor = session('idvendor');
+        $simpan->save();
+        return \Response::json($simpan);
     }
 
     public function kirimbarang(){

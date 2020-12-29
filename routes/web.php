@@ -67,6 +67,11 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/ubahpassv','controlVendor@ubahpass');
     Route::post('/ubahpassv','controlVendor@storepass');
     Route::get('/kirimpo','controlVendor@daftarkiriman');
+    Route::post('/kirimpo/tambah','controlVendor@tambahpo');
+
+
+    // Include Ajax
+    Route::get('/datadaftarkiriman','controlVendor@datadaftarkiriman');
 
     Route::get('/kirimbarang','controlVendor@kirimbarang');
 });
