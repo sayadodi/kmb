@@ -62,7 +62,18 @@
 <ul class="sidebar-menu" data-widget="tree">
   <li class="header">MAIN NAVIGATION</li>
   <li><a href="{{url('berandavendor')}}"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
-
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-paper-plane"></i> <span>Pengiriman</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="{{url('kirimpo')}}"><i class="fa fa-circle-o"></i> Barang PO</a></li>
+      <li><a href="{{url('tools')}}"><i class="fa fa-circle-o"></i> Tools</a></li>
+    </ul>
+  </li>
   <li><a href="{{url('ubahpassv')}}"><i class="fa fa-book"></i> <span>Ubah Password</span></a></li>
   <li><a href="{{url('keluarvendor')}}"><i class="fa fa-sign-out"></i> <span>Keluar</span></a></li>
 </ul>

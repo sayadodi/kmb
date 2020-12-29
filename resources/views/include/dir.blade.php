@@ -63,7 +63,7 @@
       </ol>
     @endif
 
-    @if(is_active('daftarkiriman'))
+    @if(is_active('kirimpo'))
       <h1>
       Daftar kiriman
       <small>Histori daftar kiriman yang dilakukan</small>

@@ -66,6 +66,8 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/keluarvendor','controlVendor@logout');
     Route::get('/ubahpassv','controlVendor@ubahpass');
     Route::post('/ubahpassv','controlVendor@storepass');
+    Route::get('/kirimpo','controlVendor@daftarkiriman');
+
     Route::get('/kirimbarang','controlVendor@kirimbarang');
 });
 

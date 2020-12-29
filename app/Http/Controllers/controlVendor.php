@@ -58,6 +58,10 @@ class controlVendor extends Controller
         return redirect('ubahpassv');
     }
 
+    public function daftarkiriman(){
+        return view('vendor.daftarkiriman');
+    }
+
     public function kirimbarang(){
         return view('vendor.kirimbarang');
     }
