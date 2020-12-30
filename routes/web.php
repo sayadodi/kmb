@@ -73,7 +73,7 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     // Include Ajax
     Route::get('/datadaftarkiriman','controlVendor@datadaftarkiriman');
 
-    Route::get('/kirimbarang','controlVendor@kirimbarang');
+    Route::get('/kirimbarang/{id}','controlVendor@kirimbarang');
 });
 
 

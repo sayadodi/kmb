@@ -21,7 +21,7 @@
         @foreach ($data as $d)
         <tr>
             <td>{{ $no++ }}</td>
-            <td><a href="pages/examples/invoice.html">{{ $d->nopo }}</a></td>
+            <td><a href="{{ url('kirimbarang/'.$d->kodekirim) }}">{{ $d->nopo }}</a></td>
             <td>{{ $d->keperluan }}</td>
             <td>{{ $d->tglbuat }}</td>
             <td>{{ $d->tglkirim }}</td>

@@ -90,7 +90,8 @@ class controlVendor extends Controller
         return \Response::json($simpan);
     }
 
-    public function kirimbarang(){
-        return view('vendor.kirimbarang');
+    public function kirimbarang($id){
+        $data = modelPengiriman::findOrFail($id);
+        return view('vendor.kirimbarang',compact('data'));
     }
 }
