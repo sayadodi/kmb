@@ -61,7 +61,10 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-@include('include.js')
+@section('scripts')
+  @include('include.js')
+@show
+
 <script type="text/javascript">
   $(function () {
     setTimeout(function () { $('.page-loader-wrapper').fadeOut(); }, 50);

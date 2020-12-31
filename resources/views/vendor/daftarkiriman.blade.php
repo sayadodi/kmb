@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="col-xs-12">
-    <div class="box box-warning">
+    <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title">Daftar Order</h3>
 
@@ -33,7 +33,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#masukkanpo">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#masukkanpo">
                 Tambah kiriman
                 </button>
             <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
@@ -80,7 +80,9 @@
     </div>
 </div>
 </section>
-{!! Html::script('plugins/jQuery/jquery-2.2.3.min.js')!!}
+@endsection
+@section('scripts')
+    @parent
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
@@ -140,4 +142,4 @@
         });
 	});
 </script>
-@endsection
+@stop
