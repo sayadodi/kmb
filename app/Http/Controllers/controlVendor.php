@@ -139,4 +139,8 @@ class controlVendor extends Controller
 
         return \Response::json($s);
     }
+
+    public function simanlagi(){
+        
+    }
 }
