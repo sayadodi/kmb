@@ -83,6 +83,7 @@
 @endsection
 @section('scripts')
     @parent
+    {!! Html::script('js/fungsiloading.js')!!}
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;

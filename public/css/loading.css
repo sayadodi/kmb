@@ -4,3 +4,24 @@
 #kontennya{
     display: none;
 }
+
+#loadingbarang{
+    display: block;
+}
+#barang{
+    display: none;
+}
+
+#loadingpembawa{
+    display: block;
+}
+#pembawa{
+    display: none;
+}
+
+#loadingtujuan{
+    display: block;
+}
+#tujuan{
+    display: none;
+}

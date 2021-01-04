@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
 use App\Models\modelPengiriman;
+use App\Models\modelDetailBarangpo;
+use App\Models\modelDetailTamu;
+
 use Validator;
 
 class controlVendor extends Controller
@@ -64,10 +67,23 @@ class controlVendor extends Controller
         return view('vendor.daftarkiriman');
     }
 
+    // Data data include ajax kiriman
     public function datadaftarkiriman(){
         $vendor = session('idvendor');
         $data = modelPengiriman::where('kodevendor',$vendor)->get();
         return view('vendor.include.daftarkiriman',compact('data'));
+    }
+
+    public function databarangpo(){
+        return view('vendor.include.daftarbarangpo');
+    }
+
+    public function datapembawa(){
+        return view('vendor.include.daftarpembawabarang');
+    }
+
+    public function datatujuan(){
+        return view('vendor.include.keterangankirim');
     }
 
     public function tambahpo(Request $r){
@@ -92,6 +108,35 @@ class controlVendor extends Controller
 
     public function kirimbarang($id){
         $data = modelPengiriman::findOrFail($id);
-        return view('vendor.kirimbarang',compact('data'));
+        return view('vendor.kirimbarang',compact('data','id'));
+    }
+
+    public function simpanbarangpo(Request $r){
+        $s = new modelDetailBarangpo();
+        $s->kodebarang = "1";
+        $s->namabarang = $r->namabarang;
+        $s->idkirim = "1";
+        $s->satuan = $r->satuan;
+        $s->jumlahbarang = $r->jumlah;
+        $s->jenisbarang = $r->jenisb;
+        $s->keterangan = $r->keterangan;
+        $s->statusbarang = 'Baru';
+        $s->fotobarang = "foto";
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function simpanpembawa(Request $r){
+        $s = new modelDetailTamu();
+        $s->namatamu = $r->namatamu;
+        $s->notlptamu = $r->tlptamu;
+        $s->idtamu = $r->kiriman;
+        $s->jenis = "Pengiriman";
+        $s->alamattamu = $r->alamattamu;
+        $s->fototamu = "foto";
+        $s->save();
+
+        return \Response::json($s);
     }
 }

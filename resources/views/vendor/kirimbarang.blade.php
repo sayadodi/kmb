@@ -43,31 +43,53 @@
     </div>
     <!-- /.col -->
     <div class="col-md-10">
+    <input type="hidden" name="idkirim" value="{{$id}}">
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-          <li><a href="#barang" data-toggle="tab">Barang</a></li>
-          <li><a href="#pembawa" data-toggle="tab">Pembawa barang</a></li>
-          <li><a href="#tujuan" data-toggle="tab">Tujuan dan Kendaraan</a></li>
+          <li><a href="#tbarang" data-toggle="tab">Barang</a></li>
+          <li><a href="#tpembawa" data-toggle="tab">Pembawa barang</a></li>
+          <li><a href="#ttujuan" data-toggle="tab">Tujuan dan Kendaraan</a></li>
 
         </ul>
         <div class="tab-content">
           {{-- Barang --}}
-          <div class="active tab-pane" id="barang">
+          <div class="active tab-pane dbarang" id="tbarang">
             
           </div>
 
           {{-- Pembawa barang --}}
-          <div class="tab-pane" id="pembawa">
+          <div class="tab-pane dpembawa" id="tpembawa">
             
           </div>
 
           {{-- Tujuan dan kendaraan --}}
-          <div class="tab-pane" id="tujuan">
-              
+          <div class="tab-pane dtujuan" id="ttujuan">
+            
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </section>
 @endsection
+@section('scripts')
+    @parent
+    {!! Html::script('js/fungsiloading.js')!!}
+    <script>
+      $(document).ready(function(){
+        var url_local = window.location.protocol+'//'+window.location.host;
+        var urlpo = url_local+"/kmb/public/databarangpo";
+        var urlpa = url_local+"/kmb/public/datapembawa";
+        var urltu = url_local+"/kmb/public/datatujuan";
+        // Simpan barang
+        
+
+        
+        $('.dbarang').load(urlpo);
+        $('.dpembawa').load(urlpa);
+        $('.dtujuan').load(urltu);
+
+      });
+    </script>
+@stop

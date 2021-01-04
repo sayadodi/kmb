@@ -72,6 +72,15 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
 
     // Include Ajax
     Route::get('/datadaftarkiriman','controlVendor@datadaftarkiriman');
+    Route::get('/databarangpo','controlVendor@databarangpo');
+    Route::get('/datapembawa','controlVendor@datapembawa');
+    Route::get('/datatujuan','controlVendor@datatujuan');
+
+    // Manipulasi pengiriman
+    Route::post('/simpanbarangpo','controlVendor@simpanbarangpo');
+    Route::post('/simpanpembawa','controlVendor@simpanpembawa');
+    Route::post('/simpantujuan','controlVendor@simpantujuan');
+
 
     Route::get('/kirimbarang/{id}','controlVendor@kirimbarang')->name("kirimbarang");
 });
