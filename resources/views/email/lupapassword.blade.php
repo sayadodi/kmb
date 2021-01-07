@@ -1,7 +1,7 @@
-<p>Hi, Jangan sebar email ini kepada pihak siapapun, gunakan password ini untuk masuk pada Aplikasi KMBarang UBJOM U9:</p>
+<p>Hi,Password anda telah kami ganti, silahkan login dengan password dibawah ini:</p>
 <h2>{{$password}}</h2>
 <br>
-<br>
+<p>Hi, Jangan sebar isi email ini kepada pihak siapapun.</p>
 Terima Kasih,
 <br>
 <br>

@@ -7,6 +7,8 @@ use App\Models\modelMasterVendor;
 use App\Models\modelPengiriman;
 use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
+use App\Models\modelKendaraan;
+
 
 use Validator;
 
@@ -45,6 +47,12 @@ class controlVendor extends Controller
         return view('vendor.beranda');
     }
 
+    public function kirimanberanda(){
+        $id = session('idvendor');
+        $data = modelPengiriman::where('kodevendor',$id)->where('statuskiriman','Diterima')->get();
+        return view('vendor.include.kirimanberanda',compact('data'));
+    }
+
     public function ubahpass(){
         return view('master.ubahpass');
     }
@@ -74,16 +82,34 @@ class controlVendor extends Controller
         return view('vendor.include.daftarkiriman',compact('data'));
     }
 
-    public function databarangpo(){
-        return view('vendor.include.daftarbarangpo');
+    public function databarangpo($id){
+        $data = modelDetailBarangpo::where('idkirim',$id)->get();
+        return view('vendor.include.daftarbarangpo',compact('data','id'));
     }
 
-    public function datapembawa(){
-        return view('vendor.include.daftarpembawabarang');
+    public function datapembawa($id){
+        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        return view('vendor.include.daftarpembawabarang',compact('data','id'));
     }
 
-    public function datatujuan(){
-        return view('vendor.include.keterangankirim');
+    public function datakendaraan($id){
+        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        return view('vendor.include.daftarkendaraan',compact('data','id'));
+    }
+
+    public function datatujuan($id){
+        $data = modelPengiriman::findOrFail($id)->first();
+        return view('vendor.include.keterangankirim',compact('data','id'));
+    }
+
+    public function ketsamping($id){
+        $data = modelPengiriman::findOrFail($id)->first();
+        $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
+        $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
+        $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
+        $jmlken = modelKendaraan::where('idtamu',$id)->count();
+
+        return view('vendor.include.keterangansamping',compact('data','id','jmlbarang','jmlbawa','jmltools','jmlken'));
     }
 
     public function tambahpo(Request $r){
@@ -115,7 +141,7 @@ class controlVendor extends Controller
         $s = new modelDetailBarangpo();
         $s->kodebarang = "1";
         $s->namabarang = $r->namabarang;
-        $s->idkirim = "1";
+        $s->idkirim = $r->idkirim;
         $s->satuan = $r->satuan;
         $s->jumlahbarang = $r->jumlah;
         $s->jenisbarang = $r->jenisb;
@@ -129,18 +155,50 @@ class controlVendor extends Controller
 
     public function simpanpembawa(Request $r){
         $s = new modelDetailTamu();
-        $s->namatamu = $r->namatamu;
-        $s->notlptamu = $r->tlptamu;
-        $s->idtamu = $r->kiriman;
+        $s->pengenal = $r->jenisp;
+        $s->nopengenal = $r->nomorp;
+        $s->namatamu = $r->namap;
+        $s->jabatan = $r->jabp;
+        $s->notlptamu = $r->kontakp;
+        $s->idtamu = $r->idkirim;
         $s->jenis = "Pengiriman";
-        $s->alamattamu = $r->alamattamu;
+        $s->alamattamu = $r->alamat;
         $s->fototamu = "foto";
         $s->save();
 
         return \Response::json($s);
     }
 
-    public function simanlagi(){
-        
-    }
+    public function simpankendaraan(Request $r){
+        $s = new modelKendaraan();
+        $s->jeniskendaraan = $r->jenisk;
+        $s->namakendaraan = $r->namak;
+        $s->plat = $r->plat;
+        $s->jenis = "Pengiriman";
+        $s->idtamu = $r->idkirim;
+        $s->save();
+
+        return \Response::json($s);
+    }   
+    
+    public function simpantujuan(Request $r){
+        $id = $r->idkirim;
+        $s = modelPengiriman::findOrFail($id);
+        $s->tglkirim = $r->tanggalkirim;
+        $s->tujuan = $r->tujuan;
+        $s->berkas = $r->kelengkapan;
+        $s->save();
+
+        return \Response::json($s);
+    }  
+
+    public function kirimpengiriman(Request $r){
+        $id = $r->idkirim;
+        $s = modelPengiriman::findOrFail($id);
+        $s->statusgudang = "Meminta";
+        $s->statuskiriman = "Meminta";
+        $s->save();
+
+        return \Response::json($s);
+    }  
 }

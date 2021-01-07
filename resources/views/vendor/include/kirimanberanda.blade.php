@@ -1,7 +1,7 @@
-<div id="loading" align="center">
+<div id="loadingb" align="center">
     Proses...
 </div>
-<div id="kontennya">
+<div id="kontennyab">
 <table class="table no-margin tabled">
     <thead>
         <tr>
@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-    @if(count($data) > 0)
+        @if(count($data) > 0)
         @foreach ($data as $d)
         <tr>
             @if ($d->statuskiriman == "Mengatur")
@@ -34,13 +34,7 @@
             <td><a href="{{ url('kirimbarang/'.$d->kodekirim) }}">{{ $d->nopo }}</a></td>
             <td>{{ $d->keperluan }}</td>
             <td>{{ $d->tglbuat }}</td>
-            <td>
-                @if(empty($d->tglkirim))
-                    Belum diatur
-                @else
-                    {{$d->tglkirim}}
-                @endif
-            </td>
+            <td>{{ $d->tglkirim }}</td>
             <td>Mbak Rini</td>
             <td>{{ $d->statusgudang }}</td>
             <td>{{ $d->statuspos }}</td>
@@ -71,7 +65,7 @@
 
 <script>
     onReady(function() {
-        setVisible('#kontennya', true);
-        setVisible('#loading', false);
+        setVisible('#kontennyab', true);
+        setVisible('#loadingb', false);
     });
 </script>

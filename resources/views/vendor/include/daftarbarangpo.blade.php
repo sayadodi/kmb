@@ -1,7 +1,7 @@
 <div id="loadingbarang" align="center">
     Proses...
 </div>
-<div id="barang"">
+<div id="barang">
     <div class="box box-widget no-border">
         <div class="box-header">
         <h3 class="box-title">Form Barang</h3>
@@ -18,6 +18,7 @@
         <div class="row">
             <div class="col-md-12">
             <form action="" class="form-horizontal" method="post" id="formbarangpo" enctype="multipart/form-data">
+            <input type="hidden" name="idkirim" value="{{$id}}">
             {{ csrf_field() }}
             <div class="form-group">
                 <label class="col-md-12 col-sm-12 col-xs-12 namb">Jenis Barang<code>*</code></label>
@@ -86,20 +87,33 @@
             <th>Jumlah</th>
             <th>Gambar</th>
             <th>Dokumen</th>
+            <th>Jenis Barang</th>
             <th>Keterangan</th>
             <th>Aksi</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        @php
+            $i = 1;
+        @endphp
+        @if(isset($data))
+            @foreach($data as $d)
+            <tr>
+                <td>{{ $i++ }}</td>
+                <td>{{ $d->namabarang }}</td>
+                <td>{{ $d->jumlahbarang }} {{ $d->satuan }}</td>
+                <td></td>
+                <td></td>
+                <td>{{ $d->jenisbarang }}</td>
+                <td>{{ $d->keterangan }}</td>
+                <td></td>
+            </tr>
+            @endforeach
+        @else
+            <tr>
+                <td colspan="8">Tidak ada data!</td>
+            </tr>
+        @endif
         </tbody>
         </table>
     </div>
@@ -109,6 +123,8 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
         var urlbarangpo = url_local+"/kmb/public/simpanbarangpo";
+        var urlpo = url_local+"/kmb/public/databarangpo/{{$id}}";
+        var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
 
         $(".simpanbarangpo").click(function(){
             $.ajaxSetup({
@@ -137,6 +153,7 @@
                 success: function(data){
                     $('#formbarangpo').trigger("reset");
                     $('.dbarang').load(urlpo);  
+                    $('.ketsamping').load(urlsa);
                     // 
                 },
                 error: function(data){

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
+use Mail;
 
 class controlDaftar extends Controller
 {
@@ -38,13 +39,13 @@ class controlDaftar extends Controller
 
     public function kirimemaillupa(Request $r){
         $email = $r->email;
-        $password = "1234";
+        $password = acak(4);
         Mail::send('email.lupapassword', array('password' => $password) , function($m) use($email){
-            $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'UBJOM U9');
+            $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'PT PJB UBJOM PLTU Paiton');
             $m->to($email,'Verifikasi')->subject('Reset Password KMBarang');
             
         });
-        $simpan = modelMasterVendor::findOrFail($id);
+        $simpan = modelMasterVendor::where('email',$email)->first();
         $simpan->password = md5($password);
         $simpan->save();
         return redirect('infolupaspassword');

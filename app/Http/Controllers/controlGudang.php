@@ -22,16 +22,16 @@ class controlGudang extends Controller
     public function terimavendor(Request $r, $id){
         try{
             $status = $r->status;
-            $password = acak(6);
+            $password = acak(4);
             $alasan = $r->alasan;
             $nama = $r->namavendor;
             $email = $r->email;
 
             if($status == "Aktif"){
-                $pesan = "Selamat vendor anda kami terima sebagai mitra dari KMBarang untuk melakukan keluar masuk barang pada UBJOM U9 Paiton Probolinggo, silahkan gunakan password ini untuk masuk pada aplikasi : ";
+                $pesan = "Selamat akun anda telah terdaftar di Aplikasi KMBarang PT PJB UBJOM PLTU Paiton, silahkan gunakan : ";
                 
                 Mail::send('email.terima', array('pesan' => $pesan,'password' => $password, 'alasan' => $alasan, 'nama'=> $nama, 'email'=> $email) , function($m) use($email){
-                    $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'UBJOM U9');
+                    $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'PT PJB UBJOM PLTU Paiton');
                     $m->to($email,'Verifikasi')->subject('Vendor anda telah kami terima');
                     
                 });
@@ -40,10 +40,10 @@ class controlGudang extends Controller
                 $simpan->password = md5($password);
                 $simpan->save();
             }else if($status == "Ditolak"){
-                $pesan = "Nama Vendor </br> Akun anda telah kami terima, silahkan gunakan password ini untuk masuk pada aplikasi KMBarang : <b>Password</b>";
+                $pesan = "Maaf vendor anda kami tolak di Aplikasi KMBarang PT PJB UBJOM PLTU Paiton, silahkan cek kembali data anda: ";
                 
                 Mail::send('email.terima', array('pesan' => $pesan, 'password' => $password, 'alasan' => $alasan, 'nama'=> $nama, 'email'=> $email) , function($m) use($email){
-                    $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'UBJOM U9');
+                    $m->from(env('MAIL_USERNAME','coba6464.ku@gmail.com'),'PT PJB UBJOM PLTU Paiton');
                     $m->to($email,'Verifikasi')->subject('Vendor anda kami tolak');
                     
                 });
@@ -56,6 +56,7 @@ class controlGudang extends Controller
             $histori->tgltt = date("Y-m-d H:i:s");  
             $histori->alasan = $alasan;
             $histori->status = $status;
+            $histori->keterangan = "Minta Vendor";
             $histori->save();
             
             return redirect('requestvendor');

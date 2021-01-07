@@ -2,9 +2,15 @@ Hi, <b>{{$nama}}</b>
 <p>
     {{$pesan}}
 </p>
+<p>
+    Email : {{$email}}
+    <br>
+    Password : {{$password}}
+</p>
+<p>
+    Jangan berikan kode ini kepada pihak siapapun.
+</p>
 <span>Pesan UBJOM : <b>{{$alasan}}</b></span>
-
-<h3>{{$password}}</h3>
 
 <br>
 Terima kasih,
