@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
 use App\Models\modelHistoriVendor;
 use Mail;
+use DB;
 
 class controlGudang extends Controller
 {
@@ -63,5 +64,15 @@ class controlGudang extends Controller
         }catch (Exception $e){
             return response (['status' => false,'errors' => $e->getMessage()]);
         }
+    }
+
+    public function daftarkiriman(){
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('statuskiriman','Meminta Gudang')->get();
+        return view('prosesterima.reqkiriman',compact('kiriman'));
+    }
+
+    public function detailkiriman($id){
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get();
+        return view('prosesterima.detailreqkiriman',compact('kiriman'));
     }
 }

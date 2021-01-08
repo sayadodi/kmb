@@ -46,6 +46,10 @@ Route::get('/requestvendor','controlGudang@daftarvendor');
 Route::get('/requestvendor/{id}','controlGudang@detailvendor');
 Route::post('/requestvendor/{id}','controlGudang@terimavendor');
 
+// Penerimaan dan tolak kiriman
+Route::get('requestkiriman','controlGudang@daftarkiriman');
+Route::get('requestkiriman/{id}','controlGudang@detailkiriman')->name('detailreqkiriman');
+Route::post('requestkiriman/{id}','controlGudang@terimakiriman');
 
 // Vendor daftar
 // Vendor proses

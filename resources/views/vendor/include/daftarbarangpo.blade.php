@@ -2,19 +2,71 @@
     Proses...
 </div>
 <div id="barang">
-    <div class="box box-widget no-border">
-        <div class="box-header">
-        <h3 class="box-title">Form Barang</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="callout callout-success">
+                <h4><i class="icon fa fa-info"></i> Info!</h4>
+                    - Isi minimal satu barang <br>
+                    - Isikan barang PO atau Tools yang akan dibawa<br>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="table-barang" class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama barang</th>
+                    <th>Jumlah</th>
+                    <th>Gambar</th>
+                    <th>Dokumen</th>
+                    <th>Jenis Barang</th>
+                    <th>Keterangan</th>
+                    <th>Aksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $i = 1;
+                @endphp
+                @if(isset($data))
+                    @foreach($data as $d)
+                    <tr>
+                        <td>{{ $i++ }}</td>
+                        <td>{{ $d->namabarang }}</td>
+                        <td>{{ $d->jumlahbarang }} {{ $d->satuan }}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{{ $d->jenisbarang }}</td>
+                        <td>{{ $d->keterangan }}</td>
+                        <td></td>
+                    </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="8">Tidak ada data!</td>
+                    </tr>
+                @endif
+                </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarbarangpo">
+                Tambah Barang
+            </button>
+        </div>
+    </row>
+</div>
 
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-primary btn-xs simpanbarangpo">Simpan</button>
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+<div class="modal" id="daftarbarangpo" class="daftarbarangpo" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Form Barang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        </div>
-        <div class="progress" style="height: 2px;">
-        <div class="progress-bar" role="progressbar" style="width: 8%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <div class="box-body">
+        <div class="modal-body">
         <div class="row">
             <div class="col-md-12">
             <form action="" class="form-horizontal" method="post" id="formbarangpo" enctype="multipart/form-data">
@@ -69,53 +121,11 @@
             </div>
         </div>
         </div>
-        <div class="box-footer">
-        * Wajib diisi
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary simpanbarangpo">Simpan</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
         </div>
-    </div>
-
-    <div class="table-responsive">
-        <h4>Daftar barang</h4>
-        <div class="progress" style="height: 2px;">
-            <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 8%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <table id="table-barang" class="table table-condensed table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Nama barang</th>
-            <th>Jumlah</th>
-            <th>Gambar</th>
-            <th>Dokumen</th>
-            <th>Jenis Barang</th>
-            <th>Keterangan</th>
-            <th>Aksi</th>
-        </tr>
-        </thead>
-        <tbody>
-        @php
-            $i = 1;
-        @endphp
-        @if(isset($data))
-            @foreach($data as $d)
-            <tr>
-                <td>{{ $i++ }}</td>
-                <td>{{ $d->namabarang }}</td>
-                <td>{{ $d->jumlahbarang }} {{ $d->satuan }}</td>
-                <td></td>
-                <td></td>
-                <td>{{ $d->jenisbarang }}</td>
-                <td>{{ $d->keterangan }}</td>
-                <td></td>
-            </tr>
-            @endforeach
-        @else
-            <tr>
-                <td colspan="8">Tidak ada data!</td>
-            </tr>
-        @endif
-        </tbody>
-        </table>
+      </div>
     </div>
 </div>
 <script>
@@ -154,6 +164,7 @@
                     $('#formbarangpo').trigger("reset");
                     $('.dbarang').load(urlpo);  
                     $('.ketsamping').load(urlsa);
+                    $("#daftarbarangpo").modal('hide');
                     // 
                 },
                 error: function(data){

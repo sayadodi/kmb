@@ -1,20 +1,73 @@
 <div id="loadingpembawa" align="center">
     Proses...
 </div>
-<div id="pembawa"">
-    <div class="box box-widget no-border">
-        <div class="box-header">
-            <h3 class="box-title">Form Identitas pengantar</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-primary btn-xs simpanpembawa">Simpan</button>
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
+<div id="pembawa" class="row">
+    <div class="col-md-12">
+        <div class="callout callout-success">
+            <h4><i class="icon fa fa-info"></i> Info!</h4>
+                - Isi minimal satu orang <br>
+                - Isikan identitas dengan benar<br>
         </div>
-        <div class="progress" style="height: 2px;">
-            <div class="progress-bar" role="progressbar" style="width: 8%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="table-ikut" class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Identitas</th>
+                        <th>Nama</th>
+                        <th>Foto</th>
+                        <th>Kontak</th>
+                        <th>Alamat</th>
+                        <th>Jabatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @php
+                    $i = 1;
+                @endphp
+                @if(!empty($data))
+                    @foreach($data as $d)
+                        <tr>
+                            <td><?=$i++?></td>
+                            <td>{{$d->pengenal}} - {{$d->nopengenal}}</td>
+                            <td>{{$d->namatamu}}</td>
+                            <td>Lihat</td>
+                            <td>{{$d->notlptamu}}</td>
+                            <td>{{$d->alamattamu}}</td>
+                            <td>{{$d->jabatan}}</td>
+                            <td>
+                                Hapus
+                                Ubah
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="8">Tidak ada data!</td>
+                    </tr>
+                @endif
+                </tbody>
+            </table>
         </div>
-        <div class="box-body">
-            <div class="row">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarpembawabarang">
+            Tambah Pembawa
+        </button>
+    </div>
+</div>
+<div class="modal" id="daftarpembawabarang" class="daftarpembawabarang" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Form Barang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <div class="row">
                 <div class="col-md-12">
                 <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formpembawa">
                 <input type="hidden" name="idkirim" value="{{$id}}">
@@ -63,56 +116,11 @@
                 </div>           
             </div>
         </div>
-        <div class="box-footer">
-        * Wajib diisi
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary simpanpembawa">Simpan</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
         </div>
-    </div>
-
-    <h4>Pengantar barang</h4>
-    <div class="progress" style="height: 2px;">
-        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 8%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
-    <div class="table-responsive">
-        <table id="table-ikut" class="table table-condensed table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Identitas</th>
-                    <th>Nama</th>
-                    <th>Foto</th>
-                    <th>Kontak</th>
-                    <th>Alamat</th>
-                    <th>Jabatan</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-            @php
-                $i = 1;
-            @endphp
-            @if(!empty($data))
-                @foreach($data as $d)
-                    <tr>
-                        <td><?=$i++?></td>
-                        <td>{{$d->pengenal}} - {{$d->nopengenal}}</td>
-                        <td>{{$d->namatamu}}</td>
-                        <td>Lihat</td>
-                        <td>{{$d->notlptamu}}</td>
-                        <td>{{$d->alamattamu}}</td>
-                        <td>{{$d->jabatan}}</td>
-                        <td>
-                            Hapus
-                            Ubah
-                        </td>
-                    </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="8">Tidak ada data!</td>
-                </tr>
-            @endif
-            </tbody>
-        </table>
+      </div>
     </div>
 </div>
 <script>

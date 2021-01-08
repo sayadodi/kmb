@@ -41,4 +41,27 @@
         <li class="active">Pengiriman barang</li>
       </ol>
     @endif
+
+    <!-- Request vendor dan kiriman -->
+    @if(is_active('requestkiriman'))
+      <h1>
+      Daftar permintaan kiriman
+      <small>Klik Nomor PO untuk melihat detail</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Pengiriman barang</li>
+      </ol>
+    @endif
+
+    @if(is_active('detailreqkiriman'))
+      <h1>
+      Detail permintaan
+      <small>Silahkan cek dengan baik</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Detail pengiriman</li>
+      </ol>
+    @endif
 </section>
