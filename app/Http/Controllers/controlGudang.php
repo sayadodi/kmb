@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
 use App\Models\modelHistoriVendor;
+use App\Models\modelPengiriman;
+use App\Models\modelDetailBarangpo;
+use App\Models\modelDetailTamu;
+use App\Models\modelKendaraan;
 use Mail;
 use DB;
 
@@ -72,7 +76,22 @@ class controlGudang extends Controller
     }
 
     public function detailkiriman($id){
-        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get();
-        return view('prosesterima.detailreqkiriman',compact('kiriman'));
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
+        return view('prosesterima.detailreqkiriman',compact('kiriman','id'));
+    }
+
+    public function databarangpo($id){
+        $data = modelDetailBarangpo::where('idkirim',$id)->get();
+        return view('prosesterima.include.daftarbarangpo',compact('data','id'));
+    }
+
+    public function datapembawa($id){
+        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        return view('prosesterima.include.daftarpembawabarang',compact('data','id'));
+    }
+
+    public function datakendaraan($id){
+        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        return view('prosesterima.include.daftarkendaraan',compact('data','id'));
     }
 }

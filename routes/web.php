@@ -50,6 +50,10 @@ Route::post('/requestvendor/{id}','controlGudang@terimavendor');
 Route::get('requestkiriman','controlGudang@daftarkiriman');
 Route::get('requestkiriman/{id}','controlGudang@detailkiriman')->name('detailreqkiriman');
 Route::post('requestkiriman/{id}','controlGudang@terimakiriman');
+// Include Ajax kiriman
+Route::get('/databarangpor/{id}','controlGudang@databarangpo');
+Route::get('/datapembawar/{id}','controlGudang@datapembawa');
+Route::get('/datakendaraanr/{id}','controlGudang@datakendaraan');
 
 // Vendor daftar
 // Vendor proses
