@@ -14,7 +14,6 @@
                         <th>Kontak</th>
                         <th>Alamat</th>
                         <th>Jabatan</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,15 +30,11 @@
                             <td>{{$d->notlptamu}}</td>
                             <td>{{$d->alamattamu}}</td>
                             <td>{{$d->jabatan}}</td>
-                            <td>
-                                Hapus
-                                Ubah
-                            </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="8">Tidak ada data!</td>
+                        <td colspan="7">Tidak ada data!</td>
                     </tr>
                 @endif
                 </tbody>

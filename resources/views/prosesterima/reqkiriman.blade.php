@@ -35,6 +35,7 @@
 							@php
 								$i = 1;
 							@endphp
+							@if (count($kiriman) > 0)
 							@foreach ($kiriman as $d)
 							<tr>
 								<td>{{$i++}}</td>
@@ -44,6 +45,11 @@
                                 <td>{{$d->tglkirim}}</td>
 							</tr>
 							@endforeach
+							@else
+							<tr>
+								<td colspan="5">Belum ada permintaan kiriman</td>
+							</tr>
+							@endif
 						</tbody>
 						<tfoot>
 							<tr>

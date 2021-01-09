@@ -54,6 +54,17 @@
       </ol>
     @endif
 
+    @if(is_active('requestvendor'))
+      <h1>
+      Daftar permintaan vendor
+      <small>Klik Detail untuk lebih lanjut</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Permintaan daftar</li>
+      </ol>
+    @endif
+
     @if(is_active('detailreqkiriman'))
       <h1>
       Detail permintaan

@@ -94,4 +94,20 @@ class controlGudang extends Controller
         $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
         return view('prosesterima.include.daftarkendaraan',compact('data','id'));
     }
+
+    public function terimakiriman(Request $r,$id){
+        $status = $r->status;
+        $s = modelPengiriman::findOrFail($id);
+        if($status == "Terima"){
+            $s->statuskiriman = "Diterima Gudang";
+        }else if($status == "Ditolak"){
+            $s->statuskiriman = "Ditolak Gudang";
+        }else{
+
+        }
+        $s->save();
+
+        return \Response::json($s);
+        
+    }
 }

@@ -11,7 +11,6 @@
                         <th>Jenis</th>
                         <th>Nama</th>
                         <th>Plat</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,15 +24,11 @@
                             <td>{{$d->jeniskendaraan}}</td>
                             <td>{{$d->namakendaraan}}</td>
                             <td>{{$d->plat}}</td>
-                            <td>
-                                Hapus
-                                Ubah
-                            </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="5">Tidak ada data!</td>
+                        <td colspan="4">Tidak ada data!</td>
                     </tr>
                 @endif
                 </tbody>

@@ -1,3 +1,6 @@
+<?php 
+  use App\Http\Controllers\controlNotifMenu;
+?>
 <!-- Sidebar user panel -->
 <div class="user-panel">
   <div class="pull-left image">
@@ -45,11 +48,25 @@
       <i class="fa fa-save"></i> <span>Penerimaan</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
+        <small class="label pull-right bg-yellow">{{ controlNotifMenu::jmlvendor() }}</small>
+        <small class="label pull-right bg-green">{{ controlNotifMenu::jmlkiriman() }}</small>
       </span>
     </a>
     <ul class="treeview-menu">
-      <li><a href="{{url('requestvendor')}}"><i class="fa fa-circle-o"></i> Vendor</a></li>
-      <li><a href="{{url('requestkiriman')}}"><i class="fa fa-circle-o"></i> Kiriman</a></li>
+      <li>
+        <a href="{{url('requestvendor')}}"><i class="fa fa-circle-o"></i> Vendor
+          <span class="pull-right-container">
+            <span class="label bg-yellow">{{ controlNotifMenu::jmlvendor() }}</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a href="{{url('requestkiriman')}}"><i class="fa fa-circle-o"></i> Kiriman
+          <span class="pull-right-container">
+            <span class="label bg-green">{{ controlNotifMenu::jmlkiriman() }}</span>
+          </span>
+        </a>
+      </li>
     </ul>
   </li>
 

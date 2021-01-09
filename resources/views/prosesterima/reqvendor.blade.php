@@ -37,6 +37,7 @@
 							@php
 								$i = 1;
 							@endphp
+							@if (count($vendor) > 0)
 							@foreach ($vendor as $d)
 							<tr>
 								<td>{{$i++}}</td>
@@ -50,6 +51,11 @@
 								</td>
 							</tr>
 							@endforeach
+							@else
+								<tr>
+									<td colspan="7">Belum ada permintaan vendor</td>
+								</tr>
+							@endif
 						</tbody>
 						<tfoot>
 							<tr>

@@ -86,12 +86,12 @@
     <div class="col-xs-6">
         <p class="lead">Komentar:</p>
 
-        <form action="" method="post">
+        <form action="" method="post" id="formkonformasi">
             <div class="form-group">
-                <label class="col-md-12 col-sm-12 col-xs-12 namb">Jenis Barang<code>*</code></label>
+                <label class="col-md-12 col-sm-12 col-xs-12 namb">Status<code>*</code></label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <input type="radio" name="jenisb" id="" value="PO"> Terima
-                    <input type="radio" name="jenisb" id="" value="NonPO"> Tolak
+                    <input type="radio" name="status" id="" value="Terima"> Terima
+                    <input type="radio" name="status" id="" value="Tolak"> Tolak
                 </div>
             </div>
             <div class="form-group">
@@ -135,7 +135,7 @@
     <!-- this row will not appear when printing -->
     <div class="row no-print">
     <div class="col-xs-12">
-        <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Kirima
+        <button type="button" class="btn btn-success pull-right konfirmasikiriman"><i class="fa fa-credit-card"></i> Kirim
         </button>
 
     </div>
@@ -157,9 +157,58 @@
         $('.dbarang').load(urlpo);
         $('.dpembawa').load(urlpa);
         $('.dkendaraan').load(urlke);
-
-
-
       });
     </script>
+
+<script>
+    $(document).ready(function(){
+        var url_local = window.location.protocol+'//'+window.location.host;
+        // Simpan barang
+        var urlkirim = url_local+"/kmb/public/requestkiriman/{{ $id }}";
+
+        $(".konfirmasikiriman").click(function(){
+            swal({
+            title: "Anda yakin ?",
+            text: "Sebelum konfirmasi pastikan kelengkapan data, aksi ini tidak bisa dibatalkan!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                var formData = new FormData($('#formkonformasi')[0]);
+                var type = "POST";
+                var my_url = urlkirim;
+
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        window.location.reload();  
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            } else {
+                swal("Pengiriman dibatalkan!");
+            }
+            });
+        });
+    });
+</script>
 @stop
