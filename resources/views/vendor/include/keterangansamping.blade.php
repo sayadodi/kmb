@@ -22,17 +22,18 @@
                 </li>
             </ul>
 
-            @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmltools > 0 && $jmlken > 0))
+            @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Mengatur"))
                 <button type="button" class="btn btn-primary btn-block btn-sm kirimbarang"><i class="fa fa-send"></i> Kirim</button>
             @endif
 
-            @if($data->statusgudang == "Meminta")
-                <button type="button" class="btn btn-default btn-block btn-sm disabled"><i class="fa fa-clock-o"></i> Menunggu</button>
+            @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Meminta Gudang"))
+                <button type="button" class="btn btn-default btn-block btn-sm" disabled><i class="fa fa-clock-o"></i> Menunggu Persetujuan</button>
             @endif
 
-            <!-- @if($data->statusgudang == "Ditolak")
-                <button type="button" class="btn btn-success btn-block btn-sm"><i class="fa fa-send"></i> Kirim Lagi</button>
-            @endif -->
+            @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Diterima Gudang"))
+                <button type="button" class="btn btn-success btn-block btn-sm" disabled><i class="fa fa-check"></i> Disetujui Gudang</button>
+            @endif
+
         </div>
     </div>
     @if($data->statusgudang == "Ditolak")

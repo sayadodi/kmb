@@ -6,7 +6,6 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>No Pesanan</th>
             <th>Nama Pengiriman</th>
             <th>Tanggal Buat</th>
             <th>Tanggal Kirim</th>
@@ -29,8 +28,7 @@
             @else
                 <td></td>
             @endif
-            <td><a href="{{ url('kirimbarang/po/'.$d->kodekirim) }}">{{ $d->nopo }}</a></td>
-            <td>{{ $d->keperluan }}</td>
+            <td><a href="{{ url('kirimbarang/nonpo/'.$d->kodekirim) }}">{{ $d->keperluan }}</a></td>
             <td>{{ $d->tglbuat }}</td>
             <td>
                 @if(empty($d->tglkirim))
@@ -57,7 +55,7 @@
         @endforeach
         @else
             <tr>
-                <td colspan="7">Tidak ada data</td>
+                <td colspan="6">Tidak ada data</td>
             </tr>
         @endif
     </tbody>

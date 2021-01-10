@@ -31,6 +31,17 @@
       </ol>
     @endif
 
+    @if(is_active('kirimnonpo'))
+      <h1>
+      Daftar Kiriman Non PO
+      <small>Semua histori pengiriman Non PO ada disini</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Daftar Kiriman</li>
+      </ol>
+    @endif
+
     @if(is_active('kirimbarang'))
       <h1>
       Pengiriman

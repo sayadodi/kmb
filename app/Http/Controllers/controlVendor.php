@@ -75,11 +75,21 @@ class controlVendor extends Controller
         return view('vendor.daftarkiriman');
     }
 
+    public function kirimnonpo (){
+        return view('vendor.daftarkirimannonpo');
+    }
+
     // Data data include ajax kiriman
     public function datadaftarkiriman(){
         $vendor = session('idvendor');
-        $data = modelPengiriman::where('kodevendor',$vendor)->get();
+        $data = modelPengiriman::where('kodevendor',$vendor)->where('status','PO')->get();
         return view('vendor.include.daftarkiriman',compact('data'));
+    }
+
+    public function datadaftarkirimannonpo(){
+        $vendor = session('idvendor');
+        $data = modelPengiriman::where('kodevendor',$vendor)->where('status','NonPO')->get();
+        return view('vendor.include.daftarkirimannonpo',compact('data'));
     }
 
     public function databarangpo($id){
@@ -128,13 +138,34 @@ class controlVendor extends Controller
         $simpan->keperluan = $r->keperluan;
         $simpan->tglbuat = date("Y-m-d H:i:s");
         $simpan->kodevendor = session('idvendor');
+        $simpan->status = 'PO';
         $simpan->save();
         return \Response::json($simpan);
     }
 
-    public function kirimbarang($id){
+    public function tambahnonpo(Request $r){
+        $input = $r->all();
+        $validator = Validator::make($input,[
+                'keperluan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return \Response::json(array('errors' => $validator->getMessageBag()->toarray()));
+        }
+        $nopo = $r->nopo;
+        $simpan = new modelPengiriman();
+        $simpan->nopo = acak(6);
+        $simpan->keperluan = $r->keperluan;
+        $simpan->tglbuat = date("Y-m-d H:i:s");
+        $simpan->status = 'NonPO';
+        $simpan->kodevendor = session('idvendor');
+        $simpan->save();
+        return \Response::json($simpan);
+    }
+
+    public function kirimbarang($jenis,$id){
         $data = modelPengiriman::findOrFail($id);
-        return view('vendor.kirimbarang',compact('data','id'));
+        return view('vendor.kirimbarang',compact('data','id','jenis'));
     }
 
     public function simpanbarangpo(Request $r){

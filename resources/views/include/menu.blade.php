@@ -89,6 +89,7 @@
     <ul class="treeview-menu">
       <li><a href="{{url('kirimpo')}}"><i class="fa fa-circle-o"></i> Barang PO</a></li>
       <li><a href="{{url('tools')}}"><i class="fa fa-circle-o"></i> Tools</a></li>
+      <li><a href="{{url('kirimnonpo')}}"><i class="fa fa-circle-o"></i> Barang Non PO</a></li>
     </ul>
   </li>
   <li><a href="{{url('ubahpassv')}}"><i class="fa fa-book"></i> <span>Ubah Password</span></a></li>
