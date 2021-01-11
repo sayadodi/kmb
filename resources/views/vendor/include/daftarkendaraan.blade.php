@@ -3,13 +3,6 @@
 </div>
 <div id="kendaraan" class="row">
     <div class="col-md-12">
-        <div class="callout callout-success">
-            <h4><i class="icon fa fa-info"></i> Info!</h4>
-                - Isi minimal satu orang <br>
-                - Isikan identitas dengan benar<br>
-        </div>
-    </div>
-    <div class="col-md-12">
         <div class="table-responsive">
             <table id="table-ikut" class="table table-condensed table-striped">
                 <thead>
@@ -65,6 +58,7 @@
                 <div class="col-md-12">
                 <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formkendaraan">
                 <input type="hidden" name="idkirim" value="{{$id}}">
+                <input type="hidden" name="jenis" value="{{$jenis}}">
                 {{ csrf_field() }}
                 <div class="form-group jp">
                     <div class="col-md-4">
@@ -103,7 +97,7 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
         var urlkendaraan = url_local+"/kmb/public/simpankendaraan";
-        var urldatak = url_local+"/kmb/public/datakendaraan/{{$id}}";
+        var urldatak = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
 
         $(".simpankendaraan").click(function(){

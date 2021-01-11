@@ -14,11 +14,20 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="callout callout-danger">
-          <h4><i class="icon fa fa-ban"></i> Perhatian!</h4>
+    @if($jenis == "po")
+      <div class="callout callout-danger">
+            <h4><i class="icon fa fa-ban"></i> Pengiriman Barang PO</h4>
+                - Isi tiap tab minimal dengan satu data <br>
+                - Tombol kirim akan muncul jika data sudah lengkap<br>
+      </div>
+    @else
+    <div class="callout callout-warning">
+          <h4><i class="icon fa fa-ban"></i> Pengiriman Barang Non PO</h4>
               - Isi tiap tab minimal dengan satu data <br>
               - Tombol kirim akan muncul jika data sudah lengkap<br>
-      </div>
+    </div>
+    @endif
+    
   </div>
 </div>
 <div class="row">
@@ -70,10 +79,10 @@
     <script>
       $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
-        var urlpo = url_local+"/kmb/public/databarangpo/{{$id}}";
-        var urlpa = url_local+"/kmb/public/datapembawa/{{$id}}";
-        var urltu = url_local+"/kmb/public/datatujuan/{{$id}}";
-        var urlke = url_local+"/kmb/public/datakendaraan/{{$id}}";
+        var urlpo = url_local+"/kmb/public/databarangpo/{{$jenis}}/{{$id}}";
+        var urlpa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
+        var urltu = url_local+"/kmb/public/datatujuan/{{$jenis}}/{{$id}}";
+        var urlke = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
 
         // Simpan barang

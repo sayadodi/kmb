@@ -3,13 +3,6 @@
 </div>
 <div id="pembawa" class="row">
     <div class="col-md-12">
-        <div class="callout callout-success">
-            <h4><i class="icon fa fa-info"></i> Info!</h4>
-                - Isi minimal satu orang <br>
-                - Isikan identitas dengan benar<br>
-        </div>
-    </div>
-    <div class="col-md-12">
         <div class="table-responsive">
             <table id="table-ikut" class="table table-condensed table-striped">
                 <thead>
@@ -71,6 +64,8 @@
                 <div class="col-md-12">
                 <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formpembawa">
                 <input type="hidden" name="idkirim" value="{{$id}}">
+                <input type="hidden" name="jenis" value="{{$jenis}}">
+
                 {{ csrf_field() }}
                 <input type="hidden" name="idikutan" class="idikutan" value="">
                 <div class="form-group jp">
@@ -128,7 +123,7 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
         var urlbarangpo = url_local+"/kmb/public/simpanpembawa";
-        var urlpembawa = url_local+"/kmb/public/datapembawa/{{$id}}";
+        var urlpembawa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
 
         $(".simpanpembawa").click(function(){

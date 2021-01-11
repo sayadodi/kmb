@@ -22,7 +22,7 @@
                 </li>
             </ul>
 
-            @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Mengatur"))
+            @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Mengatur" && !empty($data->tglkirim) && !empty($data->tujuan)))
                 <button type="button" class="btn btn-primary btn-block btn-sm kirimbarang"><i class="fa fa-send"></i> Kirim</button>
             @endif
 

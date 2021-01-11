@@ -84,10 +84,10 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/kirimanberanda','controlVendor@kirimanberanda');
     Route::get('/datadaftarkiriman','controlVendor@datadaftarkiriman');
     Route::get('/datadaftarkirimannonpo','controlVendor@datadaftarkirimannonpo');
-    Route::get('/databarangpo/{id}','controlVendor@databarangpo');
-    Route::get('/datapembawa/{id}','controlVendor@datapembawa');
-    Route::get('/datatujuan/{id}','controlVendor@datatujuan');
-    Route::get('/datakendaraan/{id}','controlVendor@datakendaraan');
+    Route::get('/databarangpo/{jenis}/{id}','controlVendor@databarangpo');
+    Route::get('/datapembawa/{jenis}/{id}','controlVendor@datapembawa');
+    Route::get('/datatujuan/{jenis}/{id}','controlVendor@datatujuan');
+    Route::get('/datakendaraan/{jenis}/{id}','controlVendor@datakendaraan');
     Route::get('/ketsamping/{id}','controlVendor@ketsamping');
 
 

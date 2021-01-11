@@ -2,17 +2,11 @@
     Proses...
 </div>
 <div id="tujuan"">
-    <div class="col-md-12">
-        <div class="callout callout-success">
-            <h4><i class="icon fa fa-info"></i> Info!</h4>
-                - Isi minimal satu orang <br>
-                - Isikan identitas dengan benar<br>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-12">
         <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formtujuan">
         <input type="hidden" name="idkirim" value="{{$id}}">
+        <input type="hidden" name="jenis" value="{{$jenis}}">
         {{ csrf_field() }}
         <div class="form-group">
             <div class="col-md-6">
@@ -40,7 +34,7 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
         var urltujuan = url_local+"/kmb/public/simpantujuan";
-        var urldatatu = url_local+"/kmb/public/datatujuan/{{$id}}";
+        var urldatatu = url_local+"/kmb/public/datatujuan/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
 
 

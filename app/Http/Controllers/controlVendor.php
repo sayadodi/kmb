@@ -92,24 +92,24 @@ class controlVendor extends Controller
         return view('vendor.include.daftarkirimannonpo',compact('data'));
     }
 
-    public function databarangpo($id){
+    public function databarangpo($jenis,$id){
         $data = modelDetailBarangpo::where('idkirim',$id)->get();
-        return view('vendor.include.daftarbarangpo',compact('data','id'));
+        return view('vendor.include.daftarbarangpo',compact('data','id','jenis'));
     }
 
-    public function datapembawa($id){
+    public function datapembawa($jenis,$id){
         $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
-        return view('vendor.include.daftarpembawabarang',compact('data','id'));
+        return view('vendor.include.daftarpembawabarang',compact('data','id','jenis'));
     }
 
-    public function datakendaraan($id){
+    public function datakendaraan($jenis,$id){
         $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
-        return view('vendor.include.daftarkendaraan',compact('data','id'));
+        return view('vendor.include.daftarkendaraan',compact('data','id','jenis'));
     }
 
-    public function datatujuan($id){
-        $data = modelPengiriman::findOrFail($id)->first();
-        return view('vendor.include.keterangankirim',compact('data','id'));
+    public function datatujuan($jenis,$id){
+        $data = modelPengiriman::where('kodekirim',$id)->get()->first();
+        return view('vendor.include.keterangankirim',compact('data','id','jenis'));
     }
 
     public function ketsamping($id){
@@ -226,8 +226,7 @@ class controlVendor extends Controller
     public function kirimpengiriman(Request $r){
         $id = $r->idkirim;
         $s = modelPengiriman::findOrFail($id);
-        $s->statusgudang = "Meminta";
-        $s->statuskiriman = "Meminta";
+        $s->statuskiriman = "Meminta Gudang";
         $s->save();
 
         return \Response::json($s);

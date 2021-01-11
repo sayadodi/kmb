@@ -4,13 +4,6 @@
 <div id="barang">
     <div class="row">
         <div class="col-md-12">
-            <div class="callout callout-success">
-                <h4><i class="icon fa fa-info"></i> Info!</h4>
-                    - Isi minimal satu barang <br>
-                    - Isikan barang PO atau Tools yang akan dibawa<br>
-            </div>
-        </div>
-        <div class="col-md-12">
             <div class="table-responsive">
                 <table id="table-barang" class="table table-condensed table-striped">
                 <thead>
@@ -71,7 +64,9 @@
             <div class="col-md-12">
             <form action="" class="form-horizontal" method="post" id="formbarangpo" enctype="multipart/form-data">
             <input type="hidden" name="idkirim" value="{{$id}}">
+            <input type="hidden" name="jenis" value="{{$jenis}}">
             {{ csrf_field() }}
+            @if($jenis == "po")
             <div class="form-group">
                 <label class="col-md-12 col-sm-12 col-xs-12 namb">Jenis Barang<code>*</code></label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -79,6 +74,15 @@
                     <input type="radio" name="jenisb" id="" value="NonPO"> Tools Tambahan
                 </div>
             </div>
+            @else
+            <div class="form-group" style="display: none">
+                <label class="col-md-12 col-sm-12 col-xs-12 namb">Jenis Barang<code>*</code></label>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <input type="radio" name="jenisb" id="" value="PO"> Barang PO
+                    <input type="radio" name="jenisb" id="" value="NonPO" checked> Tools Tambahan
+                </div>
+            </div>
+            @endif
             <div class="form-group nb">
                 <label class="col-md-12 col-sm-12 col-xs-12 namb">Nama Barang<code>*</code></label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -133,7 +137,7 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
         var urlbarangpo = url_local+"/kmb/public/simpanbarangpo";
-        var urlpo = url_local+"/kmb/public/databarangpo/{{$id}}";
+        var urlpo = url_local+"/kmb/public/databarangpo/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
 
         $(".simpanbarangpo").click(function(){

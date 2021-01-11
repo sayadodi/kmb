@@ -98,14 +98,24 @@ class controlGudang extends Controller
     public function terimakiriman(Request $r,$id){
         $status = $r->status;
         $s = modelPengiriman::findOrFail($id);
+        $histori = new modelHistoriVendor();
+        $histori->kdvendor = $s->kodevendor;
+        $histori->kdvendor = $id;
+        $histori->kdkaryawan = session('idkaryawan');
+        $histori->tgltt = date("Y-m-d H:i:s");  
+        $histori->alasan = $r->keterangan;
+        $histori->keterangan = "Minta Kirim";
         if($status == "Terima"){
             $s->statuskiriman = "Diterima Gudang";
+            $histori->status = "Terima";
         }else if($status == "Ditolak"){
             $s->statuskiriman = "Ditolak Gudang";
+            $histori->status = "Tolak";
         }else{
 
         }
         $s->save();
+        $histori->save();
 
         return \Response::json($s);
         
