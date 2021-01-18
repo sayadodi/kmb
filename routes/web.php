@@ -47,13 +47,27 @@ Route::get('/requestvendor/{id}','controlGudang@detailvendor');
 Route::post('/requestvendor/{id}','controlGudang@terimavendor');
 
 // Penerimaan dan tolak kiriman
-Route::get('requestkiriman','controlGudang@daftarkiriman');
-Route::get('requestkiriman/{id}','controlGudang@detailkiriman')->name('detailreqkiriman');
-Route::post('requestkiriman/{id}','controlGudang@terimakiriman');
+Route::get('/requestkiriman','controlGudang@daftarkiriman');
+Route::get('/requestkiriman/{id}','controlGudang@detailkiriman')->name('detailreqkiriman');
+Route::post('/requestkiriman','controlGudang@terimakiriman');
 // Include Ajax kiriman
 Route::get('/databarangpor/{id}','controlGudang@databarangpo');
 Route::get('/datapembawar/{id}','controlGudang@datapembawa');
 Route::get('/datakendaraanr/{id}','controlGudang@datakendaraan');
+
+// Rute POS
+Route::get('/barangmasuk','controlPos@barangmasuk');
+Route::get('/tamu','controlPos@tamu');
+Route::get('/simip','controlPos@simip');
+Route::get('/barangmasuk/{id}','controlPos@detailbarangmasuk');
+Route::post('/ubahnopass','controlPos@ubahnopass');
+Route::post('/foto','controlPos@simpanfoto');
+// Include Ajax Pos
+Route::get('/databarangpopos/{id}','controlPos@databarangpo');
+Route::get('/datapembawapos/{id}','controlPos@datapembawa');
+Route::get('/datakendaraanpos/{id}','controlPos@datakendaraan');
+
+
 
 // Vendor daftar
 // Vendor proses

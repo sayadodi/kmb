@@ -3,7 +3,7 @@
 <div class="pad margin no-print">
       <div class="callout callout-info" style="margin-bottom: 0!important;">
         <h4><i class="fa fa-info"></i> Note:</h4>
-        Ceke kelengkapan data sebelum menerima kiriman dari vendor.
+        Cek kelengkapan data sebelum menerima kiriman dari vendor.
       </div>
     </div>
 <section class="invoice">
@@ -158,9 +158,9 @@
     <script>
       $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
-        var urlpo = url_local+"/kmb/public/databarangpor/{{$id}}";
-        var urlpa = url_local+"/kmb/public/datapembawar/{{$id}}";
-        var urlke = url_local+"/kmb/public/datakendaraanr/{{$id}}";
+        var urlpo = url_local+"/kmb/public/databarangpopos/{{$id}}";
+        var urlpa = url_local+"/kmb/public/datapembawapos/{{$id}}";
+        var urlke = url_local+"/kmb/public/datakendaraanpos/{{$id}}";
 
         // Simpan barang
         $('.dbarang').load(urlpo);

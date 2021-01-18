@@ -77,7 +77,8 @@ class controlGudang extends Controller
 
     public function detailkiriman($id){
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
-        return view('prosesterima.detailreqkiriman',compact('kiriman','id'));
+        $status = modelHistoriVendor::where('idkirim',$id)->orderBy('idhistoriv','desc')->first();
+        return view('prosesterima.detailreqkiriman',compact('kiriman','id','status'));
     }
 
     public function databarangpo($id){
@@ -95,27 +96,30 @@ class controlGudang extends Controller
         return view('prosesterima.include.daftarkendaraan',compact('data','id'));
     }
 
-    public function terimakiriman(Request $r,$id){
+    public function terimakiriman(Request $r){
+        $kode = $r->idkirim;
         $status = $r->status;
-        $s = modelPengiriman::findOrFail($id);
+        $s = modelPengiriman::findOrFail($kode);
         $histori = new modelHistoriVendor();
         $histori->kdvendor = $s->kodevendor;
-        $histori->kdvendor = $id;
+        $histori->kdvendor = $kode;
         $histori->kdkaryawan = session('idkaryawan');
         $histori->tgltt = date("Y-m-d H:i:s");  
         $histori->alasan = $r->keterangan;
         $histori->keterangan = "Minta Kirim";
+        $histori->idkirim = $kode;
+
         if($status == "Terima"){
             $s->statuskiriman = "Diterima Gudang";
             $histori->status = "Terima";
-        }else if($status == "Ditolak"){
+        }else if($status == "Tolak"){
             $s->statuskiriman = "Ditolak Gudang";
             $histori->status = "Tolak";
         }else{
 
         }
-        $s->save();
         $histori->save();
+        $s->save();
 
         return \Response::json($s);
         

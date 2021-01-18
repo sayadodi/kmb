@@ -86,4 +86,38 @@
         <li class="active">Detail pengiriman</li>
       </ol>
     @endif
+
+    <!-- POS -->
+    @if(is_active('barangmasuk'))
+      <h1>
+      Barang Masuk
+      <small>Permintaan barang masuk yang telah disetujui oleh unit untuk dikirim</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Barang Masuk</li>
+      </ol>
+    @endif
+
+    @if(is_active('tamu'))
+      <h1>
+      Tamu
+      <small>Daftar tamu masuk</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Daftar Tamu</li>
+      </ol>
+    @endif
+
+    @if(is_active('simip'))
+      <h1>
+      SIMIP
+      <small>Daftar tamu daerah khusus</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Simip</li>
+      </ol>
+    @endif
 </section>
