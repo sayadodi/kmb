@@ -71,6 +71,7 @@ Route::get('/historiapprove/{id}','controlPos@historiapprove');
 Route::get('/tombol/{id}','controlPos@tombol');
 // Rute Lobby
 Route::get('/scan','controlLobby@scan');
+Route::get('/scan/{id}','controlLobby@cariscan');
 
 // Vendor daftar
 

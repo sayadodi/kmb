@@ -39,3 +39,34 @@
     </div>
 </div>
 @endsection
+@section('scripts')
+    @parent
+    <script>
+      $(document).ready(function(){
+        var url_local = window.location.protocol+'//'+window.location.host;
+        $(document).on('keyup', '.scan', function (e) {
+    			var id = $('.scan').val();
+		        $('.idtamunya').focus();
+		        $.ajax({
+		            type : "GET",
+		            url : url_local+"/kmb/public/scan/"+id,
+		            data : "",
+		            dataType: 'json',
+		            beforeSend: function(){
+		                
+		            },
+		            success: function(data){
+			            if (data == "Kosong"){            		
+			            	
+			            }else{
+			            	window.location = data;
+			            }
+		            },
+		            error: function(data){
+		                
+		            }
+		        });
+    		});
+      });
+    </script>
+    @stop

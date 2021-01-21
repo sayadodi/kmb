@@ -17,9 +17,9 @@
         <li>
             <i class="fa fa-user bg-aqua"></i>
             <div class="timeline-item">
-                <span class="time"><i class="fa fa-clock-o"></i> 00-00-000</span>
+                <span class="time"><i class="fa fa-clock-o"></i> {{ $kiriman->tglmasuk }}</span>
 
-                <h3 class="timeline-header no-border"><a href="#">Pos []</a> Telah Menerima Kiriman
+                <h3 class="timeline-header no-border"><a href="#">Pos [{{ controlNotifMenu::carinamakaryawan($kiriman->pos) }}]</a> Telah Menerima Kiriman
                 </h3>
             </div>
         </li>
@@ -32,9 +32,9 @@
                 <i class="fa fa-user bg-grey"></i>
 
                 <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+                    <span class="time"><i class="fa fa-clock-o"></i> 00-00-0000</span>
 
-                    <h3 class="timeline-header no-border"><a href="#">Pak ini</a> Belum approve
+                    <h3 class="timeline-header no-border"><a href="#">{{ controlNotifMenu::carinamajabatan($a->kodejabatan) }}</a> Belum approve
                     </h3>
                 </div>
             </li>
@@ -51,24 +51,51 @@
             </li>
         @endif
     @endforeach
-    <li>
-        <i class="fa fa-user bg-aqua"></i>
+    @if (empty($kiriman->lobby))
+        <li>
+            <i class="fa fa-user bg-grey"></i>
 
-        <div class="timeline-item">
-            <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 00-00-0000</span>
 
-            <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-            </h3>
-        </div>
-    </li>
-    <li>
-        <i class="fa fa-user bg-aqua"></i>
+                <h3 class="timeline-header no-border"><a href="#">Lobby</a> Belum Approve
+                </h3>
+            </div>
+        </li>
+    @else
+        <li>
+            <i class="fa fa-user bg-aqua"></i>
 
-        <div class="timeline-item">
-            <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
 
-            <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request
-            </h3>
-        </div>
-    </li>
+                <h3 class="timeline-header no-border"><a href="#">Lobby</a> Sudah Approve
+                </h3>
+            </div>
+        </li>
+    @endif
+    
+    @if (empty($kiriman->gudang))
+        <li>
+            <i class="fa fa-user bg-grey"></i>
+
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 00-00-0000</span>
+
+                <h3 class="timeline-header no-border"><a href="#">Gudang</a> Belum Approve
+                </h3>
+            </div>
+        </li>
+    @else
+        <li>
+            <i class="fa fa-user bg-aqua"></i>
+
+            <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+
+                <h3 class="timeline-header no-border"><a href="#">Gudang</a> Sudah Approve
+                </h3>
+            </div>
+        </li>
+    @endif
 </ul>

@@ -98,6 +98,7 @@ class controlPos extends Controller
         $s = modelPengiriman::findOrFail($id);
         $s->statuskiriman = "Diterima Pos";
         $s->tglmasuk = date("Y-m-d H:i:s");
+        $s->pos = session('idkaryawan');
         $s->save();
         return \Response::json($s);
     }
