@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.4.6-MariaDB - mariadb.org binary distribution
+-- Server version:               10.4.17-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             11.1.0.6116
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,21 +10,22 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- Dumping database structure for kmbarang2
-CREATE DATABASE IF NOT EXISTS `kmbarang2` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE IF NOT EXISTS `kmbarang2` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `kmbarang2`;
 
 -- Dumping structure for function kmbarang2.cariurutan
 DELIMITER //
-CREATE DEFINER=`root`@`localhost` FUNCTION `cariurutan`(idapprove INT,idpengaturan INT) RETURNS int(11)
+CREATE FUNCTION `cariurutan`(`idapprove` INT, `idpengaturan` INT) RETURNS int(11)
 BEGIN
   DECLARE terakhir INT DEFAULT 0;
   DECLARE kdjab INT DEFAULT 0;
   SELECT urutan+1 INTO terakhir FROM tbdetailapprove WHERE idapprove = idapprove ORDER BY urutan DESC LIMIT 1;
   IF terakhir < 1 THEN
-  	SET kdjab = 404;
+  	SELECT kodejabatan INTO kdjab FROM tbdetailpengaturan WHERE idatur = idpengaturan AND urutan = 1;
   ELSE
   	SELECT kodejabatan INTO kdjab FROM tbdetailpengaturan WHERE idatur = idpengaturan AND urutan = terakhir;
   END IF;
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `tbdetailapprove` (
   PRIMARY KEY (`iddetailapprove`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbdetailapprove: ~1 rows (approximately)
+-- Dumping data for table kmbarang2.tbdetailapprove: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbdetailapprove` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbdetailapprove` ENABLE KEYS */;
 
@@ -155,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `tbhistorivendor` (
   PRIMARY KEY (`idhistoriv`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COMMENT='berisi data histori penerimaan vendor';
 
--- Dumping data for table kmbarang2.tbhistorivendor: ~2 rows (approximately)
+-- Dumping data for table kmbarang2.tbhistorivendor: ~3 rows (approximately)
 /*!40000 ALTER TABLE `tbhistorivendor` DISABLE KEYS */;
 INSERT INTO `tbhistorivendor` (`idhistoriv`, `kdvendor`, `kdkaryawan`, `tgltt`, `alasan`, `status`, `keterangan`, `idkirim`) VALUES
 	(14, 6, 1, '2021-01-12 12:52:55', 'Kurang satu', 'Terima', 'Minta Kirim', 6),
@@ -327,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `tbkendaraan` (
   PRIMARY KEY (`idkendaraan`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbkendaraan: ~5 rows (approximately)
+-- Dumping data for table kmbarang2.tbkendaraan: ~4 rows (approximately)
 /*!40000 ALTER TABLE `tbkendaraan` DISABLE KEYS */;
 INSERT INTO `tbkendaraan` (`idkendaraan`, `idtamu`, `jenis`, `jeniskendaraan`, `namakendaraan`, `plat`, `nogate`) VALUES
 	(2, 2, 'Pengiriman', 'Motor', 'Vario', 'N 009 MN', NULL),
@@ -370,13 +371,14 @@ CREATE TABLE IF NOT EXISTS `tbpengiriman` (
   `pos` smallint(3) DEFAULT NULL,
   `loby` smallint(3) DEFAULT NULL,
   `gudang` smallint(3) DEFAULT NULL,
+  `areakhusus` enum('Y','N') DEFAULT NULL,
   PRIMARY KEY (`kodekirim`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table kmbarang2.tbpengiriman: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbpengiriman` DISABLE KEYS */;
-INSERT INTO `tbpengiriman` (`kodekirim`, `kodevendor`, `keperluan`, `tglbuat`, `tglkirim`, `tglmasuk`, `tglkeluar`, `nopo`, `statuskiriman`, `idpengaturan`, `tujuan`, `berkas`, `status`, `pos`, `loby`, `gudang`) VALUES
-	(6, 8, 'Perbaiki jalan barat Gedung A', '2021-01-11 08:37:58', '2021-01-14', '2021-01-20 18:01:14', NULL, 'PO0938', 'Diterima Pos', 3, 'Rusi', '20210120030105.pdf', 'PO', NULL, NULL, NULL);
+INSERT INTO `tbpengiriman` (`kodekirim`, `kodevendor`, `keperluan`, `tglbuat`, `tglkirim`, `tglmasuk`, `tglkeluar`, `nopo`, `statuskiriman`, `idpengaturan`, `tujuan`, `berkas`, `status`, `pos`, `loby`, `gudang`, `areakhusus`) VALUES
+	(6, 8, 'Perbaiki jalan barat Gedung A', '2021-01-11 08:37:58', '2021-01-14', '2021-01-21 06:29:57', NULL, 'PO0938', 'Diterima Pos', 3, 'Rusi', '20210120030105.pdf', 'PO', 1, NULL, NULL, 'Y');
 /*!40000 ALTER TABLE `tbpengiriman` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbsimip
@@ -437,3 +439,4 @@ INSERT INTO `tbvendor` (`kdvendor`, `namavendor`, `email`, `telepon`, `password`
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
