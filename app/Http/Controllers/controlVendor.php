@@ -143,6 +143,12 @@ class controlVendor extends Controller
         return \Response::json($simpan);
     }
 
+    public function hapuskirimanpo($id){
+        $d = modelPengiriman::findOrfail($id);
+        $d->delete();
+        return redirect('kirimpo');
+    }
+
     public function tambahnonpo(Request $r){
         $input = $r->all();
         $validator = Validator::make($input,[
@@ -163,14 +169,50 @@ class controlVendor extends Controller
         return \Response::json($simpan);
     }
 
+    public function hapuskirimannonpo($id){
+        $d = modelPengiriman::findOrfail($id);
+        $d->delete();
+        return redirect('kirimnonpo');
+    }
+
     public function kirimbarang($jenis,$id){
         $data = modelPengiriman::findOrFail($id);
         return view('vendor.kirimbarang',compact('data','id','jenis'));
     }
 
     public function simpanbarangpo(Request $r){
+        $input = $r->all();
+        $validator = Validator::make($input,[
+            'gambar' => 'sometimes|image|max:700|mimes:jpeg,jpg,bmp,png',
+        ]);
+        if ($validator->fails()) {
+            return \Response::json(array('errors' => $validator->getMessageBag()->toarray()));
+        }
+
+        $gambar = $r->file('gambar');
+        $berkas = $r->file('berkas');
+        if (!empty($berkas)) {
+            $extb = $berkas->getClientOriginalExtension();
+            $nama_berkas = "Berkas".date("YmdHis").".$extb";
+            $tempat_berkas = "berkas";
+            $r->file('berkas')->move($tempat_berkas, $nama_berkas);
+        }else{
+            $nama_berkas = "";
+        }
+
+        if (!empty($gambar)) {
+            $extg = $gambar->getClientOriginalExtension();
+            if ($r->file('gambar')->isValid()) {
+                $nama_gambar = "Gambar".date("YmdHis").".$extg";
+                $tempat_gambar = "gambar";
+                $r->file('gambar')->move($tempat_gambar, $nama_gambar);
+            }
+        }else{
+            $nama_gambar = "";
+        }
+
         $s = new modelDetailBarangpo();
-        $s->kodebarang = "1";
+        $s->kodebarang = acak(6);
         $s->namabarang = $r->namabarang;
         $s->idkirim = $r->idkirim;
         $s->satuan = $r->satuan;
@@ -178,10 +220,59 @@ class controlVendor extends Controller
         $s->jenisbarang = $r->jenisb;
         $s->keterangan = $r->keterangan;
         $s->statusbarang = 'Baru';
-        $s->fotobarang = "foto";
+        $s->fotobarang = $nama_gambar;
+        $s->dokumen = $nama_berkas;
         $s->save();
 
         return \Response::json($s);
+    }
+
+    public function ubahbarang(Request $r){
+        $gambar = $r->file('gambar');
+        $berkas = $r->file('berkas');
+        if (!empty($berkas)) {
+            $extb = $berkas->getClientOriginalExtension();
+            $nama_berkas = "Berkas".date("YmdHis").".$extb";
+            $tempat_berkas = "berkas";
+            $r->file('berkas')->move($tempat_berkas, $nama_berkas);
+        }else{
+            $nama_berkas = "";
+        }
+
+        if (!empty($gambar)) {
+            $extg = $gambar->getClientOriginalExtension();
+            if ($r->file('gambar')->isValid()) {
+                $nama_gambar = "Gambar".date("YmdHis").".$extg";
+                $tempat_gambar = "gambar";
+                $r->file('gambar')->move($tempat_gambar, $nama_gambar);
+            }
+        }else{
+            $nama_gambar = "";
+        }
+
+        $s = modelDetailBarangpo::findOrFail($r->iddetail);
+        $s->namabarang = $r->namabarang;
+        $s->idkirim = $r->idkirim;
+        $s->satuan = $r->satuan;
+        $s->jumlahbarang = $r->jumlah;
+        $s->jenisbarang = $r->jenisb;
+        $s->keterangan = $r->keterangan;
+        $s->statusbarang = 'Baru';
+        if (!empty($nama_gambar)) {
+            $s->fotobarang = $nama_gambar;
+        }
+        if (!empty($nama_berkas)) {
+            $s->dokumen = $nama_berkas;
+        } 
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function hapusbarang($id){
+        $d = modelDetailBarangpo::findOrfail($id);
+        $d->delete();
+        return \Response::json($d);
     }
 
     public function simpanpembawa(Request $r){
@@ -200,6 +291,28 @@ class controlVendor extends Controller
         return \Response::json($s);
     }
 
+    public function ubahpembawa(Request $r, $id){
+        $s = modelDetailTamu::findOrFail($id);
+        $s->pengenal = $r->jenisp;
+        $s->nopengenal = $r->nomorp;
+        $s->namatamu = $r->namap;
+        $s->jabatan = $r->jabp;
+        $s->notlptamu = $r->kontakp;
+        $s->idtamu = $r->idkirim;
+        $s->jenis = "Pengiriman";
+        $s->alamattamu = $r->alamat;
+        $s->fototamu = "foto";
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function hapuspembawa($id){
+        $d = modelDetailTamu::findOrfail($id);
+        $d->delete();
+        return \Response::json($d);
+    }
+
     public function simpankendaraan(Request $r){
         $s = new modelKendaraan();
         $s->jeniskendaraan = $r->jenisk;
@@ -211,13 +324,40 @@ class controlVendor extends Controller
 
         return \Response::json($s);
     }   
+
+    public function ubahkendaraan(Request $r, $id){
+        $s = modelKendaraan::findOrFail($id);
+        $s->jeniskendaraan = $r->jenisk;
+        $s->namakendaraan = $r->namak;
+        $s->plat = $r->plat;
+        $s->jenis = "Pengiriman";
+        $s->idtamu = $r->idkirim;
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function hapuskendaraan($id){
+        $d = modelKendaraan::findOrfail($id);
+        $d->delete();
+        return \Response::json($d);
+    }
     
     public function simpantujuan(Request $r){
         $id = $r->idkirim;
+        $file = $r->file('kelengkapan');
+        if (!empty($file)) {
+            $ext = $file->getClientOriginalExtension();
+            if ($r->file('kelengkapan')->isValid()) {
+                $foto_nama = date("YmdHis").".$ext";
+                $upload_path = "kelengkapan";
+                $r->file('kelengkapan')->move($upload_path, $foto_nama);
+            }
+        }
         $s = modelPengiriman::findOrFail($id);
         $s->tglkirim = $r->tanggalkirim;
         $s->tujuan = $r->tujuan;
-        $s->berkas = $r->kelengkapan;
+        $s->berkas = $foto_nama;
         $s->save();
 
         return \Response::json($s);

@@ -7,6 +7,10 @@ use App\Models\modelHistoriVendor;
 use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
+use App\Models\modelDetailPengaturan;
+use App\Models\modelPengiriman;
+use App\Models\modelAprrove;
+
 use Validator;
 use DB;
 class controlPos extends Controller
@@ -27,7 +31,12 @@ class controlPos extends Controller
     public function detailbarangmasuk($id){
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
         $status = modelHistoriVendor::where('idkirim',$id)->orderBy('idhistoriv','desc')->first();
-        return view('pos.detailbarangmasuk',compact('kiriman','id','status'));
+        $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
+        $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
+        $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
+        $jmlken = modelKendaraan::where('idtamu',$id)->count();
+
+        return view('pos.detailbarangmasuk',compact('kiriman','id','status','jmlbarang','jmlbawa','jmltools','jmlken'));
     }
 
     public function databarangpo($id){
@@ -83,4 +92,32 @@ class controlPos extends Controller
 
         return \Response::json($s);
     }
+
+    public function terimabarang(Request $r){
+        $id = $r->idkirim;
+        $s = modelPengiriman::findOrFail($id);
+        $s->statuskiriman = "Diterima Pos";
+        $s->tglmasuk = date("Y-m-d H:i:s");
+        $s->save();
+        return \Response::json($s);
+    }
+
+    public function historiapprove($id){
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
+        $idatur = $kiriman->idpengaturan;
+        $pengaturan = DB::table('tbpengaturan as pe')->join('tbdetailpengaturan as dp','pe.kodeatur','=','dp.idatur')->where('pe.kodeatur',$idatur)->get();
+        $aprrover = modelAprrove::where('jenisapprove','Barang')->where('idpengiriman',$id)->first();
+        $idapprove = $aprrover->idapprove;
+        return view('pos.include.historiapprove',compact('kiriman','pengaturan','idapprove'));
+    }
+
+    public function tombol($id){
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
+        $idatur = $kiriman->idpengaturan;
+        $pengaturan = DB::table('tbpengaturan as pe')->join('tbdetailpengaturan as dp','pe.kodeatur','=','dp.idatur')->where('pe.kodeatur',$idatur)->get();
+        $aprrover = modelAprrove::where('jenisapprove','Barang')->where('idpengiriman',$id)->first();
+        $idapprove = $aprrover->idapprove;
+        return view('pos.include.tombol',compact('kiriman','pengaturan','idapprove'));
+    }
+
 }

@@ -10,7 +10,6 @@
                         <th>#</th>
                         <th>Identitas</th>
                         <th>Nama</th>
-                        <th>Foto</th>
                         <th>Kontak</th>
                         <th>Alamat</th>
                         <th>Jabatan</th>
@@ -27,19 +26,17 @@
                             <td><?=$i++?></td>
                             <td>{{$d->pengenal}} - {{$d->nopengenal}}</td>
                             <td>{{$d->namatamu}}</td>
-                            <td>Lihat</td>
                             <td>{{$d->notlptamu}}</td>
                             <td>{{$d->alamattamu}}</td>
                             <td>{{$d->jabatan}}</td>
                             <td>
-                                Hapus
-                                Ubah
+                                <a href="#" data-id="{{$d->iddetailtamu}}" class="hapusdatap">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="8">Tidak ada data!</td>
+                        <td colspan="7">Tidak ada data!</td>
                     </tr>
                 @endif
                 </tbody>
@@ -118,6 +115,7 @@
       </div>
     </div>
 </div>
+@include('vendor.include.konfirmasihapusp')
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
@@ -125,6 +123,37 @@
         var urlbarangpo = url_local+"/kmb/public/simpanpembawa";
         var urlpembawa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
+        var urlhp = url_local+"/kmb/public/hapuspembawa/";
+
+        $(".hapusdatap").click(function(){
+            var id = $(this).data('id');
+            $(".iddatap").val(id);
+            $("#deleteModalp").modal();
+        });
+
+        $("#btn-deletep").click(function(){
+            var id = $(".iddatap").val();
+            var urlhapus = urlhp + id;
+            $.ajax({
+                type : 'GET',
+                url : urlhapus,
+                data : id,
+                dataType: 'json',
+                beforeSend: function(){
+                    setVisible('#pembawa',true);
+                    setVisible("#loadingpembawa",false);
+                },
+                success: function(data){
+                    $(".iddatap").val("");
+                    $('.dpembawa').load(urlpembawa);  
+                    $('.ketsamping').load(urlsa);
+                    $("#deleteModalp").modal('hide');
+                },
+                error: function(data){
+                    
+                }
+            });
+        });
 
         $(".simpanpembawa").click(function(){
             $.ajaxSetup({
@@ -153,6 +182,7 @@
                     $('#formpembawa').trigger("reset");
                     $('.dpembawa').load(urlpembawa);  
                     $('.ketsamping').load(urlsa);
+                    $("#daftarpembawabarang").modal('hide');
                     // 
                 },
                 error: function(data){

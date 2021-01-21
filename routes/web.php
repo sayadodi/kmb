@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/coba/{ida}/{idp}','controlNotifMenu@coba');
+
 Route::get('/', function () {
     return view('index');
 });
@@ -45,7 +47,6 @@ Route::get('/aturhak/{id}','controlPengaturan@settingHak')->name('sethak');
 Route::get('/requestvendor','controlGudang@daftarvendor');
 Route::get('/requestvendor/{id}','controlGudang@detailvendor');
 Route::post('/requestvendor/{id}','controlGudang@terimavendor');
-
 // Penerimaan dan tolak kiriman
 Route::get('/requestkiriman','controlGudang@daftarkiriman');
 Route::get('/requestkiriman/{id}','controlGudang@detailkiriman')->name('detailreqkiriman');
@@ -54,22 +55,25 @@ Route::post('/requestkiriman','controlGudang@terimakiriman');
 Route::get('/databarangpor/{id}','controlGudang@databarangpo');
 Route::get('/datapembawar/{id}','controlGudang@datapembawa');
 Route::get('/datakendaraanr/{id}','controlGudang@datakendaraan');
-
 // Rute POS
 Route::get('/barangmasuk','controlPos@barangmasuk');
+Route::post('/barangmasukterima','controlPos@terimabarang');
 Route::get('/tamu','controlPos@tamu');
 Route::get('/simip','controlPos@simip');
-Route::get('/barangmasuk/{id}','controlPos@detailbarangmasuk');
+Route::get('/barangmasuk/{id}','controlPos@detailbarangmasuk')->name('kirimanbarang');
 Route::post('/ubahnopass','controlPos@ubahnopass');
 Route::post('/foto','controlPos@simpanfoto');
 // Include Ajax Pos
 Route::get('/databarangpopos/{id}','controlPos@databarangpo');
 Route::get('/datapembawapos/{id}','controlPos@datapembawa');
 Route::get('/datakendaraanpos/{id}','controlPos@datakendaraan');
-
-
+Route::get('/historiapprove/{id}','controlPos@historiapprove');
+Route::get('/tombol/{id}','controlPos@tombol');
+// Rute Lobby
+Route::get('/scan','controlLobby@scan');
 
 // Vendor daftar
+
 // Vendor proses
 Route::group(['middleware' => ['cekbrowser']],function(){
     Route::get('/loginvendor','controlVendor@login');
@@ -81,7 +85,6 @@ Route::group(['middleware' => ['cekbrowser']],function(){
     Route::post('/lupapassword','controlDaftar@kirimemaillupa');
     Route::get('/infolupaspassword','controlDaftar@infolupapassword');
 });
-
 // Akses rute vendor
 Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/berandavendor','controlVendor@berandavendor');
@@ -104,7 +107,6 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/datakendaraan/{jenis}/{id}','controlVendor@datakendaraan');
     Route::get('/ketsamping/{id}','controlVendor@ketsamping');
 
-
     // Manipulasi pengiriman
     Route::post('/simpanbarangpo','controlVendor@simpanbarangpo');
     Route::post('/simpanpembawa','controlVendor@simpanpembawa');
@@ -112,7 +114,15 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::post('/simpankendaraan','controlVendor@simpankendaraan');
     Route::post('/kirimpengiriman','controlVendor@kirimpengiriman');
 
-    
+    // Hapus dan ubah
+    Route::put('/ubahbarang/{id}','controlVendor@ubahbarang');
+    Route::put('/ubahpembawa/{id}','controlVendor@ubahpembawa');
+    Route::put('/ubahkendaraan/{id}','controlVendor@ubahkendaraan');
+    Route::get('/hapuskirimanpo/{id}','controlVendor@hapuskirimanpo');
+    Route::get('/hapuskirimannonpo/{id}','controlVendor@hapuskirimannonpo');
+    Route::get('/hapusbarang/{id}','controlVendor@hapusbarang');
+    Route::get('/hapuspembawa/{id}','controlVendor@hapuspembawa');
+    Route::get('/hapuskendaraan/{id}','controlVendor@hapuskendaraan');
 });
 
 

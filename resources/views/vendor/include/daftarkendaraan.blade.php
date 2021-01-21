@@ -26,8 +26,7 @@
                             <td>{{$d->namakendaraan}}</td>
                             <td>{{$d->plat}}</td>
                             <td>
-                                Hapus
-                                Ubah
+                                <a href="#" data-id="{{$d->idkendaraan}}" class="hapusdatak">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
@@ -92,6 +91,7 @@
       </div>
     </div>
 </div>
+@include('vendor.include.konfirmasihapusk')
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
@@ -99,6 +99,37 @@
         var urlkendaraan = url_local+"/kmb/public/simpankendaraan";
         var urldatak = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
+        var urlhk = url_local+"/kmb/public/hapuskendaraan/";
+
+        $(".hapusdatak").click(function(){
+            var id = $(this).data('id');
+            $(".iddatak").val(id);
+            $("#deleteModalk").modal();
+        });
+
+        $("#btn-deletek").click(function(){
+            var id = $(".iddatak").val();
+            var urlhapus = urlhk + id;
+            $.ajax({
+                type : 'GET',
+                url : urlhapus,
+                data : id,
+                dataType: 'json',
+                beforeSend: function(){
+                    setVisible('#kendaraan',true);
+                    setVisible("#loadingkendaraan",false);
+                },
+                success: function(data){
+                    $(".iddatak").val("");
+                    $('.dkendaraan').load(urldatak);  
+                    $('.ketsamping').load(urlsa);
+                    $("#deleteModalk").modal('hide');
+                },
+                error: function(data){
+                    
+                }
+            });
+        });
 
         $(".simpankendaraan").click(function(){
             $.ajaxSetup({
@@ -127,8 +158,7 @@
                     $('#formkendaraan').trigger("reset");
                     $('.dkendaraan').load(urldatak);  
                     $('.ketsamping').load(urlsa);
-
-                    // 
+                    $("#daftarkendaraan").modal('hide');
                 },
                 error: function(data){
                     console.log(data);

@@ -15,13 +15,18 @@
             </div>
             <div class="col-md-6">
                 <label>Tujuan<code>*</code></label>
-                <input type="text" name="tujuan" class="form-control" value="{{$data->tujuan}}" placeholder="Contoh: Pak Toni">
+                @if($jenis == "po")
+                    <input type="text" name="tujuan" class="form-control" value="Gudang" readonly>
+                @else
+                    <input type="text" name="tujuan" class="form-control" value="{{$data->tujuan}}" placeholder="Contoh: Pak Toni">
+                @endif         
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-12">
                 <label>Kelengkapan<code>*</code></label>
                 <input type="file" name="kelengkapan" id="" class="form-control">
+                {{$data->berkas}}
             </div>
         </div>
         </form>

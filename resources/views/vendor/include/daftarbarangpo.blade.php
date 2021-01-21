@@ -28,11 +28,15 @@
                         <td>{{ $i++ }}</td>
                         <td>{{ $d->namabarang }}</td>
                         <td>{{ $d->jumlahbarang }} {{ $d->satuan }}</td>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <img src="{{asset('gambar/'.$d->fotobarang)}}" alt="" height="70" width="70">
+                        </td>
+                        <td>{{$d->dokumen}}</td>
                         <td>{{ $d->jenisbarang }}</td>
                         <td>{{ $d->keterangan }}</td>
-                        <td></td>
+                        <td>
+                            <a href="#" data-id="{{$d->iddetailkirim}}" class="hapusdata">Hapus</a>
+                        </td>
                     </tr>
                     @endforeach
                 @else
@@ -132,6 +136,7 @@
       </div>
     </div>
 </div>
+@include('vendor.include.konfirmasihapus')
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
@@ -139,6 +144,38 @@
         var urlbarangpo = url_local+"/kmb/public/simpanbarangpo";
         var urlpo = url_local+"/kmb/public/databarangpo/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
+        var urlh = url_local+"/kmb/public/hapusbarang/";
+
+        $(".hapusdata").click(function(){
+            var id = $(this).data('id');
+            $(".iddata").val(id);
+            $("#deleteModal").modal();
+        });
+
+        $("#btn-delete").click(function(){
+            var id = $(".iddata").val();
+            var urlhapus = urlh + id;
+            $.ajax({
+                type : 'GET',
+                url : urlhapus,
+                data : id,
+                dataType: 'json',
+                beforeSend: function(){
+                    setVisible('#barang',true);
+                    setVisible("#loadingbarang",false);
+                },
+                success: function(data){
+                    $(".iddata").val("");
+                    $('.dbarang').load(urlpo);  
+                    $('.ketsamping').load(urlsa);
+                    $("#deleteModal").modal('hide');
+                    // 
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        });
 
         $(".simpanbarangpo").click(function(){
             $.ajaxSetup({

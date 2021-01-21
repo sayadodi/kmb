@@ -120,4 +120,26 @@
         <li class="active">Simip</li>
       </ol>
     @endif
+
+    @if(is_active('kirimanbarang'))
+      <h1>
+      Detail Kiriman
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Detail Kiriman</li>
+      </ol>
+    @endif
+
+    <!-- Lobby -->
+    @if(is_active('scan'))
+      <h1>
+      Scan Surat
+      <small>Scan Surat masuk dari pos</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Scan</li>
+      </ol>
+    @endif
 </section>

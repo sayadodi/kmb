@@ -98,6 +98,25 @@
     </ul>
   </li>
 
+  <!-- Untuk Lobby -->
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-user-secret"></i> <span>Lobby</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+        <small class="label pull-right bg-red">{{ controlNotifMenu::jmlvendor() }}</small>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="{{url('scan')}}"><i class="fa fa-circle-o"></i> Scan
+          <span class="pull-right-container">
+            <span class="label bg-red">{{ controlNotifMenu::jmlvendor() }}</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </li>
   <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Ubah Password</span></a></li>
   <li><a href="{{url('logout')}}"><i class="fa fa-sign-out"></i> <span>Keluar</span></a></li>
 </ul>

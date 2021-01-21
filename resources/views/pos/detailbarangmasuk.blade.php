@@ -52,7 +52,7 @@
 
     <!-- Table row -->
     <div class="row">
-        <input type="hidden" name="idkirim" value="{{$id}}">
+        <input type="hidden" name="idkirim" value="{{$id}}" class="idkirim">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li><a href="#tbarang" data-toggle="tab">Barang</a></li>
@@ -83,56 +83,30 @@
 
     <div class="row">
     <!-- accepted payments column -->
-    <div class="col-xs-6">
-        <p class="lead">Komentar:</p>
-
-        <form action="" method="post" id="formkonfirmasi">
-            <input type="hidden" name="idkirim" value="{{$id}}">
-            <div class="form-group">
-                <label class="col-md-12 col-sm-12 col-xs-12 namb">Status<code>*</code></label>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                @if($status->status == "Meminta")
-                    <input type="radio" name="status" id="" value="Terima"> Terima
-                    <input type="radio" name="status" id="" value="Tolak"> Tolak
-                @elseif($status->status == "Tolak")
-                    <input type="radio" name="status" id="" value="Terima"> Terima
-                    <input type="radio" name="status" id="" value="Tolak" checked> Tolak
-                @elseif($status->status == "Terima")
-                    <input type="radio" name="status" id="" value="Terima" checked> Terima
-                    <input type="radio" name="status" id="" value="Tolak"> Tolak
-                @endif
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-12 col-sm-12 col-xs-12">Pesan<code>*</code></label>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                <textarea class="form-control keterangan" name="keterangan">{{$status->alasan}}</textarea>
-                </div>
-            </div>
-        </form>
-        </p>
+    <div class="col-xs-8 historiapprove">
+        
     </div>
     <!-- /.col -->
-    <div class="col-xs-6">
+    <div class="col-xs-4">
         <p class="lead">Keterangan lain</p>
 
         <div class="table-responsive">
         <table class="table">
             <tr>
             <th style="width:50%">Berkas jalan:</th>
-            <td>$250.30</td>
+            <td>{{$kiriman->berkas}}</td>
             </tr>
             <tr>
             <th>Jumlah barang</th>
-            <td>$10.34</td>
+            <td>{{$jmlbarang}}</td>
             </tr>
             <tr>
             <th>Jumlah pembawa:</th>
-            <td>$5.80</td>
+            <td>{{$jmlbawa}}</td>
             </tr>
             <tr>
             <th>Jumlah tools:</th>
-            <td>$265.24</td>
+            <td>{{$jmltools}}</td>
             </tr>
         </table>
         </div>
@@ -143,10 +117,8 @@
 
     <!-- this row will not appear when printing -->
     <div class="row no-print">
-    <div class="col-xs-12">
-        <button type="button" class="btn btn-success pull-right konfirmasikiriman"><i class="fa fa-credit-card"></i> Kirim
-        </button>
-
+    <div class="col-xs-12 tombol">
+        
     </div>
     </div>
 </section>
@@ -161,11 +133,16 @@
         var urlpo = url_local+"/kmb/public/databarangpopos/{{$id}}";
         var urlpa = url_local+"/kmb/public/datapembawapos/{{$id}}";
         var urlke = url_local+"/kmb/public/datakendaraanpos/{{$id}}";
+        var urlhi = url_local+"/kmb/public/historiapprove/{{$id}}";
+        var urlto = url_local+"/kmb/public/tombol/{{$id}}";
+
 
         // Simpan barang
         $('.dbarang').load(urlpo);
         $('.dpembawa').load(urlpa);
         $('.dkendaraan').load(urlke);
+        $('.historiapprove').load(urlhi);
+        $('.tombol').load(urlto);
       });
     </script>
 
@@ -173,7 +150,7 @@
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
-        var urlkirim = url_local+"/kmb/public/requestkiriman";
+        var urlkirim = url_local+"/kmb/public/barangmasukterima";
 
         $(".konfirmasikiriman").click(function(){
             swal({
@@ -191,7 +168,9 @@
                     }
                 })
 
-                var formData = new FormData($('#formkonfirmasi')[0]);
+                var formData = {
+                    idkirim: $('.idkirim').val(),
+                }
                 var type = "POST";
                 var my_url = urlkirim;
 
@@ -200,9 +179,6 @@
                     url : my_url,
                     data : formData,
                     dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    cache: false,
                     beforeSend: function(){
                         
                     },

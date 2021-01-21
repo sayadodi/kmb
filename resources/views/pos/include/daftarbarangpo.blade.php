@@ -27,8 +27,10 @@
                         <td>{{ $i++ }}</td>
                         <td>{{ $d->namabarang }}</td>
                         <td>{{ $d->jumlahbarang }} {{ $d->satuan }}</td>
-                        <td></td>
-                        <td></td>
+                        <td><img src="{{asset('gambar/'.$d->fotobarang)}}" alt="" height="70" width="70"></td>
+                        <td>
+                        {{$d->dokumen}}
+                        </td>
                         <td>{{ $d->jenisbarang }}</td>
                         <td>{{ $d->keterangan }}</td>
                     </tr>
