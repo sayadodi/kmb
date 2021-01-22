@@ -72,6 +72,8 @@ Route::get('/tombol/{id}','controlPos@tombol');
 // Rute Lobby
 Route::get('/scan','controlLobby@scan');
 Route::get('/scan/{id}','controlLobby@cariscan');
+Route::post('/ubahnopassa','controlLobby@ubahnopassa');
+Route::post('/ubahgatepass','controlLobby@ubahgatepass');
 
 // Vendor daftar
 

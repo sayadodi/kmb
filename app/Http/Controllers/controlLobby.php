@@ -17,6 +17,24 @@ class controlLobby extends Controller
     public function cariscan($id){
         $tamu = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
         $kend = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
-        return view('lobby.hasilscan', compact('tamu','kend'));
+        return view('lobby.hasilscan', compact('tamu','kend','id'));
+    }
+
+    public function ubahnopassa(Request $r){
+        $id = $r->kode;
+        $s = modelDetailTamu::findOrFail($id);
+        $s->nopassa = $r->no;
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function ubahgatepass(Request $r){
+        $id = $r->kode;
+        $s = modelKendaraan::findOrFail($id);
+        $s->nogate = $r->no;
+        $s->save();
+
+        return \Response::json($s);
     }
 }

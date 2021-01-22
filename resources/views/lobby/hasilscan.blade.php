@@ -9,6 +9,7 @@
     <div class="box-body">
         <h5>Daftar Pembawa</h5>
         <hr>
+        <input type="hidden" name="idkirim" class="idkirim" value="{{ $id }}">
         <div class="table-responsive">
             <table id="table-ikut" class="table table-condensed table-striped">
                 <thead>
@@ -46,13 +47,7 @@
                             <td>{{$d->jabatan}}</td>
                             <td><b>B</b>{{$d->nopass}}</td>
                             <td>
-                            <div class="form-group row">
-                                <div class="col-md-1 text-right"><b>A</b>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" name="" id="passa" placeholder="09" class="form-control passa" data-kode="{{$d->iddetailtamu}}">
-                                </div>
-                            </div>
+                                <b>A</b> <input type="text" name="" id="passa" placeholder="09" size="5" class="passa" data-kode="{{$d->iddetailtamu}}" value="{{ $d->nopassa }}">
                             </td>
                         </tr>
                     @endforeach
@@ -89,13 +84,8 @@
                             <td>{{$e->namakendaraan}}</td>
                             <td>{{$e->plat}}</td>
                             <td>
-                            <div class="form-group row">
-                                <div class="col-md-1 text-right"><b>A</b>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" name="" id="gatepass" placeholder="09" class="form-control gatepass" data-kode="">
-                                </div>
-                            </div>
+                                <b>A</b> <input type="text" name="" size="5" id="gatepass" placeholder="09" class="gatepass" data-kode="{{$e->idkendaraan}}" value="{{ $e->nogate }}">
+
                             </td>
                         </tr>
                     @endforeach
@@ -109,3 +99,85 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        var url_local = window.location.protocol+'//'+window.location.host;
+        $(".passa").keyup(function(event) {
+            if (event.keyCode === 13) {
+                var urlkirim = url_local+"/kmb/public/ubahnopassa";
+                
+                var i = $(this).data('kode');
+                var p = $(this).val();
+                var id = $(".idkirim").val();
+                var loada = url_local+"/kmb/public/scan/"+id;
+
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                var formData = {
+                    kode : i,
+                    no: p,
+                }
+                var type = "POST";
+                var my_url = urlkirim;
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        $('.hasil').load(loada);
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            }
+        });
+
+        $(".gatepass").keyup(function(event) {
+            if (event.keyCode === 13) {
+                var gatepass = url_local+"/kmb/public/ubahgatepass";
+                
+                var q = $(this).data('kode');
+                var w = $(this).val();
+                var id = $(".idkirim").val();
+                var loade = url_local+"/kmb/public/scan/"+id;
+
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                var formData = {
+                    kode : q,
+                    no: w,
+                }
+                var type = "POST";
+                var my_url = gatepass;
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        $('.hasil').load(loade);
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
