@@ -26,6 +26,10 @@
                 <td><i class="fa fa-close text-danger"></i></td>
             @elseif($d->statuskiriman == "Diterima Gudang")
                 <td><i class="fa fa-check text-success"></i></td>
+            @elseif($d->statuskiriman == "Diterima Pos")
+                <td><i class="fa fa-shield text-primary"></i></td>
+            @elseif($d->statuskiriman == "Proses Approve")
+                <td><i class="fa fa-spinner text-primary"></i></td>
             @else
                 <td></td>
             @endif
@@ -49,6 +53,10 @@
                     <span class="label label-danger">{{ $d->statuskiriman }}</span>
                 @elseif($d->statuskiriman == "Diterima Gudang")
                     <span class="label label-success">{{ $d->statuskiriman }}</span>
+                @elseif($d->statuskiriman == "Diterima Pos")
+                    <span class="label label-primary">{{ $d->statuskiriman }}</span>
+                @elseif($d->statuskiriman == "Proses Approve")
+                    <span class="label label-primary">{{ $d->statuskiriman }}</span>
                 @else
                     
                 @endif

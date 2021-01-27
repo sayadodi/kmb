@@ -73,11 +73,11 @@
                     </div>
                     <div class="col-md-4">
                     <label>Nama Kendaraan<code>*</code></label>
-                    <input type="text" name="namak" class="form-control nomorp" placeholder="Dino A4, L300, NMAX">
+                    <input type="text" name="namak" class="form-control" placeholder="Dino A4, L300, NMAX">
                     </div>
                     <div class="col-md-4">
                     <label>Plat Nomor<code>*</code></label>
-                    <input type="text" name="plat" class="form-control namap" placeholder="P 09 JB">
+                    <input type="text" name="plat" class="form-control" placeholder="P 09 JB">
                     </div>
                 </div>
                 </form>

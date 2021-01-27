@@ -114,6 +114,7 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/datatujuan/{jenis}/{id}','controlVendor@datatujuan');
     Route::get('/datakendaraan/{jenis}/{id}','controlVendor@datakendaraan');
     Route::get('/ketsamping/{id}','controlVendor@ketsamping');
+    Route::get('/carihistoritamu/{id}','controlVendor@carihistoritamu');
 
     // Manipulasi pengiriman
     Route::post('/simpanbarangpo','controlVendor@simpanbarangpo');

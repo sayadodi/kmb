@@ -9,7 +9,8 @@ use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
 use App\Models\modelHistoriVendor;
-
+use App\Models\modelHistoriTamu;
+use DB;
 
 
 use Validator;
@@ -100,8 +101,9 @@ class controlVendor extends Controller
     }
 
     public function datapembawa($jenis,$id){
-        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
-        return view('vendor.include.daftarpembawabarang',compact('data','id','jenis'));
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
+        $histori = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori')->where('h.kdvendor',session('idvendor'))->where('h.jenis','Pengiriman')->get();
+        return view('vendor.include.daftarpembawabarang',compact('data','id','jenis','histori'));
     }
 
     public function datakendaraan($jenis,$id){
@@ -117,7 +119,7 @@ class controlVendor extends Controller
     public function ketsamping($id){
         $data = modelPengiriman::where('kodekirim',$id)->get()->first();
         $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
-        $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
+        $jmlbawa = modelHistoriTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
         $jmlken = modelKendaraan::where('idtamu',$id)->count();
         $histori = modelHistoriVendor::where('idkirim',$id)->get();
@@ -279,19 +281,31 @@ class controlVendor extends Controller
     }
 
     public function simpanpembawa(Request $r){
-        $s = new modelDetailTamu();
-        $s->pengenal = $r->jenisp;
-        $s->nopengenal = $r->nomorp;
-        $s->namatamu = $r->namap;
-        $s->jabatan = $r->jabp;
-        $s->notlptamu = $r->kontakp;
-        $s->idtamu = $r->idkirim;
-        $s->jenis = "Pengiriman";
-        $s->alamattamu = $r->alamat;
-        $s->fototamu = "foto";
-        $s->save();
+        $jenis = $r->baru;
+        if($jenis == "baru"){
+            $s = new modelDetailTamu();
+            $s->pengenal = $r->jenisp;
+            $s->nopengenal = $r->nomorp;
+            $s->namatamu = $r->namap;
+            $s->jabatan = $r->jabp;
+            $s->notlptamu = $r->kontakp;
+            $s->alamattamu = $r->alamat;
+            $s->fototamu = "foto";
+            $s->save();
+            $id = $s->iddetailtamu;
+        }else{
+            $id = $r->iddetailtamu;
+        }
+        
+        $h = new modelHistoriTamu();
+        $h->iddetailtamu = $id;
+        $h->idtamu = $r->idkirim;
+        $h->jenis = "Pengiriman";
+        $h->tgltamu = date("Y-m-d H:i:s");
+        $h->kdvendor = session('idvendor');
+        $h->save();
 
-        return \Response::json($s);
+        return \Response::json($h);
     }
 
     public function ubahpembawa(Request $r, $id){
@@ -311,7 +325,7 @@ class controlVendor extends Controller
     }
 
     public function hapuspembawa($id){
-        $d = modelDetailTamu::findOrfail($id);
+        $d = modelHidtoriTamu::findOrfail($id);
         $d->delete();
         return \Response::json($d);
     }
@@ -385,4 +399,9 @@ class controlVendor extends Controller
 
         return \Response::json($h);
     }  
+
+    public function carihistoritamu($id){
+        $d = modelDetailTamu::findOrFail($id);
+        return \Response::json($d);
+    }
 }

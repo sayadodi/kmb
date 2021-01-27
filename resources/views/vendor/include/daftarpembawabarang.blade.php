@@ -30,7 +30,7 @@
                             <td>{{$d->alamattamu}}</td>
                             <td>{{$d->jabatan}}</td>
                             <td>
-                                <a href="#" data-id="{{$d->iddetailtamu}}" class="hapusdatap">Hapus</a>
+                                <a href="#" data-id="{{$d->idhistori}}" class="hapusdatap">Hapus</a>
                             </td>
                         </tr>
                     @endforeach
@@ -62,9 +62,29 @@
                 <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formpembawa">
                 <input type="hidden" name="idkirim" value="{{$id}}">
                 <input type="hidden" name="jenis" value="{{$jenis}}">
+                <input type="text" name="iddetailtamu" class="iddetailtamu">
+
 
                 {{ csrf_field() }}
                 <input type="hidden" name="idikutan" class="idikutan" value="">
+                <div class="form-group">
+                    <label class="col-md-12 col-sm-12 col-xs-12 namb">Pilih data pembawa<code>*</code></label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <input type="radio" name="baru" id="" value="baru" checked> Pembawa Baru
+                        <input type="radio" name="baru" id="" value="pernah"> Pernah Membawa
+                    </div>
+                </div>
+                <div class="form-group hidden historinya">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Pilih Pembawa<code>*</code></label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <select name="idpembawa" id="" class="form-control select2" style="width: 100%;">
+                            <option>Pilih Pembawa</option>
+                            @foreach ($histori as $item)
+                                <option value="{{ $item->iddetailtamu }}">{{ $item->namatamu }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group jp">
                     <div class="col-md-4">
                     <label>Jenis Pengenal</label>
@@ -124,6 +144,9 @@
         var urlpembawa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
         var urlhp = url_local+"/kmb/public/hapuspembawa/";
+        var urlcp = url_local+"/kmb/public/carihistoritamu/";
+
+        $('.select2').select2();
 
         $(".hapusdatap").click(function(){
             var id = $(this).data('id');
@@ -189,6 +212,30 @@
                     
                 }
             });
+        });
+
+        $('input:radio[name=baru]').change(function() {
+            if (this.value == 'baru') {
+                $('.historinya').addClass('hidden');
+            }
+            else if (this.value == 'pernah') {
+                $('.historinya').removeClass('hidden');
+            }
+        });
+
+        $('.select2').on('select2:select', function (e) {
+            var id = $(this).val();
+            $.get(urlcp+id, function(data){
+                console.log(data);
+                $('.jenisp').val(data['pengenal']);
+                $('.nomorp').val(data['nopengenal']);
+                $('.namap').val(data['namatamu']);
+                $('.jabp').val(data['jabatan']);
+                $('.kontakp').val(data['notlptamu']);
+                $('.alamatp').val(data['alamattamu']);
+                $('.iddetailtamu').val(data['iddetailtamu']);
+
+            })
         });
     });
 </script>

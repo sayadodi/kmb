@@ -5,8 +5,6 @@
 {!! Html::script('dist/js/app.min.js')!!}
 <!-- AdminLTE for demo purposes -->
 {!! Html::script('dist/js/demo.js')!!}
-{{-- Select 2 --}}
-{!! Html::script('plugins/select2/dist/js/select2.full.min.js')!!}
 {{-- Sweet alert --}}
 {!! Html::script('js/sweetalert.min.js')!!}
 {{-- Datatabel --}}

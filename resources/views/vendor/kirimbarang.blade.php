@@ -74,6 +74,7 @@
 @endsection
 @section('scripts')
     @parent
+    {!! Html::script('plugins/select2/dist/js/select2.full.min.js')!!}
     {!! Html::script('js/fungsiloading.js')!!}
     {!! Html::script('js/sweetalert.min.js')!!}
     <script>
