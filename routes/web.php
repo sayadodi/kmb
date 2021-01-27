@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/coba/{ida}/{idp}','controlNotifMenu@coba');
+Route::get('/coba/{jabatan}/{jenis}/{pengaturan}','controlNotifMenu@coba');
 
 Route::get('/', function () {
     return view('index');
@@ -58,11 +58,16 @@ Route::get('/datakendaraanr/{id}','controlGudang@datakendaraan');
 // Rute POS
 Route::get('/barangmasuk','controlPos@barangmasuk');
 Route::post('/barangmasukterima','controlPos@terimabarang');
-Route::get('/tamu','controlPos@tamu');
+Route::get('/kunjungan','controlPos@tamu');
 Route::get('/simip','controlPos@simip');
+Route::post('/simip/tambah','controlPos@tambahsimip');
+Route::get('/simip/{id}','controlPos@atursimip');
 Route::get('/barangmasuk/{id}','controlPos@detailbarangmasuk')->name('kirimanbarang');
 Route::post('/ubahnopass','controlPos@ubahnopass');
 Route::post('/foto','controlPos@simpanfoto');
+Route::get('/daftartamu/{id}','controlPos@daftartamu');
+Route::get('/daftarkend/{id}','controlPos@daftarkend');
+
 // Include Ajax Pos
 Route::get('/databarangpopos/{id}','controlPos@databarangpo');
 Route::get('/datapembawapos/{id}','controlPos@datapembawa');

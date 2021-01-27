@@ -8,6 +8,8 @@ use App\Models\modelPengiriman;
 use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
+use App\Models\modelHistoriVendor;
+
 
 
 use Validator;
@@ -113,13 +115,14 @@ class controlVendor extends Controller
     }
 
     public function ketsamping($id){
-        $data = modelPengiriman::findOrFail($id)->first();
+        $data = modelPengiriman::where('kodekirim',$id)->get()->first();
         $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
         $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
         $jmlken = modelKendaraan::where('idtamu',$id)->count();
+        $histori = modelHistoriVendor::where('idkirim',$id)->get();
 
-        return view('vendor.include.keterangansamping',compact('data','id','jmlbarang','jmlbawa','jmltools','jmlken'));
+        return view('vendor.include.keterangansamping',compact('data','id','jmlbarang','jmlbawa','jmltools','jmlken','histori'));
     }
 
     public function tambahpo(Request $r){
@@ -369,6 +372,17 @@ class controlVendor extends Controller
         $s->statuskiriman = "Meminta Gudang";
         $s->save();
 
-        return \Response::json($s);
+        $vendor = $s->kodevendor;
+
+        $h = new modelHistoriVendor();
+        $h->kdvendor = $vendor;
+        $h->tgltt = date("Y-m-d H:i:s");
+        $h->alasan = "Meminta kiriman";
+        $h->status = "Meminta";
+        $h->keterangan = "Minta Kirim";
+        $h->idkirim = $id;
+        $h->save();
+
+        return \Response::json($h);
     }  
 }

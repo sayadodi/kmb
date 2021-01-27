@@ -31,11 +31,11 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-2 ketsamping">
+    <div class="col-md-3 ketsamping">
         
     </div>
     <!-- /.col -->
-    <div class="col-md-10">
+    <div class="col-md-9">
     <input type="hidden" name="idkirim" value="{{$id}}">
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">

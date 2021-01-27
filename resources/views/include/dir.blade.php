@@ -131,6 +131,17 @@
       </ol>
     @endif
 
+    @if(is_active('kunjungan'))
+      <h1>
+      Tambah Tamu
+      <small>Masukkan Tamu</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Tamu</li>
+      </ol>
+    @endif
+
     <!-- Lobby -->
     @if(is_active('scan'))
       <h1>

@@ -29,6 +29,7 @@
 								<th>No PO</th>
 								<th>Keperluan</th>
 								<th>Tanggal Kirim</th>
+								<th>Jenis</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -43,6 +44,7 @@
 								<td><a href="{{url('requestkiriman/'.$d->kodekirim)}}">{{$d->nopo}}</a></td>
 								<td>{{$d->keperluan}}</td>
                                 <td>{{$d->tglkirim}}</td>
+								<td>{{$d->status}}</td>
 							</tr>
 							@endforeach
 							@else
@@ -58,6 +60,7 @@
 								<th>No PO</th>
 								<th>Keperluan</th>
 								<th>Tanggal Kirim</th>
+								<th>Jenis</th>
 							</tr>
 						</tfoot>
 					</table>

@@ -10,8 +10,10 @@ use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
 use App\Models\modelDetailApprove;
+use App\Models\modelAprrove;
 use App\Models\modelKaryawan;
 use App\Models\modelJabatan;
+use App\Models\modelDetailPengaturan;
 use DB;
 
 class controlNotifMenu extends Controller
@@ -23,6 +25,11 @@ class controlNotifMenu extends Controller
 
     public static function jmlkiriman(){
         $vendor = modelPengiriman::where('statuskiriman','Meminta Gudang')->count();
+    	return $vendor; 
+    }
+
+    public static function jmlmasuk(){
+        $vendor = modelPengiriman::where('statuskiriman','Diterima Gudang')->count();
     	return $vendor; 
     }
 
@@ -46,8 +53,23 @@ class controlNotifMenu extends Controller
         return $j->jabatan;
     }
 
-    public function coba($ida,$idp){
-        $data = DB::select("SELECT cariurutan($ida, $idp)as kode");
-        dd($data[0]->kode);
+    public function coba($idjabatan,$jenis,$pengaturan){
+        $i = 0;
+        $cari = modelAprrove::where('status','Proses')->where('jenisapprove',$jenis)->get();
+        $jmlatur = modelDetailPengaturan::where('idatur',$pengaturan)->where('kodejabatan',$idjabatan)->count();
+        $urutan = modelDetailPengaturan::where('idatur',$pengaturan)->where('kodejabatan',$idjabatan)->first();
+        $u = $urutan->urutan;
+
+        foreach($cari as $a){
+            $q = modelDetailApprove::where('idapprove',$a->idapprove)->where('idjabatan',$idjabatan)->count();
+            if($q < $jmlatur){
+               $j = modelDetailPengaturan::where('idatur',$pengaturan)->where('urutan',$u)->where('kodejabatan',$idjabatan)->count();
+                if($j > 0){
+                 $i += 1;
+                }
+            }
+            
+        }
+        echo $i;
     }
 }

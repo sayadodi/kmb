@@ -9,6 +9,9 @@ use App\Models\modelPengiriman;
 use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
+use App\Models\modelAprrove;
+use App\Models\modelPengaturan;
+
 use Mail;
 use DB;
 
@@ -71,14 +74,18 @@ class controlGudang extends Controller
     }
 
     public function daftarkiriman(){
-        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('statuskiriman','Meminta Gudang')->get();
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->select('p.*','namavendor')->where('statuskiriman','Meminta Gudang')->get();
         return view('prosesterima.reqkiriman',compact('kiriman'));
     }
 
     public function detailkiriman($id){
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
         $status = modelHistoriVendor::where('idkirim',$id)->orderBy('idhistoriv','desc')->first();
-        return view('prosesterima.detailreqkiriman',compact('kiriman','id','status'));
+        $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
+        $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
+        $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
+
+        return view('prosesterima.detailreqkiriman',compact('kiriman','id','status','jmlbarang','jmlbawa','jmltools'));
     }
 
     public function databarangpo($id){
@@ -99,10 +106,11 @@ class controlGudang extends Controller
     public function terimakiriman(Request $r){
         $kode = $r->idkirim;
         $status = $r->status;
+        $cariset = modelPengaturan::where('jenis','Masuk')->get()->first();
+        $kodeset = $cariset->kodeatur;
         $s = modelPengiriman::findOrFail($kode);
         $histori = new modelHistoriVendor();
         $histori->kdvendor = $s->kodevendor;
-        $histori->kdvendor = $kode;
         $histori->kdkaryawan = session('idkaryawan');
         $histori->tgltt = date("Y-m-d H:i:s");  
         $histori->alasan = $r->keterangan;
@@ -111,7 +119,13 @@ class controlGudang extends Controller
 
         if($status == "Terima"){
             $s->statuskiriman = "Diterima Gudang";
+            $s->idpengaturan = $kodeset;
             $histori->status = "Terima";
+            $a = new modelAprrove();
+            $a->tglapprove = date("Y-m-d H:i:s");
+            $a->jenisapprove = "Barang";
+            $a->idpengiriman = $kode;
+            $a->save();
         }else if($status == "Tolak"){
             $s->statuskiriman = "Ditolak Gudang";
             $histori->status = "Tolak";
@@ -120,6 +134,8 @@ class controlGudang extends Controller
         }
         $histori->save();
         $s->save();
+
+        
 
         return \Response::json($s);
         

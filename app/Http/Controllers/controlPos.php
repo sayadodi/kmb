@@ -10,6 +10,7 @@ use App\Models\modelKendaraan;
 use App\Models\modelDetailPengaturan;
 use App\Models\modelPengiriman;
 use App\Models\modelAprrove;
+use App\Models\modelSimip;
 
 use Validator;
 use DB;
@@ -25,7 +26,23 @@ class controlPos extends Controller
     }
 
     public function simip(){
-        return view('pos.simip');
+        $data = modelSimip::all();
+        return view('pos.simip',compact('data'));
+    }
+
+    public function tambahsimip(Request $r){
+        $s = new modelSimip();
+        $s->kepentingan = ucfirst($r->kepentingan);
+        $s->tglsimip = date("Y-m-d H:i:s");
+        $s->save();
+
+        $id = $s->idtamu;
+        return \Response::json(array('id' => $id));
+    }
+
+    public function atursimip($id){
+        $data = modelSimip::findOrFail($id);
+        return view('pos.tambahsimip',compact('data','id'));
     }
 
     public function detailbarangmasuk($id){
@@ -119,6 +136,16 @@ class controlPos extends Controller
         $aprrover = modelAprrove::where('jenisapprove','Barang')->where('idpengiriman',$id)->first();
         $idapprove = $aprrover->idapprove;
         return view('pos.include.tombol',compact('kiriman','pengaturan','idapprove'));
+    }
+
+    public function daftartamu($id){
+        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        return view('pos.include.daftartamusimip',compact('data','id'));
+    }
+
+    public function daftarkend($id){
+        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        return view('pos.include.daftarkendaraansimip',compact('data','id'));
     }
 
 }

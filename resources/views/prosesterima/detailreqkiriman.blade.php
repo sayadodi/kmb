@@ -106,7 +106,13 @@
             <div class="form-group">
                 <label class="col-md-12 col-sm-12 col-xs-12">Pesan<code>*</code></label>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                <textarea class="form-control keterangan" name="keterangan">{{$status->alasan}}</textarea>
+                @if($status->status == "Meminta")
+                    <textarea class="form-control keterangan" name="keterangan" placeholder="Masukkan alasan"></textarea>
+                @elseif($status->status == "Terima" || $status->status == "Tolak")
+                    <textarea class="form-control keterangan" name="keterangan">{{$status->alasan}}</textarea>
+                @else
+
+                @endif
                 </div>
             </div>
         </form>
@@ -120,19 +126,19 @@
         <table class="table">
             <tr>
             <th style="width:50%">Berkas jalan:</th>
-            <td>$250.30</td>
+            <td>{{$kiriman->berkas}}</td>
             </tr>
             <tr>
             <th>Jumlah barang</th>
-            <td>$10.34</td>
+            <td>{{$jmlbarang}}</td>
             </tr>
             <tr>
             <th>Jumlah pembawa:</th>
-            <td>$5.80</td>
+            <td>{{$jmlbawa}}</td>
             </tr>
             <tr>
             <th>Jumlah tools:</th>
-            <td>$265.24</td>
+            <td>{{$jmltools}}</td>
             </tr>
         </table>
         </div>

@@ -21,29 +21,81 @@
                 <b>Jumlah Tools</b> <a class="pull-right">{{$jmltools}}</a>
                 </li>
             </ul>
+            @if($data->status == "PO")
+                @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Mengatur" && !empty($data->tglkirim) && !empty($data->tujuan)))
+                    <button type="button" class="btn btn-primary btn-block btn-sm kirimbarang"><i class="fa fa-send"></i> Kirim</button>
+                @endif
 
-            @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Mengatur" && !empty($data->tglkirim) && !empty($data->tujuan)))
-                <button type="button" class="btn btn-primary btn-block btn-sm kirimbarang"><i class="fa fa-send"></i> Kirim</button>
+                @if(($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Ditolak Gudang"))
+                    <button type="button" class="btn btn-primary btn-block btn-sm kirimbarang"><i class="fa fa-send"></i> Kirim</button>
+                @endif
+
+                @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Meminta Gudang"))
+                    <button type="button" class="btn btn-default btn-block btn-sm" disabled><i class="fa fa-clock-o"></i> Menunggu Persetujuan</button>
+                @endif
+
+                @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Diterima Gudang"))
+                    <button type="button" class="btn btn-success btn-block btn-sm" disabled><i class="fa fa-check"></i> Disetujui Gudang</button>
+                @endif
             @endif
 
-            @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Meminta Gudang"))
-                <button type="button" class="btn btn-default btn-block btn-sm" disabled><i class="fa fa-clock-o"></i> Menunggu Persetujuan</button>
-            @endif
+            @if($data->status == "NonPO")
+                @if(($jmltools > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Mengatur" && !empty($data->tglkirim) && !empty($data->tujuan)))
+                    <button type="button" class="btn btn-primary btn-block btn-sm kirimbarang"><i class="fa fa-send"></i> Kirim</button>
+                @endif
 
-            @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Diterima Gudang"))
-                <button type="button" class="btn btn-success btn-block btn-sm" disabled><i class="fa fa-check"></i> Disetujui Gudang</button>
-            @endif
+                @if (($jmltools > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Meminta Gudang"))
+                    <button type="button" class="btn btn-default btn-block btn-sm" disabled><i class="fa fa-clock-o"></i> Menunggu Persetujuan</button>
+                @endif
 
+                @if (($jmltools > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Diterima Gudang"))
+                    <button type="button" class="btn btn-success btn-block btn-sm" disabled><i class="fa fa-check"></i> Disetujui Gudang</button>
+                @endif
+            @endif
         </div>
     </div>
-    @if($data->statusgudang == "Ditolak")
-    <div class="box box-danger">
-        <div class="box-body box-profile">
-            <p class="text-muted text-center">Alasan Ditolak</p>
-            Disini Alasannya
+    <div class="box box-warning direct-chat direct-chat-warning">
+        <div class="box-header with-border">
+            <h3 class="box-title">Histori kiriman</h3>
+
+            <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="direct-chat-messages">
+                @foreach($histori as $h)
+                    @if(empty($h->kdkaryawan))
+                    <div class="direct-chat-msg">
+                        <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-left">{{session('nama')}}</span>
+                        <span class="direct-chat-timestamp pull-right">{{$h->tgltt}}</span>
+                        </div>
+                        <img class="direct-chat-img" src="{{asset('dist/img/user2-160x160.jpg')}}" alt="message user image">
+                        <div class="direct-chat-text">
+                        {{$h->alasan}}
+                        </div>
+                        <!-- /.direct-chat-text -->
+                    </div>
+                    @endif
+                    @if(!empty($h->kdkaryawan))
+                    <div class="direct-chat-msg right">
+                        <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-right">UBJOM</span>
+                        <span class="direct-chat-timestamp pull-left">{{$h->tgltt}}</span>
+                        </div>
+                        <img class="direct-chat-img" src="{{asset('images/sasas.png')}}" alt="message user image">
+                        <div class="direct-chat-text">
+                        <b>{{$h->status}}</b> : {{$h->alasan}}
+                        </div>
+                        <!-- /.direct-chat-text -->
+                    </div>
+                    @endif
+                @endforeach
+            </div>
         </div>
     </div>
-    @endif
 </div>
 <script>
     $(document).ready(function(){

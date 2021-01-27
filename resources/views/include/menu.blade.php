@@ -76,19 +76,19 @@
       <i class="fa fa-user-secret"></i> <span>POS</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
-        <small class="label pull-right bg-red">{{ controlNotifMenu::jmlvendor() }}</small>
+        <small class="label pull-right bg-red">{{ controlNotifMenu::jmlmasuk() }}</small>
       </span>
     </a>
     <ul class="treeview-menu">
       <li>
         <a href="{{url('barangmasuk')}}"><i class="fa fa-circle-o"></i> Barang Masuk
           <span class="pull-right-container">
-            <span class="label bg-red">{{ controlNotifMenu::jmlvendor() }}</span>
+            <span class="label bg-red">{{ controlNotifMenu::jmlmasuk() }}</span>
           </span>
         </a>
       </li>
       <li>
-        <a href="{{url('tamu')}}"><i class="fa fa-circle-o"></i> Tamu
+        <a href="{{url('kunjungan')}}"><i class="fa fa-circle-o"></i> Tamu
         </a>
       </li>
       <li>
