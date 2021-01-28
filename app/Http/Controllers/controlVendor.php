@@ -10,6 +10,7 @@ use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
 use App\Models\modelHistoriVendor;
 use App\Models\modelHistoriTamu;
+use App\Models\modelHistoriKendaraan;
 use DB;
 
 
@@ -107,8 +108,9 @@ class controlVendor extends Controller
     }
 
     public function datakendaraan($jenis,$id){
-        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
-        return view('vendor.include.daftarkendaraan',compact('data','id','jenis'));
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
+        $historikend = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.kdvendor',session('idvendor'))->where('h.jenis','Pengiriman')->get();
+        return view('vendor.include.daftarkendaraan',compact('data','id','jenis','historikend'));
     }
 
     public function datatujuan($jenis,$id){
@@ -121,7 +123,7 @@ class controlVendor extends Controller
         $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
         $jmlbawa = modelHistoriTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
-        $jmlken = modelKendaraan::where('idtamu',$id)->count();
+        $jmlken = modelHistoriKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $histori = modelHistoriVendor::where('idkirim',$id)->get();
 
         return view('vendor.include.keterangansamping',compact('data','id','jmlbarang','jmlbawa','jmltools','jmlken','histori'));
@@ -290,7 +292,6 @@ class controlVendor extends Controller
             $s->jabatan = $r->jabp;
             $s->notlptamu = $r->kontakp;
             $s->alamattamu = $r->alamat;
-            $s->fototamu = "foto";
             $s->save();
             $id = $s->iddetailtamu;
         }else{
@@ -331,15 +332,28 @@ class controlVendor extends Controller
     }
 
     public function simpankendaraan(Request $r){
-        $s = new modelKendaraan();
-        $s->jeniskendaraan = $r->jenisk;
-        $s->namakendaraan = $r->namak;
-        $s->plat = $r->plat;
-        $s->jenis = "Pengiriman";
-        $s->idtamu = $r->idkirim;
-        $s->save();
+        $jenis = $r->hiskend;
+        if($jenis == "baru"){
+            $s = new modelKendaraan();
+            $s->jeniskendaraan = $r->jenisk;
+            $s->namakendaraan = $r->namak;
+            $s->plat = $r->plat;
+            $s->save();
+            $id = $s->idkendaraan;
+        }else{
+            $id = $r->idkendaraan;
+        }
+        
 
-        return \Response::json($s);
+        $h = new modelHistoriKendaraan();
+        $h->idkendaraan = $id;
+        $h->idtamu = $r->idkirim;
+        $h->jenis = "Pengiriman";
+        $h->tglmasuk = date("Y-m-d H:i:s");
+        $h->kdvendor = session('idvendor');
+        $h->save();
+
+        return \Response::json($h);
     }   
 
     public function ubahkendaraan(Request $r, $id){
@@ -402,6 +416,11 @@ class controlVendor extends Controller
 
     public function carihistoritamu($id){
         $d = modelDetailTamu::findOrFail($id);
+        return \Response::json($d);
+    }
+
+    public function carihistorikend($id){
+        $d = modelKendaraan::findOrFail($id);
         return \Response::json($d);
     }
 }

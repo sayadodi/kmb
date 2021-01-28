@@ -11,6 +11,8 @@ use App\Models\modelDetailPengaturan;
 use App\Models\modelPengiriman;
 use App\Models\modelAprrove;
 use App\Models\modelSimip;
+use App\Models\modelHistoriTamu;
+use App\Models\modelHistoriKendaraan;
 
 use Validator;
 use DB;
@@ -49,9 +51,9 @@ class controlPos extends Controller
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
         $status = modelHistoriVendor::where('idkirim',$id)->orderBy('idhistoriv','desc')->first();
         $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
-        $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
+        $jmlbawa = modelHistoriTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
-        $jmlken = modelKendaraan::where('idtamu',$id)->count();
+        $jmlken = modelHistoriKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->count();
 
         return view('pos.detailbarangmasuk',compact('kiriman','id','status','jmlbarang','jmlbawa','jmltools','jmlken'));
     }
@@ -62,12 +64,12 @@ class controlPos extends Controller
     }
 
     public function datapembawa($id){
-        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
         return view('pos.include.daftarpembawabarang',compact('data','id'));
     }
 
     public function datakendaraan($id){
-        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
         return view('pos.include.daftarkendaraan',compact('data','id'));
     }
 
@@ -148,4 +150,16 @@ class controlPos extends Controller
         return view('pos.include.daftarkendaraansimip',compact('data','id'));
     }
 
+    public function tamupernahmasuk(Request $r){
+        if ($r->has('q')) {
+            $cari = $r->q;
+            $data = modelDetailTamu::where('namatamu', 'LIKE', "%$cari%")->get();
+            return response()->json($data);
+        }
+    }
+
+    public function carihistoritamu($id){
+        $d = modelDetailTamu::findOrFail($id);
+        return \Response::json($d);
+    }
 }

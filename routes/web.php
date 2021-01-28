@@ -67,6 +67,8 @@ Route::post('/ubahnopass','controlPos@ubahnopass');
 Route::post('/foto','controlPos@simpanfoto');
 Route::get('/daftartamu/{id}','controlPos@daftartamu');
 Route::get('/daftarkend/{id}','controlPos@daftarkend');
+Route::get('/tamupernahmasuk','controlPos@tamupernahmasuk');
+Route::get('/tamupernahmasuk/{id}','controlPos@carihistoritamu');
 
 // Include Ajax Pos
 Route::get('/databarangpopos/{id}','controlPos@databarangpo');
@@ -115,6 +117,7 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/datakendaraan/{jenis}/{id}','controlVendor@datakendaraan');
     Route::get('/ketsamping/{id}','controlVendor@ketsamping');
     Route::get('/carihistoritamu/{id}','controlVendor@carihistoritamu');
+    Route::get('/carihistorikend/{id}','controlVendor@carihistorikend');
 
     // Manipulasi pengiriman
     Route::post('/simpanbarangpo','controlVendor@simpanbarangpo');

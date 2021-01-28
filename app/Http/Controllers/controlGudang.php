@@ -11,6 +11,8 @@ use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
 use App\Models\modelAprrove;
 use App\Models\modelPengaturan;
+use App\Models\modelHistoriTamu;
+
 
 use Mail;
 use DB;
@@ -82,7 +84,7 @@ class controlGudang extends Controller
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
         $status = modelHistoriVendor::where('idkirim',$id)->orderBy('idhistoriv','desc')->first();
         $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
-        $jmlbawa = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
+        $jmlbawa = modelHistoriTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $jmltools = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','NonPO')->count();
 
         return view('prosesterima.detailreqkiriman',compact('kiriman','id','status','jmlbarang','jmlbawa','jmltools'));
@@ -94,12 +96,12 @@ class controlGudang extends Controller
     }
 
     public function datapembawa($id){
-        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
         return view('prosesterima.include.daftarpembawabarang',compact('data','id'));
     }
 
     public function datakendaraan($id){
-        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
         return view('prosesterima.include.daftarkendaraan',compact('data','id'));
     }
 

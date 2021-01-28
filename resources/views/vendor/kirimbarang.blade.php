@@ -92,9 +92,6 @@
         $('.dtujuan').load(urltu);
         $('.dkendaraan').load(urlke);
         $('.ketsamping').load(urlsa);
-
-
-
       });
     </script>
 @stop

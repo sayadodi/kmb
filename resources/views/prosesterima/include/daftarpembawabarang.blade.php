@@ -10,7 +10,6 @@
                         <th>#</th>
                         <th>Identitas</th>
                         <th>Nama</th>
-                        <th>Foto</th>
                         <th>Kontak</th>
                         <th>Alamat</th>
                         <th>Jabatan</th>
@@ -26,7 +25,6 @@
                             <td><?=$i++?></td>
                             <td>{{$d->pengenal}} - {{$d->nopengenal}}</td>
                             <td>{{$d->namatamu}}</td>
-                            <td>Lihat</td>
                             <td>{{$d->notlptamu}}</td>
                             <td>{{$d->alamattamu}}</td>
                             <td>{{$d->jabatan}}</td>

@@ -71,45 +71,55 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
-                                        <div class="col-sm-4">
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="namb">Pilih data pembawa<code>*</code></label>
+                                                <input type="radio" name="baru" id="" value="baru" checked> Pembawa Baru
+                                                <input type="radio" name="baru" id="" value="pernah"> Pernah Membawa
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 historinya hidden">
+                                            <div class="form-group">
+                                                <select class="caritamu form-control select2" style="width:100%;" name="caritamu"></select>
+                                            </div>
+                                            <input type="hidden" name="iddetailtamu" class="iddetailtamu">
+                                        </div>
+
+                                        <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Jenis Pengenal <small><code>*</code></small></label>
-                                                <select name="pengenal" id="" class="form-control">
+                                                <select name="pengenal" id="" class="form-control jenisp">
                                                     <option>Pilih pengenal</option>
                                                     <option value="KTP">KTP</option>
                                                     <option value="SIM">SIM</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Nama <small><code>*</code></small></label>
-                                                <input name="nama" type="text" class="form-control" placeholder="Andrew...">
+                                                <input name="nama" type="text" class="form-control namap" placeholder="Andrew...">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Pekerjaan <small><code>*</code></small></label>
-                                                <input name="pekerjaan" type="text" class="form-control" placeholder="Manager...">
+                                                <input name="pekerjaan" type="text" class="form-control jabp" placeholder="Manager...">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label>Perusahaan <small><code>*</code></small></label>
-                                                <input name="perusahaan" type="text" class="form-control" placeholder="UBJOM 09 PJB">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
                                                 <label>Telepon <small><code>*</code></small></label>
-                                                <input name="telp" type="text" class="form-control" placeholder="081234567898">
+                                                <input name="telp" type="text" class="form-control kontakp" placeholder="081234567898">
                                             </div>
                                         </div>
                                         
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>Alamat <small><code>*</code></small></label>
-                                                <input name="alamat" type="text" class="form-control" placeholder="Alamat tamu...">
+                                                <input name="alamat" type="text" class="form-control alamatp" placeholder="Alamat tamu...">
                                             </div>
                                         </div>
                                     </div>
@@ -188,9 +198,61 @@
 @endsection
 @section('scripts')
     @parent
+    {!! Html::script('plugins/select2/dist/js/select2.full.min.js')!!}
     {!! Html::script('plugins/webcamjs-master/webcam.min.js')!!}
     {!! Html::script('js/jquery.bootstrap.wizard.js')!!}
     {!! Html::script('js/paper-bootstrap-wizard.js')!!}
     {!! Html::script('js/jquery.validate.min.js')!!}
     {!! Html::script('js/webcam.js')!!}
+    <script>
+        $(document).ready(function(){
+            var url_local = window.location.protocol+'//'+window.location.host;
+            var urlcp = url_local+"/kmb/public/tamupernahmasuk";
+            var url = url_local+"/kmb/public/tamupernahmasuk/";
+
+            $('input:radio[name=baru]').change(function() {
+                if (this.value == 'baru') {
+                    $('.historinya').addClass('hidden');
+                }
+                else if (this.value == 'pernah') {
+                    $('.historinya').removeClass('hidden');
+                }
+            });
+
+            $('.caritamu').select2({
+                placeholder: 'Cari...',
+                ajax: {
+                url: urlcp,
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                    results:  $.map(data, function (item) {
+                        return {
+                        text: item.namatamu,
+                        id: item.iddetailtamu
+                        }
+                    })
+                    };
+                },
+                cache: true
+                }
+            });
+
+            $('.select2').on('select2:select', function (e) {
+                var id = $(this).val();
+                $.get(url+id, function(data){
+                    console.log(data);
+                    $('.jenisp').val(data['pengenal']);
+                    $('.nomorp').val(data['nopengenal']);
+                    $('.namap').val(data['namatamu']);
+                    $('.jabp').val(data['jabatan']);
+                    $('.kontakp').val(data['notlptamu']);
+                    $('.alamatp').val(data['alamattamu']);
+                    $('.iddetailtamu').val(data['iddetailtamu']);
+
+                })
+            });
+        });
+    </script>
 @stop

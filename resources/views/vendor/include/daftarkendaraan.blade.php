@@ -58,11 +58,30 @@
                 <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formkendaraan">
                 <input type="hidden" name="idkirim" value="{{$id}}">
                 <input type="hidden" name="jenis" value="{{$jenis}}">
+                <input type="hidden" name="idkendaraan" class="idkendaraan">
                 {{ csrf_field() }}
+                <div class="form-group">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Pilih data pembawa<code>*</code></label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <input type="radio" name="hiskend" id="" value="baru" checked> Kendaraan Baru
+                        <input type="radio" name="hiskend" id="" value="pernah"> Kendaraan Lama
+                    </div>
+                </div>
+                <div class="form-group hidden historikend">
+                    <label class="col-md-12 col-sm-12 col-xs-12">Pilih Kendaraan<code>*</code></label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <select name="idpembawa" id="" class="form-control select2" style="width: 100%;">
+                            <option>Pilih Kendaraan</option>
+                            @foreach ($historikend as $itemkend)
+                                <option value="{{ $itemkend->idkendaraan }}">{{ $itemkend->namakendaraan }}[{{ $itemkend->plat }}]</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <div class="form-group jp">
                     <div class="col-md-4">
                     <label>Jenis kendaraan<code>*</code></label>
-                    <select name="jenisk" class="form-control">
+                    <select name="jenisk" class="form-control jenisk">
                         <option>Pilih</option>
                         <option value="Motor">Motor</option>
                         <option value="Pick up">Pick up</option>
@@ -73,11 +92,11 @@
                     </div>
                     <div class="col-md-4">
                     <label>Nama Kendaraan<code>*</code></label>
-                    <input type="text" name="namak" class="form-control" placeholder="Dino A4, L300, NMAX">
+                    <input type="text" name="namak" class="form-control namak" placeholder="Dino A4, L300, NMAX">
                     </div>
                     <div class="col-md-4">
                     <label>Plat Nomor<code>*</code></label>
-                    <input type="text" name="plat" class="form-control" placeholder="P 09 JB">
+                    <input type="text" name="plat" class="form-control plat" placeholder="P 09 JB">
                     </div>
                 </div>
                 </form>
@@ -100,6 +119,9 @@
         var urldatak = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
         var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
         var urlhk = url_local+"/kmb/public/hapuskendaraan/";
+        var urlhik = url_local+"/kmb/public/carihistorikend/";
+
+        $('.select2').select2();
 
         $(".hapusdatak").click(function(){
             var id = $(this).data('id');
@@ -164,6 +186,27 @@
                     console.log(data);
                 }
             });
+        });
+
+        $('input:radio[name=hiskend]').change(function() {
+            if (this.value == 'baru') {
+                $('.historikend').addClass('hidden');
+            }
+            else if (this.value == 'pernah') {
+                $('.historikend').removeClass('hidden');
+            }
+        });
+
+        $('.select2').on('select2:select', function (e) {
+            var id = $(this).val();
+            $.get(urlhik+id, function(data){
+                console.log(data);
+                $('.jenisk').val(data['jeniskendaraan']);
+                $('.namak').val(data['namakendaraan']);
+                $('.plat').val(data['plat']);
+                $('.idkendaraan').val(data['idkendaraan']);
+
+            })
         });
     });
 </script>

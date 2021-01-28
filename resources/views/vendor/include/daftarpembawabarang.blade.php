@@ -62,7 +62,7 @@
                 <form method="post" action="" enctype="multipart/form-data" class="form-horizontal" id="formpembawa">
                 <input type="hidden" name="idkirim" value="{{$id}}">
                 <input type="hidden" name="jenis" value="{{$jenis}}">
-                <input type="text" name="iddetailtamu" class="iddetailtamu">
+                <input type="hidden" name="iddetailtamu" class="iddetailtamu">
 
 
                 {{ csrf_field() }}
