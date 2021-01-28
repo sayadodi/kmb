@@ -162,4 +162,53 @@ class controlPos extends Controller
         $d = modelDetailTamu::findOrFail($id);
         return \Response::json($d);
     }
+
+    public function penentuansimip($id){
+        return view('pos.include.penentuansimip',compact('id'));
+    }
+
+    public function p1(Request $r){
+        $id = $r->idkirim;
+        $p1 = $r->p1;
+        $cm = DB::table('daftarmansimip')->where('jabatan','LIKE','%LOGISTIK%')->get()->first();
+        $m = $cm->idKaryawan;
+        $s = modelPengiriman::findOrFail($id);
+        
+        if($p1 == 'Y'){
+            $s->areakhusus = 'Y';
+            $simip = new modelSimip();
+            $simip->kepentingan = "Pengiriman Barang";
+            $simip->tglsimip = date("Y-m-d H:i:s");         
+            $simip->statuspossimip = "Diterima";
+            $simip->idpengiriman = $id;
+            $simip->manager = $m;
+            $simip->save();
+        }elseif($p1 == 'N'){
+            $s->areakhusus = 'Y';
+        }else{
+
+        }
+        $s->save();
+        return \Response::json($s);
+    }
+
+    public function p2(Request $r){
+        $id = $r->idkirim;
+        $p2 = $r->p2;
+        $ck3 = DB::table('daftarmansimip')->where('jabatan','LIKE','%K3%')->get()->first();
+        $k3 = $ck3->idKaryawan;
+        $simip = modelSimip::where('idpengiriman',$id)->get()->first();
+        if($p2 == 'Y'){
+            $simip->k3 = $k3;
+            $simip->pendamping = "Gudang";
+            $simip->kendaraan = "Roda 4";
+        }elseif($p2 == 'N'){  
+            $simip->pendamping = "Gudang";
+            $simip->kendaraan = "Roda 4";
+        }else{
+
+        }
+        $simip->save();
+        return \Response::json($simip);
+    }
 }

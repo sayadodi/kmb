@@ -55,14 +55,19 @@
         <input type="hidden" name="idkirim" value="{{$id}}" class="idkirim">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
+              <li class="active"><a href="#tsimip" data-toggle="tab">Simip</a></li>
               <li><a href="#tbarang" data-toggle="tab">Barang</a></li>
               <li><a href="#tpembawa" data-toggle="tab">Pembawa barang</a></li>
               <li><a href="#tkendaraan" data-toggle="tab">Kendaraan</a></li>
     
             </ul>
             <div class="tab-content">
+              {{-- Penentuan simip --}}
+              <div class="active tab-pane dsimip" id="tsimip">
+                
+              </div>
               {{-- Barang --}}
-              <div class="active tab-pane dbarang" id="tbarang">
+              <div class="tab-pane dbarang" id="tbarang">
                 
               </div>
     
@@ -135,12 +140,14 @@
         var urlke = url_local+"/kmb/public/datakendaraanpos/{{$id}}";
         var urlhi = url_local+"/kmb/public/historiapprove/{{$id}}";
         var urlto = url_local+"/kmb/public/tombol/{{$id}}";
+        var urlsi = url_local+"/kmb/public/penentuansimip/{{$id}}";
 
 
         // Simpan barang
         $('.dbarang').load(urlpo);
         $('.dpembawa').load(urlpa);
         $('.dkendaraan').load(urlke);
+        $('.dsimip').load(urlsi);
         $('.historiapprove').load(urlhi);
         $('.tombol').load(urlto);
       });

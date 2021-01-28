@@ -76,6 +76,11 @@ Route::get('/datapembawapos/{id}','controlPos@datapembawa');
 Route::get('/datakendaraanpos/{id}','controlPos@datakendaraan');
 Route::get('/historiapprove/{id}','controlPos@historiapprove');
 Route::get('/tombol/{id}','controlPos@tombol');
+Route::get('/penentuansimip/{id}','controlPos@penentuansimip');
+Route::post('/p1','controlPos@p1');
+Route::post('/p2','controlPos@p2');
+
+
 // Rute Lobby
 Route::get('/scan','controlLobby@scan');
 Route::get('/scan/{id}','controlLobby@cariscan');
