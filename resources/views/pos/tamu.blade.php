@@ -11,7 +11,7 @@
             <div class="box box-primary wizard-container">
             <div class="box-body">
                 <div class="wizard-card" data-color="orange" id="wizardProfile">
-                    <form action="" method="">
+                    <form action="" method="" id="formtamu">
 
                         <div class="wizard-header text-center">
                             <h3 class="wizard-title">Form Tamu</h3>
@@ -178,8 +178,8 @@
 
                         <div class="wizard-footer">
                             <div class="pull-right">
-                                <input type='button' class='btn btn-next btn-fill btn-warning btn-wd' name='next' value='Next' />
-                                <input type='button' class='btn btn-finish btn-fill btn-warning btn-wd' name='finish' value='Finish' />
+                                <input type='button' class='btn btn-next btn-fill btn-primary btn-wd' name='next' value='Next' />
+                                <input type='button' class='btn btn-finish btn-fill btn-primary btn-wd' name='finish' value='Finish' />
                             </div>
 
                             <div class="pull-left">
@@ -208,7 +208,9 @@
         $(document).ready(function(){
             var url_local = window.location.protocol+'//'+window.location.host;
             var urlcp = url_local+"/kmb/public/tamupernahmasuk";
+            var urltamu = url_local+"/kmb/public/simpantamu";
             var url = url_local+"/kmb/public/tamupernahmasuk/";
+            var urlcetak = url_local+"/kmb/public/cetaktamu/";
 
             $('input:radio[name=baru]').change(function() {
                 if (this.value == 'baru') {
@@ -253,6 +255,37 @@
 
                 })
             });
+
+            $(".btn-finish").click(function(){
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+
+            var formData = new FormData($('#formtamu')[0]);
+            var type = "POST";
+            var my_url = urltamu;
+
+            $.ajax({
+                type : type,
+                url : my_url,
+                data : formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function(){
+                    
+                },
+                success: function(data){
+                    
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        });
         });
     </script>
 @stop
