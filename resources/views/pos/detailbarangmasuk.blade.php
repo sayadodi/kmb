@@ -93,27 +93,10 @@
     </div>
     <!-- /.col -->
     <div class="col-xs-4">
-        <p class="lead">Keterangan lain</p>
+        <p class="lead">Langkah-Langkah</p>
 
-        <div class="table-responsive">
-        <table class="table">
-            <tr>
-            <th style="width:50%">Berkas jalan:</th>
-            <td>{{$kiriman->berkas}}</td>
-            </tr>
-            <tr>
-            <th>Jumlah barang</th>
-            <td>{{$jmlbarang}}</td>
-            </tr>
-            <tr>
-            <th>Jumlah pembawa:</th>
-            <td>{{$jmlbawa}}</td>
-            </tr>
-            <tr>
-            <th>Jumlah tools:</th>
-            <td>{{$jmltools}}</td>
-            </tr>
-        </table>
+        <div class="table-responsive langkah">
+        
         </div>
     </div>
     <!-- /.col -->
@@ -141,6 +124,7 @@
         var urlhi = url_local+"/kmb/public/historiapprove/{{$id}}";
         var urlto = url_local+"/kmb/public/tombol/{{$id}}";
         var urlsi = url_local+"/kmb/public/penentuansimip/{{$id}}";
+        var urlla = url_local+"/kmb/public/langkah/{{$id}}";
 
 
         // Simpan barang
@@ -150,6 +134,7 @@
         $('.dsimip').load(urlsi);
         $('.historiapprove').load(urlhi);
         $('.tombol').load(urlto);
+        $('.langkah').load(urlla);
       });
     </script>
 @stop

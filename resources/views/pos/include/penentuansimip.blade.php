@@ -9,15 +9,30 @@
                 <div class="form-group">
                     <label class="col-md-12 col-sm-12 col-xs-12 namb">Apakah barang akan dibawa masuk kewilayah A(Khusus) ?<code>*</code></label>
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <input type="radio" name="p1" id="" value="Y"> Iya
-                        <input type="radio" name="p1" id="" value="N"> Tidak
+                        @if(empty($data))
+                            <input type="radio" name="p1" id="" value="Y"> Iya
+                            <input type="radio" name="p1" id="" value="N"> Tidak
+                        @else
+                            @if($data->areakhusus == 'Y')
+                                <input type="radio" name="p1" id="" value="Y" checked> Iya
+                                <input type="radio" name="p1" id="" value="N"> Tidak
+                            @elseif($data->areakhusus == 'N')
+                                <input type="radio" name="p1" id="" value="Y"> Iya
+                                <input type="radio" name="p1" id="" value="N" checked> Tidak
+                            @endif
+                        @endif
                     </div>
                 </div>
-                <div class="form-group hidden kenda">
+                <div class="form-group @if(empty($data)) hidden @else  @endif kenda">
                     <label class="col-md-12 col-sm-12 col-xs-12">Apakah Menggunakan kendaraan Roda 4 ?<code>*</code></label>
                     <div class="col-md-12 col-sm-12 col-xs-12">
+                    @if(empty($data->k3))
                         <input type="radio" name="p2" id="" value="Y"> Iya
+                        <input type="radio" name="p2" id="" value="N" checked> Tidak
+                    @else
+                        <input type="radio" name="p2" id="" value="Y" checked> Iya
                         <input type="radio" name="p2" id="" value="N"> Tidak
+                    @endif
                     </div>
                 </div>
             </form>

@@ -25,3 +25,15 @@
 #tujuan{
     display: none;
 }
+#loadingkendaraan{
+    display: block;
+}
+#kendaraan{
+    display: none;
+}
+#loadingsimip{
+    display: block;
+}
+#simip{
+    display: none;
+}

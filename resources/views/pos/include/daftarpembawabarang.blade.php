@@ -14,7 +14,7 @@
                         <th>Kontak</th>
                         <th>Alamat</th>
                         <th>Jabatan</th>
-                        <th>No pass B</th>
+                        <th>No pass</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,12 +38,11 @@
                             <td>{{$d->alamattamu}}</td>
                             <td>{{$d->jabatan}}</td>
                             <td>
-                            <div class="form-group row">
-                                <div class="col-md-1 text-right"><b>B</b>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="text" name="" id="passb" placeholder="09" class="form-control passb" data-kode="{{$d->iddetailtamu}}" value="{{$d->nopass}}">
-                                </div>
+                                @if($kiriman->areakhusus == 'Y')
+                                    <b>A</b> <input type="text" name="" id="passa" placeholder="09" size="5" class="passa" data-kode="{{$d->idhistori}}" value="{{ $d->nopassa }}">
+                                @elseif($kiriman->areakhusus == 'N')
+                                    <b>B</b> <input type="text" name="" id="passb" placeholder="09" size="5" class="passb" data-kode="{{$d->idhistori}}" value="{{$d->nopass}}">
+                                @endif
                             </div>
                             </td>
                         </tr>
@@ -99,11 +98,50 @@
 {!! Html::script('js/foto.js')!!}
 <script>
     $(document).ready(function(){
+        var url_local = window.location.protocol+'//'+window.location.host;
+        var urlpa = url_local+"/kmb/public/datapembawapos/{{$id}}";
+        $(".passa").keyup(function(event) {
+            if (event.keyCode === 13) {
+                var urlkirim = url_local+"/kmb/public/ubahnopassa";
+                
+                var i = $(this).data('kode');
+                var p = $(this).val();
+                var id = $(".idkirim").val();
+                var loada = url_local+"/kmb/public/scan/"+id;
+
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                var formData = {
+                    kode : i,
+                    no: p,
+                }
+                var type = "POST";
+                var my_url = urlkirim;
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        $('.dpembawa').load(urlpa); 
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            }
+        });
+
         $(".passb").keyup(function(event) {
             if (event.keyCode === 13) {
-                var url_local = window.location.protocol+'//'+window.location.host;
                 var urlkirim = url_local+"/kmb/public/ubahnopass";
-                var urlpa = url_local+"/kmb/public/datapembawapos/{{$id}}";
                 var i = $(this).data('kode');
                 var p = $(this).val();
 

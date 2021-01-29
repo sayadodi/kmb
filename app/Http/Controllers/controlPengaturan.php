@@ -36,7 +36,7 @@ class controlPengaturan extends Controller
             $s->save();
             $u++;
         }
-        return $s;
+        return \Response::json($s);
     }
 
     public function pengaturanhak(){

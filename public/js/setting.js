@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var url_local = window.location.protocol+'//'+window.location.host;
-	var urlb = url_local+"/kmbarang2/public/daftarpengaturanapprover/tambah";
+	var urlb = url_local+"/kmb/public/daftarpengaturanapprover/tambah";
 
 	$(document).on('click', '.pindah', function (e) {
 		var teks = $("#lama option:selected").text();

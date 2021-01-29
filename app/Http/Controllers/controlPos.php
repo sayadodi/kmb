@@ -65,21 +65,41 @@ class controlPos extends Controller
 
     public function datapembawa($id){
         $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
-        return view('pos.include.daftarpembawabarang',compact('data','id'));
+        $kiriman = modelPengiriman::where('kodekirim',$id)->get()->first();
+        return view('pos.include.daftarpembawabarang',compact('data','id','kiriman'));
     }
 
     public function datakendaraan($id){
-        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
-        return view('pos.include.daftarkendaraan',compact('data','id'));
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend','h.nogate')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
+        $kiriman = DB::table('tbsimip as s')->join('tbpengiriman as p','s.idpengiriman','=','p.kodekirim')->where('s.idpengiriman',$id)->get()->first();
+
+        return view('pos.include.daftarkendaraan',compact('data','id','kiriman'));
     }
 
     public function ubahnopass(Request $r){
         $id = $r->kode;
-        $s = modelDetailTamu::findOrFail($id);
+        $s = modelHistoriTamu::findOrFail($id);
         $s->nopass = $r->no;
         $s->save();
 
         return \Response::json($id);
+    }
+    public function ubahnopassa(Request $r){
+        $id = $r->kode;
+        $s = modelHistoriTamu::findOrFail($id);
+        $s->nopassa = $r->no;
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function ubahgatepass(Request $r){
+        $id = $r->kode;
+        $s = modelHistoriKendaraan::findOrFail($id);
+        $s->nogate = $r->no;
+        $s->save();
+
+        return \Response::json($s);
     }
 
     public function simpanfoto(Request $r){
@@ -164,7 +184,8 @@ class controlPos extends Controller
     }
 
     public function penentuansimip($id){
-        return view('pos.include.penentuansimip',compact('id'));
+        $data = DB::table('tbpengiriman as p')->leftJoin('tbsimip as s','p.kodekirim','=','s.idpengiriman')->where('p.kodekirim',$id)->get()->first();
+        return view('pos.include.penentuansimip',compact('id','data'));
     }
 
     public function p1(Request $r){
@@ -184,7 +205,7 @@ class controlPos extends Controller
             $simip->manager = $m;
             $simip->save();
         }elseif($p1 == 'N'){
-            $s->areakhusus = 'Y';
+            $s->areakhusus = 'N';
         }else{
 
         }
@@ -210,5 +231,13 @@ class controlPos extends Controller
         }
         $simip->save();
         return \Response::json($simip);
+    }
+
+    public function langkah($id){
+        $kiriman = modelPengiriman::where('kodekirim',$id)->get()->first();
+        $tamu = modelHistoriTamu::where('jenis','Pengiriman')->where('idtamu',$id)->whereNull('nopass')->whereNull('nopassa')->count();
+        $foto = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.fototamu')->where('h.idtamu',$id)->whereNull('d.fototamu')->count();
+        $kend = modelHistoriKendaraan::where('jenis','Pengiriman')->where('idtamu',$id)->whereNull('nogate')->count();
+        return view('pos.include.langkah',compact('kiriman','id','tamu','foto','kend'));
     }
 }

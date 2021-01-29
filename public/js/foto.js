@@ -34,7 +34,8 @@ $(document).ready(function(){
             		$('.error').text("Terjadi kesalahan, mohon periksa kevalidan data");
             	}else{
             		$('.dpembawa').load(urlpaa); 
-            	}
+                }
+                $('.dpembawa').load(urlpaa); 
             },
             error: function(data){
                 
