@@ -11,6 +11,8 @@ use App\Models\modelDetailPengaturan;
 use App\Models\modelPengiriman;
 use App\Models\modelAprrove;
 use App\Models\modelSimip;
+use App\Models\modelKaryawan;
+use App\Models\modelTamu;
 use App\Models\modelHistoriTamu;
 use App\Models\modelHistoriKendaraan;
 
@@ -21,6 +23,11 @@ class controlPos extends Controller
     public function barangmasuk(){
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('statuskiriman','Diterima Gudang')->get();
         return view('pos.barangmasuk',compact('kiriman'));
+    }
+
+    public function daftartamupos(){
+        $data = modelTamu::whereNull('tglkeluar')->get();
+        return view('pos.daftartamu',compact('data'));
     }
 
     public function tamu(){
@@ -44,7 +51,8 @@ class controlPos extends Controller
 
     public function atursimip($id){
         $data = modelSimip::findOrFail($id);
-        return view('pos.tambahsimip',compact('data','id'));
+        $man = DB::table('daftarmansimip')->get();
+        return view('pos.tambahsimip',compact('data','id','man'));
     }
 
     public function detailbarangmasuk($id){
@@ -139,6 +147,15 @@ class controlPos extends Controller
         $s->tglmasuk = date("Y-m-d H:i:s");
         $s->pos = session('idkaryawan');
         $s->save();
+        $area = $s->areakhusus;
+        if($area == 'Y'){
+            $a = new modelAprrove();
+            $a->tglapprove = date("Y-m-d H:i:s");
+            $a->jenisapprove = "Simip";
+            $a->idsimip = $id;
+            $a->status = "Proses";
+            $a->save();
+        }
         return \Response::json($s);
     }
 
@@ -151,6 +168,15 @@ class controlPos extends Controller
         return view('pos.include.historiapprove',compact('kiriman','pengaturan','idapprove'));
     }
 
+    public function historiapprovesimip($id){
+        $kiriman = DB::table('tbsimip')->where('idpengiriman',$id)->get()->first();
+        $idatur = $kiriman->idpengaturan;
+        $pengaturan = DB::table('tbpengaturan as pe')->join('tbdetailpengaturan as dp','pe.kodeatur','=','dp.idatur')->where('pe.kodeatur',$idatur)->get();
+        $aprrover = modelAprrove::where('jenisapprove','Simip')->where('idsimip',$id)->first();
+        $idapprove = $aprrover->idapprove;
+        return view('pos.include.historiapprovesimip',compact('kiriman','pengaturan','idapprove'));
+    }
+
     public function tombol($id){
         $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->where('p.kodekirim',$id)->get()->first();
         $idatur = $kiriman->idpengaturan;
@@ -161,12 +187,12 @@ class controlPos extends Controller
     }
 
     public function daftartamu($id){
-        $data = modelDetailTamu::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Simip')->get();
         return view('pos.include.daftartamusimip',compact('data','id'));
     }
 
     public function daftarkend($id){
-        $data = modelKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->get();
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend','h.nogate')->where('h.idtamu',$id)->where('h.jenis','Simip')->get();
         return view('pos.include.daftarkendaraansimip',compact('data','id'));
     }
 
@@ -174,6 +200,14 @@ class controlPos extends Controller
         if ($r->has('q')) {
             $cari = $r->q;
             $data = modelDetailTamu::where('namatamu', 'LIKE', "%$cari%")->get();
+            return response()->json($data);
+        }
+    }
+
+    public function karyawantamu(Request $r){
+        if ($r->has('q')) {
+            $cari = $r->q;
+            $data = modelKaryawan::where('namaKaryawan', 'LIKE', "%$cari%")->get();
             return response()->json($data);
         }
     }
@@ -240,4 +274,174 @@ class controlPos extends Controller
         $kend = modelHistoriKendaraan::where('jenis','Pengiriman')->where('idtamu',$id)->whereNull('nogate')->count();
         return view('pos.include.langkah',compact('kiriman','id','tamu','foto','kend'));
     }
+
+    public function simpantamu(Request $r){
+        $baru = $r->baru;
+        if (!empty($r->namafoto)) {
+            $encoded_data = $r->namafoto;
+            $binary_data = base64_decode($encoded_data);
+            $tempat = public_path("tamu");
+            $namafoto = "tamu".date("Ymdhis").".png";
+            file_put_contents($tempat."/".$namafoto, $binary_data);
+        }else{
+            $namafoto = "";
+        }
+        
+        $tamu = new modelTamu();
+        $tamu->keperluan = $r->kepentingan;
+        $tamu->perusahaan = $r->perusahaan;
+        $tamu->tglmasuk = date("Y-m-d H:i:s");
+        $tamu->janji = $r->janji;
+        $tamu->bertemu = $r->keperluan;
+        $tamu->kendaraan = $r->jenisk;
+        $tamu->noplat = $r->noplat;
+        $tamu->kodepos = session('idkaryawan');
+        $tamu->bertemu = $r->carikaryawan;
+        $tamu->save();
+        $idtamu = $tamu->kodetamu;
+        if($baru == "baru"){
+            $dtamu = new modelDetailTamu();
+            $dtamu->namatamu = $r->nama;
+            $dtamu->pengenal = $r->pengenal;
+            $dtamu->nopengenal = $r->nopengenal;
+            $dtamu->jabatan = $r->pekerjaan;
+            $dtamu->notlptamu = $r->telp;
+            $dtamu->alamattamu = $r->alamat;
+            $dtamu->fototamu = $namafoto;
+            $dtamu->save();
+            $iddtamu = $dtamu->iddetailtamu;
+
+            $htamu = new modelHistoriTamu();
+            $htamu->iddetailtamu = $iddtamu;
+            $htamu->idtamu = $idtamu;
+            $htamu->jenis = "Tamu";
+            $htamu->tgltamu = date("Y-m-d H:i:s");
+            $htamu->nopass = $r->nopass;
+            $htamu->save();
+        }elseif($baru == "pernah"){
+            $iddtamu = $r->caritamu;
+            $htamu = new modelHistoriTamu();
+            $htamu->iddetailtamu = $iddtamu;
+            $htamu->idtamu = $idtamu;
+            $htamu->jenis = "Tamu";
+            $htamu->tgltamu = date("Y-m-d H:i:s");
+            $htamu->nopass = $r->nopass;
+            $htamu->save();
+        }
+
+        return \Response::json($idtamu);
+    }
+
+    public function simpantamusimip(Request $r,$id){
+        $baru = $r->baru;
+        if (!empty($r->namafoto)) {
+            $encoded_data = $r->namafoto;
+            $binary_data = base64_decode($encoded_data);
+            $tempat = public_path("tamu");
+            $namafoto = "tamu".date("Ymdhis").".png";
+            file_put_contents($tempat."/".$namafoto, $binary_data);
+        }else{
+            $namafoto = "";
+        }
+        if($baru == "baru"){
+            $dtamu = new modelDetailTamu();
+            $dtamu->namatamu = $r->nama;
+            $dtamu->pengenal = $r->pengenal;
+            $dtamu->nopengenal = $r->nopengenal;
+            $dtamu->jabatan = $r->pekerjaan;
+            $dtamu->notlptamu = $r->telp;
+            $dtamu->alamattamu = $r->alamat;
+            $dtamu->fototamu = $namafoto;
+            $dtamu->save();
+            $iddtamu = $dtamu->iddetailtamu;
+
+            $htamu = new modelHistoriTamu();
+            $htamu->iddetailtamu = $iddtamu;
+            $htamu->idtamu = $id;
+            $htamu->jenis = "Simip";
+            $htamu->tgltamu = date("Y-m-d H:i:s");
+            $htamu->nopass = $r->nopass;
+            $htamu->save();
+        }elseif($baru == "pernah"){
+            $iddtamu = $r->caritamu;
+            $htamu = new modelHistoriTamu();
+            $htamu->iddetailtamu = $iddtamu;
+            $htamu->idtamu = $id;
+            $htamu->jenis = "Simip";
+            $htamu->tgltamu = date("Y-m-d H:i:s");
+            $htamu->nopass = $r->nopass;
+            $htamu->save();
+        }
+
+        return \Response::json($htamu);
+    }
+
+    public function simpankendaraansimip(Request $r,$id){
+        $s = new modelKendaraan();
+        $s->jeniskendaraan = $r->jenisk;
+        $s->namakendaraan = $r->namak;
+        $s->plat = $r->plat;
+        $s->save();
+        $idkend = $s->idkendaraan;
+        
+
+        $h = new modelHistoriKendaraan();
+        $h->idkendaraan = $idkend;
+        $h->idtamu = $id;
+        $h->jenis = "Simip";
+        $h->tglmasuk = date("Y-m-d H:i:s");
+        $h->save();
+
+        return \Response::json($h);
+    }
+
+    public function akhirsimip(Request $r, $id){
+        $jmlken = modelHistoriKendaraan::where('idtamu',$id)->where('jenis','Simip')->count();
+        $idk3 = DB::table('daftarmansimip')->where('jabatan','LIKE','%K3%')->get()->first();
+        
+        $s = modelSimip::findOrFail($id);
+        $s->tujuan = $r->tujuan;
+        $s->pendamping = $r->pendamping;
+        $s->statuspossimip = "Diterima";
+        $s->manager = $r->manajer;
+        $s->perusahaan = $r->perusahaan;
+        if($jmlken > 0){
+            $s->k3 = $idk3->idKaryawan;
+        }
+        $s->save();
+
+        return \Response::json($s);
+    }
+
+    public function keluarkan(){
+        $tamu = modelTamu::whereNull('tglkeluar')->get();
+        $simip = modelSimip::whereNull('tglkeluar')->get();
+        $kirim = modelPengiriman::whereNull('tglkeluar')->get();
+        return view('pos.keluarkan',compact('tamu','simip','kirim'));
+    }
+
+    public function keluar($tabel,$id){
+        if($tabel == "tamu"){
+            $d = modelTamu::findOrFail($id);
+            $d->tglkeluar = date("Y-m-d H:i:s");
+        }elseif($tabel == "simip"){
+            $d = modelSimip::findOrFail($id);
+            $d->tglkeluar = date("Y-m-d H:i:s");
+
+        }elseif($tabel == "pengiriman"){
+            $d = modelPengiriman::findOrFail($id);
+            $d->tglkeluar = date("Y-m-d H:i:s");
+
+        }else{
+            
+        }
+        $d->save();
+        return redirect('keluarkan');
+    }
+
+    public function menungguapprover(){
+        $kiriman = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->join('tbapprove as a','p.kodekirim','=','a.idpengiriman')->select('p.*','v.namavendor','a.idapprove')->where('statuskiriman','Diterima Pos')->orWhere('statuskiriman','Proses Approve')->get();
+        return view('pos.menungguapprover',compact('kiriman'));
+    }
+    
 }

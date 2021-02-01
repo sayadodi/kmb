@@ -88,7 +88,10 @@
 
     <div class="row">
     <!-- accepted payments column -->
-    <div class="col-xs-8 historiapprove">
+    <div class="col-xs-4 historiapprove">
+        
+    </div>
+    <div class="col-xs-4 historiapprovesimip">
         
     </div>
     <!-- /.col -->
@@ -126,6 +129,11 @@
         var urlsi = url_local+"/kmb/public/penentuansimip/{{$id}}";
         var urlla = url_local+"/kmb/public/langkah/{{$id}}";
 
+        var urlhis = url_local+"/kmb/public/historiapprovesimip/{{$id}}";
+        var khusus = "{{$kiriman->areakhusus}}";
+        if(khusus == 'Y'){
+          $('.historiapprovesimip').load(urlhis);
+        }
 
         // Simpan barang
         $('.dbarang').load(urlpo);

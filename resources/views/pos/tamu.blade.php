@@ -74,9 +74,9 @@
 
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label class="namb">Pilih data pembawa<code>*</code></label>
-                                                <input type="radio" name="baru" id="" value="baru" checked> Pembawa Baru
-                                                <input type="radio" name="baru" id="" value="pernah"> Pernah Membawa
+                                                <label class="namb">Pilih data tamu<code>*</code></label>
+                                                <input type="radio" name="baru" id="" value="baru" checked> Tamu Baru
+                                                <input type="radio" name="baru" id="" value="pernah"> Pernah Berkunjung
                                             </div>
                                         </div>
 
@@ -98,6 +98,12 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>No. Pengenal <small><code>*</code></small></label>
+                                                <input name="nopengenal" type="text" class="form-control nop" placeholder="No. KTP, SIM, Dll">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>Nama <small><code>*</code></small></label>
                                                 <input name="nama" type="text" class="form-control namap" placeholder="Andrew...">
@@ -133,13 +139,13 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Jenis <small><code>*</code></small></label>
-                                                <input name="pekerjaan" type="text" class="form-control" placeholder="Vario, Smash, Beat">
+                                                <input name="jenisk" type="text" class="form-control" placeholder="Vario, Smash, Beat">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>No Plat <small><code>*</code></small></label>
-                                                <input name="pekerjaan" type="text" class="form-control" placeholder="N 09 PJB">
+                                                <input name="noplat" type="text" class="form-control" placeholder="N 09 PJB">
                                             </div>
                                         </div>
                                     </div>
@@ -152,26 +158,37 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label>Bertemu dengan <small><code>*</code></small></label>
-                                            <input type="text" class="form-control" placeholder="5h Avenue">
+                                            <label>Bertemu dengan ? <small><code>*</code></small></label>
+                                            <select class="carikaryawan form-control select2" style="width:100%;" name="carikaryawan"></select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Dengan janji <small><code>*</code></small></label><br>
-                                            <select name="country" class="form-control">
-                                                <option value="Ya"> Ya </option>
-                                                <option value="Tidak"> Tidak </option>
+                                            <select name="janji" class="form-control">
+                                                <option value="Y"> Ya </option>
+                                                <option value="N"> Tidak </option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label>Kepentingan <small><code>*</code></small></label>
-                                            <input type="text" class="form-control" placeholder="New York...">
+                                            <label>Perusaahaan <small><code>*</code></small></label>
+                                            <input name="perusahaan" type="text" class="form-control" placeholder="UBJOM U 9...">
                                         </div>
                                     </div>
-                                    
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Kepentingan <small><code>*</code></small></label>
+                                            <input name="kepentingan" type="text" class="form-control" placeholder="New York...">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>B <small><code>*</code></small></label>
+                                            <input name="nopass" type="text" class="form-control" placeholder="40">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -208,6 +225,7 @@
         $(document).ready(function(){
             var url_local = window.location.protocol+'//'+window.location.host;
             var urlcp = url_local+"/kmb/public/tamupernahmasuk";
+            var urlck = url_local+"/kmb/public/karyawantamu";
             var urltamu = url_local+"/kmb/public/simpantamu";
             var url = url_local+"/kmb/public/tamupernahmasuk/";
             var urlcetak = url_local+"/kmb/public/cetaktamu/";
@@ -241,12 +259,32 @@
                 }
             });
 
-            $('.select2').on('select2:select', function (e) {
+            $('.carikaryawan').select2({
+                placeholder: 'Cari...',
+                ajax: {
+                url: urlck,
+                dataType: 'json',
+                delay: 250,
+                processResults: function (data) {
+                    return {
+                    results:  $.map(data, function (item) {
+                        return {
+                        text: item.namaKaryawan,
+                        id: item.idKaryawan
+                        }
+                    })
+                    };
+                },
+                cache: true
+                }
+            });
+
+            $('.caritamu').on('select2:select', function (e) {
                 var id = $(this).val();
                 $.get(url+id, function(data){
                     console.log(data);
                     $('.jenisp').val(data['pengenal']);
-                    $('.nomorp').val(data['nopengenal']);
+                    $('.nop').val(data['nopengenal']);
                     $('.namap').val(data['namatamu']);
                     $('.jabp').val(data['jabatan']);
                     $('.kontakp').val(data['notlptamu']);
@@ -257,35 +295,37 @@
             });
 
             $(".btn-finish").click(function(){
-            $.ajaxSetup({
-                headers:{
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-                }
-            })
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
 
-            var formData = new FormData($('#formtamu')[0]);
-            var type = "POST";
-            var my_url = urltamu;
+                var formData = new FormData($('#formtamu')[0]);
+                var type = "POST";
+                var my_url = urltamu;
 
-            $.ajax({
-                type : type,
-                url : my_url,
-                data : formData,
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                cache: false,
-                beforeSend: function(){
-                    
-                },
-                success: function(data){
-                    
-                },
-                error: function(data){
-                    console.log(data);
-                }
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        console.log(data);
+                        window.open(url_local+"/kmb/public/cetaktamu/"+data);
+                        window.location = url_local+"/kmb/public/daftartamu";
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
             });
-        });
         });
     </script>
 @stop

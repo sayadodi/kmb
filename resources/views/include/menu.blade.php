@@ -88,7 +88,7 @@
         </a>
       </li>
       <li>
-        <a href="{{url('kunjungan')}}"><i class="fa fa-circle-o"></i> Tamu
+        <a href="{{url('daftartamu')}}"><i class="fa fa-circle-o"></i> Tamu
         </a>
       </li>
       <li>
@@ -101,17 +101,20 @@
   <!-- Untuk Lobby -->
   <li class="treeview">
     <a href="#">
-      <i class="fa fa-user-secret"></i> <span>Lobby</span>
+      <i class="fa fa-user-secret"></i> <span>Tamu</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
-        <small class="label pull-right bg-red">{{ controlNotifMenu::jmlvendor() }}</small>
+        <small class="label pull-right bg-red">{{ controlNotifMenu::jmltamumasuk('tamu') }}</small>
       </span>
     </a>
     <ul class="treeview-menu">
       <li>
-        <a href="{{url('scan')}}"><i class="fa fa-circle-o"></i> Scan
+        <a href="{{url('menungguapprover')}}"><i class="fa fa-circle-o"></i> Menunggu Approver</a>
+      </li>
+      <li>
+        <a href="{{url('keluarkan')}}"><i class="fa fa-circle-o"></i> Keluarkan Tamu
           <span class="pull-right-container">
-            <span class="label bg-red">{{ controlNotifMenu::jmlvendor() }}</span>
+            <span class="label bg-red">{{ controlNotifMenu::jmltamumasuk('tamu') }}</span>
           </span>
         </a>
       </li>

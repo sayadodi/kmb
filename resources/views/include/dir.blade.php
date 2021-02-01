@@ -121,6 +121,51 @@
       </ol>
     @endif
 
+    @if(is_active('keluarkan'))
+      <h1>
+      Daftar Tamu
+      <small>Tamu yang sedang berada didalam</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Keluarkan</li>
+      </ol>
+    @endif
+
+    @if(is_active('daftartamu'))
+      <h1>
+      Daftar Tamu
+      <small>Daftar tamu masuk area B</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Daftar Tamu</li>
+      </ol>
+    @endif
+
+    @if(is_active('menungguapprover'))
+      <h1>
+      Menunggu Approver
+      <small>Daftar tamu yang menunggu Approver</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Daftar Tamu</li>
+      </ol>
+    @endif
+
+    @if(is_active('atursimip'))
+      <h1>
+      Atur Tamu Simip
+      <small>Daftar tamu daerah khusus</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Atur Simip</li>
+      </ol>
+    @endif
+
+
     @if(is_active('kirimanbarang'))
       <h1>
       Detail Kiriman

@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'd968da61a8e71078622ad73b0767f50b6a44c7db',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -467,12 +467,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'd968da61a8e71078622ad73b0767f50b6a44c7db',
     ),
     'laravel/tinker' => 
     array (
@@ -536,6 +536,15 @@
       array (
       ),
       'reference' => '20572bbf8607cfc2f91a11fc75e9a3c6592bdc7a',
+    ),
+    'milon/barcode' => 
+    array (
+      'pretty_version' => '8.0.1',
+      'version' => '8.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a1b1ee1a743c1368597f1742e6ee4765333a15a1',
     ),
     'mobiledetect/mobiledetectlib' => 
     array (

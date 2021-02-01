@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <label class="col-md-12 col-sm-12 col-xs-12 namb">Apakah barang akan dibawa masuk kewilayah A(Khusus) ?<code>*</code></label>
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        @if(empty($data))
+                        @if($data->areakhusus == "")
                             <input type="radio" name="p1" id="" value="Y"> Iya
                             <input type="radio" name="p1" id="" value="N"> Tidak
                         @else

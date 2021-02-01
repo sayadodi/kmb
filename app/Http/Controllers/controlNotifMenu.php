@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
 use App\Models\modelPengiriman;
+use App\Models\modelTamu;
+use App\Models\modelSimip;
 use App\Models\modelDetailBarangpo;
 use App\Models\modelDetailTamu;
 use App\Models\modelKendaraan;
@@ -33,6 +35,63 @@ class controlNotifMenu extends Controller
     	return $vendor; 
     }
 
+    public static function jmltamumasuk($tabel){
+        if($tabel == "tamu"){
+            $jml = modelTamu::whereNull('tglkeluar')->count();
+        }elseif($tabel == "simip"){
+            $jml = modelSimip::whereNull('tglkeluar')->count();
+        }elseif($tabel == "pengiriman"){
+            $jml = modelPengiriman::whereNull('tglkeluar')->count();
+        }else{
+            $jml = 0;
+        }
+    	return $jml;
+    }
+
+    public static function infotamu($id,$tabel){
+        if($tabel == "tamu"){
+            $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Tamu')->first();
+            if($data){
+                $nama = $data->namatamu;
+                $nopassa = $data->nopassa;
+                $nopass = $data->nopass;
+            }else{
+                $nama = "";
+                $nopass = "";
+                $nopassa = "";
+
+            }
+            
+        }elseif($tabel == "simip"){
+            $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Simip')->first();
+            if($data){
+                $nama = $data->namatamu;
+                $nopass = $data->nopass;
+                $nopassa = $data->nopassa;
+            }else{
+                $nama = "";
+                $nopass = "";
+                $nopassa = "";
+
+            }
+        }elseif($tabel == "pengiriman"){
+            $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->first();
+            if($data){
+                $nama = $data->namatamu;
+                $nopassa = $data->nopassa;
+                $nopass = $data->nopass;
+            }else{
+                $nama = "";
+                $nopass = "";
+                $nopassa = "";
+
+            }
+        }else{
+            $jml = 0;
+        }
+    	return $nama."[B".$nopass."]"." [A".$nopassa."]";
+    }
+
     public static function sudahapprove($id,$idapprove){
         $data = modelDetailApprove::where('idjabatan',$id)->where('idapprove',$idapprove)->count();
     	return $data; 
@@ -44,7 +103,7 @@ class controlNotifMenu extends Controller
     }
 
     public static function carinamakaryawan($id){
-        $k = modelKaryawan::findOrFail($id)->first();
+        $k = modelKaryawan::where('idKaryawan',$id)->get()->first();
         return $k->namaKaryawan;
     }
 

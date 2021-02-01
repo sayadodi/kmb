@@ -59,24 +59,37 @@ Route::get('/datakendaraanr/{id}','controlGudang@datakendaraan');
 Route::get('/barangmasuk','controlPos@barangmasuk');
 Route::post('/barangmasukterima','controlPos@terimabarang');
 Route::get('/kunjungan','controlPos@tamu');
+Route::get('/daftartamu','controlPos@daftartamupos');
 Route::get('/simip','controlPos@simip');
 Route::post('/simip/tambah','controlPos@tambahsimip');
-Route::get('/simip/{id}','controlPos@atursimip');
+Route::get('/simip/{id}','controlPos@atursimip')->name('atursimip');
 Route::get('/barangmasuk/{id}','controlPos@detailbarangmasuk')->name('kirimanbarang');
 Route::post('/ubahnopass','controlPos@ubahnopass');
 Route::post('/foto','controlPos@simpanfoto');
 Route::get('/daftartamu/{id}','controlPos@daftartamu');
 Route::get('/daftarkend/{id}','controlPos@daftarkend');
 Route::get('/tamupernahmasuk','controlPos@tamupernahmasuk');
+Route::get('/karyawantamu','controlPos@karyawantamu');
 Route::get('/tamupernahmasuk/{id}','controlPos@carihistoritamu');
 Route::post('/ubahnopassa','controlPos@ubahnopassa');
 Route::post('/ubahgatepass','controlPos@ubahgatepass');
+Route::post('/simpantamu','controlPos@simpantamu');
+Route::post('/simpantamusimip/{id}','controlPos@simpantamusimip');
+Route::post('/simpankendsimip/{id}','controlPos@simpankendaraansimip');
+Route::post('/akhirsimip/{id}','controlPos@akhirsimip');
+Route::get('/keluarkan','controlPos@keluarkan');
+Route::get('/keluarkan/{tabel}/{id}','controlPos@keluar');
+Route::get('/menungguapprover','controlPos@menungguapprover');
+
+
+
 
 // Include Ajax Pos
 Route::get('/databarangpopos/{id}','controlPos@databarangpo');
 Route::get('/datapembawapos/{id}','controlPos@datapembawa');
 Route::get('/datakendaraanpos/{id}','controlPos@datakendaraan');
 Route::get('/historiapprove/{id}','controlPos@historiapprove');
+Route::get('/historiapprovesimip/{id}','controlPos@historiapprovesimip');
 Route::get('/tombol/{id}','controlPos@tombol');
 Route::get('/penentuansimip/{id}','controlPos@penentuansimip');
 Route::get('/langkah/{id}','controlPos@langkah');
@@ -88,6 +101,10 @@ Route::post('/p2','controlPos@p2');
 Route::get('/scan','controlLobby@scan');
 Route::get('/scan/{id}','controlLobby@cariscan');
 
+// Cetak
+Route::get('/cetaktamu/{id}','controlCetak@tamu');
+Route::get('/cetaksimip/{id}','controlCetak@simip');
+Route::get('/ccetakpengiriman/{id}','controlCetak@pengiriman');
 
 // Vendor daftar
 

@@ -20,7 +20,7 @@
                 @php
                     $i = 1;
                 @endphp
-                @if(!empty($data))
+                @if(count($data) > 0)
                     @foreach($data as $d)
                         <tr>
                             <td><?=$i++?></td>
@@ -42,81 +42,179 @@
                 </tbody>
             </table>
         </div>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarpembawabarang">
+        <button type="button" class="btn btn-success tambah-pembawa">
             Tambah Pembawa
         </button>
     </div>
 </div>
-<div class="modal" id="daftarpembawabarang" class="daftarpembawabarang" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Form Barang</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<div class="row hidden fotonya">
+    <form action="" id="formtamusimip">
+        <h5 class="info-text"> Masukkan data diri anda.</h5>
+        <div class="col-sm-4">
+            <div class="picture-container">
+                <div class="col-md-12">
+                    <input type="hidden" id="namafoto" class="namafoto"  name="namafoto" value="">
+                    <div id="camera">Foto</div>
+                    
+                    <div id="webcam" style="margin: 10px" align="center">
+                        <input type=button value="Ambil Foto" onClick="preview()">
+                    </div>
+
+                    <div id="simpan" style="display:none; margin: 10px;" align="center">
+                        <input type=button value="Ambil Ulang" onClick="batal()">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" id="simpantamusimip" class="btn btn-primary simpantamusimip">Simpan Tamu</button>
+                    <button type="button" id="batalsimpan" class="btn btn-default batalsimpan">Batal</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            Isi
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary simpanpembawa">Simpan</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <div class="col-sm-8">
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="namb">Pilih data tamu<code>*</code></label>
+                    <input type="radio" name="baru" id="" value="baru" checked> Tamu Baru
+                    <input type="radio" name="baru" id="" value="pernah"> Pernah Berkunjung
+                </div>
+            </div>
+
+            <div class="col-sm-12 historinya hidden">
+                <div class="form-group">
+                    <select class="caritamu form-control select2" style="width:100%;" name="caritamu"></select>
+                </div>
+                <input type="hidden" name="iddetailtamu" class="iddetailtamu">
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Jenis Pengenal <small><code>*</code></small></label>
+                    <select name="pengenal" id="" class="form-control jenisp">
+                        <option>Pilih pengenal</option>
+                        <option value="KTP">KTP</option>
+                        <option value="SIM">SIM</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>No. Pengenal <small><code>*</code></small></label>
+                    <input name="nopengenal" type="text" class="form-control nop" placeholder="No. KTP, SIM, Dll">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>Nama <small><code>*</code></small></label>
+                    <input name="nama" type="text" class="form-control namap" placeholder="Andrew...">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Pekerjaan <small><code>*</code></small></label>
+                    <input name="pekerjaan" type="text" class="form-control jabp" placeholder="Manager...">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Telepon <small><code>*</code></small></label>
+                    <input name="telp" type="text" class="form-control kontakp" placeholder="081234567898">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Alamat <small><code>*</code></small></label>
+                    <input name="alamat" type="text" class="form-control alamatp" placeholder="Alamat tamu...">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>A <small><code>*</code></small></label>
+                    <input name="nopass" type="text" class="form-control" placeholder="40">
+                </div>
+            </div>
+            
         </div>
-      </div>
-    </div>
+    </form>
 </div>
 @include('vendor.include.konfirmasihapusp')
+{!! Html::script('plugins/select2/dist/js/select2.full.min.js')!!}
 {!! Html::script('plugins/webcamjs-master/webcam.min.js')!!}
 {!! Html::script('js/webcam.js')!!}
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
-        var urlbarangpo = url_local+"/kmb/public/simpanpembawa";
-        var urlpembawa = url_local+"/kmb/public/datapembawa/{{$id}}";
-        var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
-        var urlhp = url_local+"/kmb/public/hapuspembawa/";
+        var simpantamu = url_local+"/kmb/public/simpantamusimip/{{$id}}";
+        var urltamu = url_local+"/kmb/public/daftartamu/{{$id}}";
+        var urlcp = url_local+"/kmb/public/tamupernahmasuk";
+        var url = url_local+"/kmb/public/tamupernahmasuk/";
 
-        $(".hapusdatap").click(function(){
-            var id = $(this).data('id');
-            $(".iddatap").val(id);
-            $("#deleteModalp").modal();
+
+        $('input:radio[name=baru]').change(function() {
+            if (this.value == 'baru') {
+                $('.historinya').addClass('hidden');
+            }
+            else if (this.value == 'pernah') {
+                $('.historinya').removeClass('hidden');
+            }
         });
 
-        $("#btn-deletep").click(function(){
-            var id = $(".iddatap").val();
-            var urlhapus = urlhp + id;
-            $.ajax({
-                type : 'GET',
-                url : urlhapus,
-                data : id,
-                dataType: 'json',
-                beforeSend: function(){
-                    setVisible('#pembawa',true);
-                    setVisible("#loadingpembawa",false);
-                },
-                success: function(data){
-                    $(".iddatap").val("");
-                    $('.dpembawa').load(urlpembawa);  
-                    $('.ketsamping').load(urlsa);
-                    $("#deleteModalp").modal('hide');
-                },
-                error: function(data){
-                    
-                }
-            });
+        $('.caritamu').select2({
+            placeholder: 'Cari...',
+            ajax: {
+            url: urlcp,
+            dataType: 'json',
+            delay: 250,
+            processResults: function (data) {
+                return {
+                results:  $.map(data, function (item) {
+                    return {
+                    text: item.namatamu,
+                    id: item.iddetailtamu
+                    }
+                })
+                };
+            },
+            cache: true
+            }
         });
 
-        $(".simpanpembawa").click(function(){
+        $('.caritamu').on('select2:select', function (e) {
+            var id = $(this).val();
+            $.get(url+id, function(data){
+                console.log(data);
+                $('.jenisp').val(data['pengenal']);
+                $('.nop').val(data['nopengenal']);
+                $('.namap').val(data['namatamu']);
+                $('.jabp').val(data['jabatan']);
+                $('.kontakp').val(data['notlptamu']);
+                $('.alamatp').val(data['alamattamu']);
+                $('.iddetailtamu').val(data['iddetailtamu']);
+
+            })
+        });
+
+        $('.tambah-pembawa').click(function(){
+            $('#pembawa').addClass('hidden');
+            $('.fotonya').removeClass('hidden');
+        });
+
+        $('.batalsimpan').click(function(){
+            $('#pembawa').removeClass('hidden');
+            $('.fotonya').addClass('hidden');
+        });
+
+        $('.simpantamusimip').click(function(){
             $.ajaxSetup({
                 headers:{
                     'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
                 }
             })
 
-            var formData = new FormData($('#formpembawa')[0]);
+            var formData = new FormData($('#formtamusimip')[0]);
             var type = "POST";
-            var my_url = urlbarangpo;
+            var my_url = simpantamu;
 
             $.ajax({
                 type : type,
@@ -127,21 +225,18 @@
                 contentType: false,
                 cache: false,
                 beforeSend: function(){
-                    setVisible('#pembawa',true);
-                    setVisible("#loadingpembawa",false);
+                    setVisible('#pembawa', false);
+                    setVisible('#loadingpembawa', true);
                 },
                 success: function(data){
-                    $('#formpembawa').trigger("reset");
-                    $('.dpembawa').load(urlpembawa);  
-                    $('.ketsamping').load(urlsa);
-                    $("#daftarpembawabarang").modal('hide');
-                    // 
+                    $('.tamu').load(urltamu);
                 },
                 error: function(data){
-                    
+                    console.log(data);
                 }
             });
         });
+
     });
 </script>
 <script>
