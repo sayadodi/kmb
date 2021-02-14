@@ -187,15 +187,37 @@
       </ol>
     @endif
 
-    <!-- Lobby -->
-    @if(is_active('scan'))
+    <!-- Pengeluaran Barang -->
+    @if(is_active('barangkeluar'))
       <h1>
-      Scan Surat
-      <small>Scan Surat masuk dari pos</small>
+      Barang Keluar
+      <small>Daftar Pengeluaran Barang</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
-        <li class="active">Scan</li>
+        <li class="active">Barang Keluar</li>
+      </ol>
+    @endif
+
+    @if(is_active('detailkeluar'))
+      <h1>
+      Detail Barang Keluar
+      <small>Detail Pengeluaran Barang</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Detail Barang Keluar</li>
+      </ol>
+    @endif
+    <!-- Admin -->
+    @if(is_active('aturhak'))
+      <h1>
+      Atur Hak
+      <small>Klik Jabatan untuk mengatur hak</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Atur Hak</li>
       </ol>
     @endif
 </section>

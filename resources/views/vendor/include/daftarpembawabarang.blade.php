@@ -42,9 +42,11 @@
                 </tbody>
             </table>
         </div>
+        @if($kirim == "Mengatur" || $kirim == "Ditolak Gudang")
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarpembawabarang">
             Tambah Pembawa
         </button>
+        @endif
     </div>
 </div>
 <div class="modal" id="daftarpembawabarang" class="daftarpembawabarang" data-backdrop="static" data-keyboard="false">

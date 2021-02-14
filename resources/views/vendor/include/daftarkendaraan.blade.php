@@ -38,9 +38,11 @@
                 </tbody>
             </table>
         </div>
+        @if($kirim == "Mengatur" || $kirim == "Ditolak Gudang")
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarkendaraan">
             Tambah Kendaraan
         </button>
+        @endif
     </div>
 </div>
 <div class="modal" id="daftarkendaraan" class="daftarkendaraan" data-backdrop="static" data-keyboard="false">

@@ -1,5 +1,8 @@
 @extends('index')
 @section('konten')
+<?php 
+  use App\Http\Controllers\controlNotifMenu;
+?>
 <section class="content">
 <div class="row">
   <div class="col-md-12">
@@ -30,6 +33,7 @@
 							<tr>
 								<th>#</th>
 								<th>Jabatan</th>
+                <th>Hak</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -41,6 +45,9 @@
 								<td>{{$i++}}</td>
 								<td>
                   <a href="{{url('aturhak/'.$d->idJabatan)}}"><b>{{$d->jabatan}}</b></a>
+                </td>
+                <td>
+                  {{nl2br(controlNotifMenu::carihak($d->idJabatan))}}
                 </td>
 							</tr>
 							@endforeach

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\modelTamu;
 use App\Models\modelSimip;
+use App\Models\modelDetailBarangpo;
 use DB;
 
 
@@ -21,5 +22,13 @@ class controlCetak extends Controller
         $orang = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Simip')->get();
         $kendaraan = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend','h.nogate')->where('h.idtamu',$id)->where('h.jenis','Simip')->get();
         return view('cetak.simip',compact('id','simip','orang','kendaraan'));
+    }
+
+    public function pengiriman($id){
+        $kirim = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->join('tbapprove as a','p.kodekirim','=','a.idpengiriman')->select('p.*','v.namavendor','a.idapprove')->where('kodekirim',$id)->get()->first();
+        $barang = modelDetailBarangpo::where('idkirim',$id)->get();
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
+
+        return view('cetak.pengiriman',compact('kirim','barang','data'));
     }
 }

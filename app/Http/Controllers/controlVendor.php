@@ -98,24 +98,30 @@ class controlVendor extends Controller
 
     public function databarangpo($jenis,$id){
         $data = modelDetailBarangpo::where('idkirim',$id)->get();
-        return view('vendor.include.daftarbarangpo',compact('data','id','jenis'));
+        $kirim = modelPengiriman::where('kodekirim',$id)->select('statuskiriman')->get()->first()['statuskiriman'];
+        return view('vendor.include.daftarbarangpo',compact('data','id','jenis','kirim'));
     }
 
     public function datapembawa($jenis,$id){
         $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
         $histori = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori')->where('h.kdvendor',session('idvendor'))->where('h.jenis','Pengiriman')->get();
-        return view('vendor.include.daftarpembawabarang',compact('data','id','jenis','histori'));
+        $kirim = modelPengiriman::where('kodekirim',$id)->select('statuskiriman')->get()->first()['statuskiriman'];
+        return view('vendor.include.daftarpembawabarang',compact('data','id','jenis','histori','kirim'));
     }
 
     public function datakendaraan($jenis,$id){
         $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
         $historikend = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.kdvendor',session('idvendor'))->where('h.jenis','Pengiriman')->get();
-        return view('vendor.include.daftarkendaraan',compact('data','id','jenis','historikend'));
+        $kirim = modelPengiriman::where('kodekirim',$id)->select('statuskiriman')->get()->first()['statuskiriman'];
+        
+        return view('vendor.include.daftarkendaraan',compact('data','id','jenis','historikend','kirim'));
     }
 
     public function datatujuan($jenis,$id){
         $data = modelPengiriman::where('kodekirim',$id)->get()->first();
-        return view('vendor.include.keterangankirim',compact('data','id','jenis'));
+        $kirim = modelPengiriman::where('kodekirim',$id)->select('statuskiriman')->get()->first()['statuskiriman'];
+
+        return view('vendor.include.keterangankirim',compact('data','id','jenis','kirim'));
     }
 
     public function ketsamping($id){
@@ -422,5 +428,18 @@ class controlVendor extends Controller
     public function carihistorikend($id){
         $d = modelKendaraan::findOrFail($id);
         return \Response::json($d);
+    }
+
+    public function cetaksurat($id){
+        $kirim = DB::table('tbpengiriman as p')->join('tbvendor as v','p.kodevendor','=','v.kdvendor')->join('tbapprove as a','p.kodekirim','=','a.idpengiriman')->select('p.*','v.namavendor','a.idapprove')->where('kodekirim',$id)->get()->first();
+        $barang = modelDetailBarangpo::where('idkirim',$id)->get();
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Pengiriman')->get();
+
+        return view('cetak.suratjalan',compact('kirim','barang','data'));
+    }
+
+    public function daftartolak(){
+        $tolak = DB::table('daftarbarangditolak')->get();
+        return view('vendor.daftartolak',compact('tolak'));
     }
 }

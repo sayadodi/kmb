@@ -24,20 +24,20 @@
               <tr>
                 <td width="">
                   <div class="checkbox icheck">
-                  <input name="h1" type="checkbox" id="h1" value="Y" @if(!empty($hak->admin)) checked="" @endif /> Admin
+                  <input name="h1" type="checkbox" id="h1" value="Admin" @if(!empty($hak->admin)) checked="" @endif /> Admin
                 </div></td>
               </tr>
               <tr>
                 <td>
                   <div class="checkbox icheck">
-                  <input name="h2" type="checkbox" class="iCheck" id="h2" value="Y" @if(!empty($hak->approver)) checked="" @endif /> Approver
+                  <input name="h2" type="checkbox" class="iCheck" id="h2" value="Approver" @if(!empty($hak->approver)) checked="" @endif /> Approver
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
                   <div class="checkbox icheck">
-                  <input name="h3" type="checkbox" id="h3" value="Y" @if(!empty($hak->gudang)) checked="" @endif /> Terima kiriman
+                  <input name="h3" type="checkbox" id="h3" value="Pos" @if(!empty($hak->gudang)) checked="" @endif /> Pos
                 </div>
                 </td>
               </tr>
@@ -91,7 +91,7 @@
               <tr>
                 <td>
                 <div class="checkbox icheck">
-                  <input name="h11" type="checkbox" id="h11" value="Y" @if(!empty($hak->pos)) checked="" @endif /> Pos.
+                  <input name="h11" type="checkbox" id="h4" value="Gudang" @if(!empty($hak->pos)) checked="" @endif /> Gudang.
                 </div>
                 </td>
               </tr>

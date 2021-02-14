@@ -15,6 +15,9 @@
 @if(session('level') == "Karyawan")
 <ul class="sidebar-menu" data-widget="tree">
   <li class="header">MAIN NAVIGATION</li>
+  <li><a href="{{url('beranda')}}"><i class="fa fa-home"></i> <span>Beranda</span></a></li>
+
+  @if(!empty(session('h1')))
   <li class="active treeview">
     <a href="#">
       <i class="fa fa-dashboard"></i> <span>Master</span>
@@ -41,7 +44,9 @@
       <li><a href="{{url('aturhak')}}"><i class="fa fa-circle-o"></i> Hak</a></li>
     </ul>
   </li>
+  @endif
 
+  @if(!empty(session('h4')) || !empty(session('h1')))
   <!-- Untuk Gudang -->
   <li class="treeview">
     <a href="#">
@@ -69,7 +74,9 @@
       </li>
     </ul>
   </li>
+  @endif
 
+  @if(!empty(session('h3')) || !empty(session('h1')))
   <!-- Untuk POS -->
   <li class="treeview">
     <a href="#">
@@ -97,8 +104,7 @@
       </li>
     </ul>
   </li>
-
-  <!-- Untuk Lobby -->
+  
   <li class="treeview">
     <a href="#">
       <i class="fa fa-user-secret"></i> <span>Tamu</span>
@@ -120,6 +126,27 @@
       </li>
     </ul>
   </li>
+
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-user-secret"></i> <span>Pengeluaran</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+        <small class="label pull-right bg-red">{{ controlNotifMenu::jmlmasuk() }}</small>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li>
+        <a href="{{url('barangkeluar')}}"><i class="fa fa-circle-o"></i> Barang Keluar
+        </a>
+      </li>
+      <li>
+        <a href="{{url('permintaankeluar')}}"><i class="fa fa-circle-o"></i> Permintaan Keluar
+        </a>
+      </li>
+    </ul>
+  </li>
+  @endif
   <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Ubah Password</span></a></li>
   <li><a href="{{url('logout')}}"><i class="fa fa-sign-out"></i> <span>Keluar</span></a></li>
 </ul>
@@ -138,10 +165,10 @@
     </a>
     <ul class="treeview-menu">
       <li><a href="{{url('kirimpo')}}"><i class="fa fa-circle-o"></i> Barang PO</a></li>
-      <li><a href="{{url('tools')}}"><i class="fa fa-circle-o"></i> Tools</a></li>
       <li><a href="{{url('kirimnonpo')}}"><i class="fa fa-circle-o"></i> Barang Non PO</a></li>
     </ul>
   </li>
+  <li><a href="{{url('daftartolak')}}"><i class="fa fa-times"></i> <span>Barang Ditolak</span></a></li>
   <li><a href="{{url('ubahpassv')}}"><i class="fa fa-book"></i> <span>Ubah Password</span></a></li>
   <li><a href="{{url('keluarvendor')}}"><i class="fa fa-sign-out"></i> <span>Keluar</span></a></li>
 </ul>

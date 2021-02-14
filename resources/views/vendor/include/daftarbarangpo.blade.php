@@ -47,9 +47,11 @@
                 </tbody>
                 </table>
             </div>
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarbarangpo">
-                Tambah Barang
-            </button>
+            @if($kirim == "Mengatur" || $kirim == "Ditolak Gudang")
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#daftarbarangpo">
+                    Tambah Barang
+                </button>
+            @endif
         </div>
     </row>
 </div>

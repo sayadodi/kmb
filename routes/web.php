@@ -42,6 +42,7 @@ Route::post('/daftarpengaturanapprover/tambah','controlPengaturan@simpanPengatur
 
 Route::get('/aturhak','controlPengaturan@pengaturanhak');
 Route::get('/aturhak/{id}','controlPengaturan@settingHak')->name('sethak');
+Route::post('/aturhak/{id}','controlPengaturan@storeHak');
 
 // Penerimaan vendor
 Route::get('/requestvendor','controlGudang@daftarvendor');
@@ -81,7 +82,14 @@ Route::get('/keluarkan','controlPos@keluarkan');
 Route::get('/keluarkan/{tabel}/{id}','controlPos@keluar');
 Route::get('/menungguapprover','controlPos@menungguapprover');
 
+// Pengeluaran Barang
+Route::get('/barangkeluar','controlKeluar@barangkeluar');
+Route::get('/barangkeluar/{id}','controlKeluar@detailkeluar')->name('detailkeluar');
+Route::get('/permintaankeluar','controlKeluar@permintaankeluar');
+Route::post('/barangkeluar/tambah','controlKeluar@tambah');
 
+// include ajax pengeluaran
+Route::get('/datadaftarpengeluaran','controlKeluar@datadaftarpengeluaran');
 
 
 // Include Ajax Pos
@@ -104,7 +112,7 @@ Route::get('/scan/{id}','controlLobby@cariscan');
 // Cetak
 Route::get('/cetaktamu/{id}','controlCetak@tamu');
 Route::get('/cetaksimip/{id}','controlCetak@simip');
-Route::get('/ccetakpengiriman/{id}','controlCetak@pengiriman');
+Route::get('/cetakpengiriman/{id}','controlCetak@pengiriman');
 
 // Vendor daftar
 
@@ -126,10 +134,13 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/ubahpassv','controlVendor@ubahpass');
     Route::post('/ubahpassv','controlVendor@storepass');
     Route::get('/kirimpo','controlVendor@daftarkiriman');
+    Route::get('/cetaksurat/{id}','controlVendor@cetaksurat');
     Route::post('/kirimpo/tambah','controlVendor@tambahpo');
     Route::get('/kirimnonpo','controlVendor@kirimnonpo');
     Route::post('/kirimnonpo/tambah','controlVendor@tambahnonpo');
     Route::get('/kirimbarang/{jenis}/{id}','controlVendor@kirimbarang')->name("kirimbarang");
+    Route::get('/daftartolak','controlVendor@daftartolak');
+
 
     // Include Ajax
     Route::get('/kirimanberanda','controlVendor@kirimanberanda');

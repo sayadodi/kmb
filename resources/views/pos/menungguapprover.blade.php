@@ -54,7 +54,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href=""><i class="fa fa-print"></i></a>
+                                    <a target="_blank" href="{{url('cetakpengiriman/'.$d->kodekirim)}}"><i class="fa fa-print"></i></a>
                                 </td>
 							</tr>
 							@endforeach

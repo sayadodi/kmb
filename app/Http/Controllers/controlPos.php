@@ -35,7 +35,7 @@ class controlPos extends Controller
     }
 
     public function simip(){
-        $data = modelSimip::all();
+        $data = modelSimip::whereNull('idpengiriman')->get();
         return view('pos.simip',compact('data'));
     }
 
@@ -147,15 +147,6 @@ class controlPos extends Controller
         $s->tglmasuk = date("Y-m-d H:i:s");
         $s->pos = session('idkaryawan');
         $s->save();
-        $area = $s->areakhusus;
-        if($area == 'Y'){
-            $a = new modelAprrove();
-            $a->tglapprove = date("Y-m-d H:i:s");
-            $a->jenisapprove = "Simip";
-            $a->idsimip = $id;
-            $a->status = "Proses";
-            $a->save();
-        }
         return \Response::json($s);
     }
 
@@ -238,6 +229,14 @@ class controlPos extends Controller
             $simip->idpengiriman = $id;
             $simip->manager = $m;
             $simip->save();
+            $idsimip = $simip->idtamu;
+
+            $a = new modelAprrove();
+            $a->tglapprove = date("Y-m-d H:i:s");
+            $a->jenisapprove = "Simip";
+            $a->idsimip = $idsimip;
+            $a->status = "Proses";
+            $a->save();
         }elseif($p1 == 'N'){
             $s->areakhusus = 'N';
         }else{
@@ -410,12 +409,19 @@ class controlPos extends Controller
         }
         $s->save();
 
+        $a = new modelAprrove();
+        $a->tglapprove = date("Y-m-d H:i:s");
+        $a->jenisapprove = "Simip";
+        $a->idsimip = $id;
+        $a->status = "Proses";
+        $a->save();
+
         return \Response::json($s);
     }
 
     public function keluarkan(){
         $tamu = modelTamu::whereNull('tglkeluar')->get();
-        $simip = modelSimip::whereNull('tglkeluar')->get();
+        $simip = modelSimip::whereNull('tglkeluar')->whereNull('idpengiriman')->get();
         $kirim = modelPengiriman::whereNull('tglkeluar')->get();
         return view('pos.keluarkan',compact('tamu','simip','kirim'));
     }

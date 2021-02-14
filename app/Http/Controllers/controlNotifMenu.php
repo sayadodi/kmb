@@ -16,6 +16,7 @@ use App\Models\modelAprrove;
 use App\Models\modelKaryawan;
 use App\Models\modelJabatan;
 use App\Models\modelDetailPengaturan;
+use App\Models\modelHak;
 use DB;
 
 class controlNotifMenu extends Controller
@@ -89,7 +90,19 @@ class controlNotifMenu extends Controller
         }else{
             $jml = 0;
         }
-    	return $nama."[B".$nopass."]"." [A".$nopassa."]";
+
+        if(!empty($nopass)){
+            $np = "[B".$nopass."]";
+        }else{
+            $np = "";
+        }
+
+        if(!empty($nopassa)){
+            $npa = "[A".$nopassa."]";
+        }else{
+            $npa = "";
+        }
+    	return $nama.$np.$npa;
     }
 
     public static function sudahapprove($id,$idapprove){
@@ -110,6 +123,21 @@ class controlNotifMenu extends Controller
     public static function carinamajabatan($id){
         $j = modelJabatan::findOrFail($id);
         return $j->jabatan;
+    }
+
+    public static function carihak($id){
+        $jab = modelHak::where('idjabatan',$id)->get()->first();
+        if($jab){
+            $admin = $jab->admin;
+            $pos = $jab->pos;
+            $gudang = $jab->gudang;
+            $approver = $jab->approver;         
+            $data = $admin.$gudang.$pos.$approver;
+        }else{
+            $data = "";
+        }
+        
+        return $data;
     }
 
     public function coba($idjabatan,$jenis,$pengaturan){

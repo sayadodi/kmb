@@ -23,15 +23,20 @@
                         @endif
                     </div>
                 </div>
-                <div class="form-group @if(empty($data)) hidden @else  @endif kenda">
+                <div class="form-group @if($data->areakhusus == '') hidden @else  @endif kenda">
                     <label class="col-md-12 col-sm-12 col-xs-12">Apakah Menggunakan kendaraan Roda 4 ?<code>*</code></label>
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                    @if(empty($data->k3))
+                    @if($data->areakhusus == "")
                         <input type="radio" name="p2" id="" value="Y"> Iya
-                        <input type="radio" name="p2" id="" value="N" checked> Tidak
-                    @else
-                        <input type="radio" name="p2" id="" value="Y" checked> Iya
                         <input type="radio" name="p2" id="" value="N"> Tidak
+                    @else
+                        @if(empty($data->k3))
+                            <input type="radio" name="p2" id="" value="Y"> Iya
+                            <input type="radio" name="p2" id="" value="N" checked> Tidak
+                        @else
+                            <input type="radio" name="p2" id="" value="Y" checked> Iya
+                            <input type="radio" name="p2" id="" value="N"> Tidak
+                        @endif
                     @endif
                     </div>
                 </div>

@@ -32,7 +32,9 @@
         </form>
         </div>           
     </div>
+    @if($kirim == "Mengatur" || $kirim == "Ditolak Gudang")
     <button type="button" class="btn btn-success btn-block simpantujuan">Simpan</button>
+    @endif
 </div>
 <script>
     $(document).ready(function(){

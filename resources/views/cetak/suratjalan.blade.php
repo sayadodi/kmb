@@ -147,4 +147,3 @@
 	  <td align="center" valign="top">1 dari halaman 1</td>
     </tr>
 </table>
-{!! Html::script('plugins/jQuery/jquery-2.2.3.min.js')!!}

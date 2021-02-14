@@ -36,6 +36,7 @@
 
                 @if (($jmlbarang > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Diterima Gudang"))
                     <button type="button" class="btn btn-success btn-block btn-sm" disabled><i class="fa fa-check"></i> Disetujui Gudang</button>
+                    <a target="_blank" class="btn btn-default btn-block btn-sm" href="{{url('cetaksurat/'.$data->kodekirim)}}"><i class="fa fa-print"></i> Cetak Surat</a>
                 @endif
             @endif
 
@@ -50,6 +51,7 @@
 
                 @if (($jmltools > 0 && $jmlbawa > 0 && $jmlken > 0) && ($data->statuskiriman == "Diterima Gudang"))
                     <button type="button" class="btn btn-success btn-block btn-sm" disabled><i class="fa fa-check"></i> Disetujui Gudang</button>
+                    <a target="_blank" class="btn btn-default btn-block btn-sm" href="{{url('cetaksurat/'.$data->kodekirim)}}"><i class="fa fa-print"></i> Cetak Surat</a>
                 @endif
             @endif
         </div>
