@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\modelKeluar;
+use App\Models\modelDetailKeluar;
 
 class controlKeluar extends Controller
 {
@@ -31,6 +32,10 @@ class controlKeluar extends Controller
     public function detailkeluar($id){
         $data = modelKeluar::where('idkeluar',$id)->get()->first();
         return view('keluar.detailkeluar',compact('data','id'));
+    }
+
+    public function daftarbarangkeluar($id){
+        $data = 
     }
 
 }

@@ -74,6 +74,8 @@
       </li>
     </ul>
   </li>
+  <li><a href="{{url('blokiremail')}}"><i class="fa fa-envelope"></i> <span>Blokir Email</span></a></li>
+
   @endif
 
   @if(!empty(session('h3')) || !empty(session('h1')))
@@ -144,6 +146,22 @@
         <a href="{{url('permintaankeluar')}}"><i class="fa fa-circle-o"></i> Permintaan Keluar
         </a>
       </li>
+    </ul>
+  </li>
+  @endif
+
+  @if(!empty(session('h1')))
+  <li class="treeview">
+    <a href="#">
+      <i class="fa fa-file"></i> <span>Laporan</span>
+      <span class="pull-right-container">
+        <i class="fa fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      <li><a href="{{url('laporanbarangmasuk')}}"><i class="fa fa-circle-o"></i> Barang Masuk</a></li>
+      <li><a href="{{url('laporanbarangkeluar')}}"><i class="fa fa-circle-o"></i> Barang Keluar</a></li>
+      <li><a href="{{url('laporantamu')}}"><i class="fa fa-circle-o"></i> Tamu</a></li>
     </ul>
   </li>
   @endif

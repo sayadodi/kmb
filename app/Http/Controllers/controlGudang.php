@@ -12,8 +12,7 @@ use App\Models\modelKendaraan;
 use App\Models\modelAprrove;
 use App\Models\modelPengaturan;
 use App\Models\modelHistoriTamu;
-
-
+use App\Models\modelBlokir;
 use Mail;
 use DB;
 
@@ -141,5 +140,25 @@ class controlGudang extends Controller
 
         return \Response::json($s);
         
+    }
+
+    public function blokir(){
+        $data = modelBlokir::all();
+        return view('prosesterima.blokiremail',compact('data'));
+    }
+
+    public function tambahblokir(Request $r){
+        $mail = $r->email;
+        $s =new modelBlokir();
+        $s->email = $mail;
+        $s->tglblok = date("Y-m-d H:i:s");
+        $s->save();
+        return redirect('blokiremail');
+    }
+
+    public function hapusblokir($id){
+        $s = modelBlokir::where('idblokir',$id)->get()->first();
+        $s->delete();
+        return redirect('blokiremail');
     }
 }

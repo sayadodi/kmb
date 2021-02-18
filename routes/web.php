@@ -108,11 +108,23 @@ Route::post('/p2','controlPos@p2');
 // Rute Lobby
 Route::get('/scan','controlLobby@scan');
 Route::get('/scan/{id}','controlLobby@cariscan');
+// Blokir
+Route::get('/blokiremail','controlGudang@blokir');
+Route::post('/blokiremail/tambah','controlGudang@tambahblokir');
+Route::get('/hapusblokir/{id}','controlGudang@hapusblokir');
+
+
+
 
 // Cetak
 Route::get('/cetaktamu/{id}','controlCetak@tamu');
 Route::get('/cetaksimip/{id}','controlCetak@simip');
 Route::get('/cetakpengiriman/{id}','controlCetak@pengiriman');
+Route::get('/laporanbarangmasuk','controlCetak@laporanbarangmasuk');
+Route::get('/laporantamu','controlCetak@laporantamu');
+Route::get('/laporanbarangmasuk/cetak','controlCetak@cetaklaporanbarangmasuk');
+Route::get('/laporantamu/cetak','controlCetak@cetaklaporantamu');
+
 
 // Vendor daftar
 

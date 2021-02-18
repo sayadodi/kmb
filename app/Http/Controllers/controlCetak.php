@@ -31,4 +31,35 @@ class controlCetak extends Controller
 
         return view('cetak.pengiriman',compact('kirim','barang','data'));
     }
+
+    public function laporanbarangmasuk(){
+        $skr = date("Y-m-d");
+        $kirim = DB::table('tbdetailpengiriman as dp')->join('tbpengiriman as p','dp.idkirim','=','p.kodekirim')->where('tglmasuk','LIKE',"%$skr%")->get();
+        return view('cetak.daftarbarangmasuk',compact('kirim'));
+
+    }
+
+    public function laporantamu(){
+        $skr = date("Y-m-d");
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.jenis','h.tgltamu')->where('h.tgltamu','LIKE',"$skr")->get();
+        return view('cetak.daftartamumasuk',compact('data'));
+
+    }
+
+    public function cetaklaporanbarangmasuk(Request $r){
+        $tgl1 = $r->tgl1;
+        $tgl2 = $r->tgl2;
+        $kirim = DB::table('tbdetailpengiriman as dp')->join('tbpengiriman as p','dp.idkirim','=','p.kodekirim')->whereNotNull('tglkeluar')->whereBetween('tglkirim',[$tgl1,$tgl2])->get();
+        return view('cetak.cetakdaftarbarangmasuk',compact('kirim'));
+
+    }
+
+    public function cetaklaporantamu(Request $r){
+        $tgl1 = $r->tgl1;
+        $tgl2 = $r->tgl2;
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.jenis','h.tgltamu')->get();
+        return view('cetak.cetakdaftartamu',compact('data'));
+
+    }
 }
+

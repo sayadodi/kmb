@@ -187,6 +187,26 @@
       </ol>
     @endif
 
+    @if(is_active('laporanbarangmasuk'))
+      <h1>
+      Laporan Barang Masuk
+      <small>Daftar Barang masuk</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Barang Masuk</li>
+      </ol>
+    @endif
+
+    @if(is_active('blokiremail'))
+      <h1>
+      Daftar Email Diblokir
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Daftar Blokir</li>
+      </ol>
+    @endif
     <!-- Pengeluaran Barang -->
     @if(is_active('barangkeluar'))
       <h1>

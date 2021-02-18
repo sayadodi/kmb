@@ -23,14 +23,21 @@ class controlKaryawan extends Controller
     	}
 
         $c = modelKaryawan::where('email',$user)->where('password',$pass)->where('status','Y')->first();
-        $d = modelHak::where('idjabatan',$c->idJabatan)->first();
+        $d = modelHak::where('idjabatan',$c->idJabatan)->get()->first();
+        if($d){
+            session(['h1'=>$d->admin]);
+            session(['h2'=>$d->approver]);
+            session(['h3'=>$d->pos]);
+            session(['h4'=>$d->gudang]);
+        }else{
+            session(['h1'=>'0']);
+            session(['h2'=>'0']);
+            session(['h3'=>'0']);
+            session(['h4'=>'0']);
+        }
         session(['idkaryawan'=>$c->idKaryawan]);
         session(['nama'=>$c->namaKaryawan]);
         session(['jabatan'=>$c->idJabatan]);
-        session(['h1'=>$d->admin]);
-        session(['h2'=>$d->approver]);
-        session(['h3'=>$d->pos]);
-        session(['h4'=>$d->gudang]);
 
         session(['level'=>"Karyawan"]);
         \Alert::success('Login berhasil', 'Info')->autoClose(2000);
