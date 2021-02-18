@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\modelKeluar;
 use App\Models\modelDetailKeluar;
-
+use DB;
 class controlKeluar extends Controller
 {
     public function barangkeluar(){
@@ -35,7 +35,13 @@ class controlKeluar extends Controller
     }
 
     public function daftarbarangkeluar($id){
-        $data = 
+        $data = modelDetailKeluar::where('idkeluar',$id)->get();
+        return view('keluar.include.databarang',compact('data','id'));
+    }
+
+    public function daftarpembawa($id){
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Keluar')->get();
+        return view('keluar.include.datapembawa',compact('data','id'));
     }
 
 }

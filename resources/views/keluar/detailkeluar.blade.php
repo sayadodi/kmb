@@ -31,7 +31,7 @@
                                         <div class="icon-circle">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        Data Barang
+                                        Barang
                                     </a>
                                 </li>
                                 <li>
@@ -54,10 +54,10 @@
                         </div>
 
                         <div class="tab-content">
-                            <div class="tab-pane tamu" id="about">
+                            <div class="tab-pane databarang" id="about">
                                 
                             </div>
-                            <div class="tab-pane kendaraan" id="account">
+                            <div class="tab-pane datapembawa" id="account">
                                 
                             </div>
                             <div class="tab-pane" id="address">
@@ -112,7 +112,10 @@
     <script>
       $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
-        
+        var urlbrg = url_local+"/kmb/public/barangkeluar/databarang/{{$id}}";
+        var urlpem = url_local+"/kmb/public/barangkeluar/datapembawa/{{$id}}";
+
+        $('.databarang').load(urlbrg);
       });
     </script>
 @stop

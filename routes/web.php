@@ -90,7 +90,8 @@ Route::post('/barangkeluar/tambah','controlKeluar@tambah');
 
 // include ajax pengeluaran
 Route::get('/datadaftarpengeluaran','controlKeluar@datadaftarpengeluaran');
-
+Route::get('/barangkeluar/databarang/{id}','controlKeluar@daftarbarangkeluar');
+Route::get('/barangkeluar/datapembawa/{id}','controlKeluar@daftarpembawa');
 
 // Include Ajax Pos
 Route::get('/databarangpopos/{id}','controlPos@databarangpo');
