@@ -118,6 +118,7 @@
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         var urlcp = url_local+"/kmb/public/pernahmembawa";
+        var url = url_local+"/kmb/public/tamupernahmasuk/";
         var urlsp = url_local+"/kmb/public/barangkeluar/simpanpembawa";
         var urlpem = url_local+"/kmb/public/barangkeluar/datapembawa/{{$id}}";
         

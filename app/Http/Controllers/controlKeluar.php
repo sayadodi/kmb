@@ -55,8 +55,8 @@ class controlKeluar extends Controller
         $s = new modelDetailKeluar();
         $s->idkeluar = $id;
         $s->namabarang = $r->namabarang;
-        $s->satuan = $r->jumlah;
-        $s->jumlah = $r->satuan;
+        $s->satuan = $r->satuan;
+        $s->jumlah = $r->jumlah;
         $s->spesifikasi = $r->keterangan;
         $s->fotobarang = $nama_gambar;
         $s->save();

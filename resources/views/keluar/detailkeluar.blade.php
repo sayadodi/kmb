@@ -14,8 +14,6 @@
             <div class="box box-primary wizard-container">
             <div class="box-body">
                 <div class="wizard-card" data-color="orange" id="wizardProfile">
-                    <form action="" method="">
-
                         <div class="wizard-header text-center">
                             <h3 class="wizard-title">Form Keluarkan barang</h3>
                             <p class="category">Masukkan keperluan, data barang, dan pembawa barang.</p>
@@ -94,7 +92,6 @@
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                    </form>
                 </div>
             </div>
 
@@ -105,6 +102,7 @@
 @endsection
 @section('scripts')
     @parent
+    {!! Html::script('plugins/select2/dist/js/select2.full.min.js')!!}
     {!! Html::script('js/jquery.bootstrap.wizard.js')!!}
     {!! Html::script('js/paper-bootstrap-wizard.js')!!}
     {!! Html::script('js/jquery.validate.min.js')!!}

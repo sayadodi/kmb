@@ -27,7 +27,7 @@
                         <td>{{ $d->namabarang }}</td>
                         <td>{{ $d->jumlah }} {{ $d->satuan }}</td>
                         <td>
-                            <img src="{{asset('gambar/'.$d->foto)}}" alt="" height="70" width="70">
+                            <img src="{{asset('gambar/'.$d->fotobarang)}}" alt="" height="70" width="70">
                         </td>
                         <td>{{ $d->spesifikasi }}</td>
                         <td>

@@ -89,7 +89,7 @@ Route::get('/permintaankeluar','controlKeluar@permintaankeluar');
 Route::post('/barangkeluar/tambah','controlKeluar@tambah');
 Route::post('/barangkeluar/simpanbarang/{id}','controlKeluar@simpanbarang');
 Route::get('/pernahmembawa','controlKeluar@pernahmembawa');
-Route::post('/barangkeluar/simpanpembawa/{id}','controlKeluar@simpanpembawa');
+Route::post('/barangkeluar/simpanpembawa','controlKeluar@simpanpembawa');
 Route::post('/barangkeluar/simpan/{id}','controlKeluar@simpankeluar');
 
 // include ajax pengeluaran
