@@ -100,7 +100,7 @@
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
-        var urlbarang = url_local+"/kmb/public/simpanbarangkeluar";
+        var urlbarang = url_local+"/kmb/public/barangkeluar/simpanbarang/{{$id}}";
         var urlbrg = url_local+"/kmb/public/barangkeluar/databarang/{{$id}}";
         var urlh = url_local+"/kmb/public/hapusbarang/";
 

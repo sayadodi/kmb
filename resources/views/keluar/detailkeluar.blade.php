@@ -61,7 +61,7 @@
                                 
                             </div>
                             <div class="tab-pane" id="address">
-                                <form>
+                                <form id="formkeluar">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <h5 class="info-text"> Keperluan? </h5>
@@ -114,8 +114,43 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         var urlbrg = url_local+"/kmb/public/barangkeluar/databarang/{{$id}}";
         var urlpem = url_local+"/kmb/public/barangkeluar/datapembawa/{{$id}}";
+        var urlkeluar = url_local+"/kmb/public/barangkeluar/simpan/{{ $id }}";
+
 
         $('.databarang').load(urlbrg);
+        $('.datapembawa').load(urlpem);
+
+        $(".btn-finish").click(function(){
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+
+            var formData = new FormData($('#formkeluar')[0]);
+            var type = "POST";
+            var my_url = urlkeluar;
+
+            $.ajax({
+                type : type,
+                url : my_url,
+                data : formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                cache: false,
+                beforeSend: function(){
+                    
+                },
+                success: function(data){
+                    console.log(data);
+                    
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        });
       });
     </script>
 @stop
