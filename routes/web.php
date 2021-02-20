@@ -178,6 +178,12 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::post('/simpankendaraan','controlVendor@simpankendaraan');
     Route::post('/kirimpengiriman','controlVendor@kirimpengiriman');
 
+    // Keluarkan Barang
+    Route::get('/daftarkeluar','controlKeluarVendor@index');
+    Route::get('/daftarkeluar/data','controlKeluarVendor@data');
+    Route::get('/daftarkeluar/tambah','controlKeluarVendor@tambah');
+
+
     // Hapus dan ubah
     Route::put('/ubahbarang/{id}','controlVendor@ubahbarang');
     Route::put('/ubahpembawa/{id}','controlVendor@ubahpembawa');

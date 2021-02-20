@@ -60,6 +60,8 @@ class controlKeluar extends Controller
         $s->spesifikasi = $r->keterangan;
         $s->fotobarang = $nama_gambar;
         $s->save();
+        return \Response::json($s);
+
     }
 
     public function daftarpembawa($id){
