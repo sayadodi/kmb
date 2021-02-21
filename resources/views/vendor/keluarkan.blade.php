@@ -14,19 +14,16 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="callout callout-warning">
-          <h4><i class="icon fa fa-ban"></i> Pengiriman Barang Non PO</h4>
-              - Isi tiap tab minimal dengan satu data <br>
-              - Tombol kirim akan muncul jika data sudah lengkap<br>
+    <div class="callout callout-danger">
+          <h4><i class="icon fa fa-ban"></i> Proses Pengeluaran Barang</h4>
+              - Pilih barang yang akan dikeluarkan <br>
+              - Atur Orang yang akan mengeluarkan<br>
+              - Atur dokumen dan data tambahan
     </div>    
   </div>
 </div>
 <div class="row">
-    <div class="col-md-3 ketsamping">
-        
-    </div>
-    <!-- /.col -->
-    <div class="col-md-9">
+    <div class="col-md-12">
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li><a href="#tbarang" data-toggle="tab">Barang</a></li>
@@ -69,18 +66,9 @@
     <script>
       $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
-        var urlpo = url_local+"/kmb/public/databarangpo/{{$jenis}}/{{$id}}";
-        var urlpa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
-        var urltu = url_local+"/kmb/public/datatujuan/{{$jenis}}/{{$id}}";
-        var urlke = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
-        var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
+        var urlb = url_local+"/kmb/public/daftarkeluar/daftarbarang/{{ $id }}";
 
-        // Simpan barang
-        $('.dbarang').load(urlpo);
-        $('.dpembawa').load(urlpa);
-        $('.dtujuan').load(urltu);
-        $('.dkendaraan').load(urlke);
-        $('.ketsamping').load(urlsa);
+        $(".dbarang").load(urlb);
       });
     </script>
 @stop

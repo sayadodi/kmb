@@ -182,6 +182,8 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/daftarkeluar','controlKeluarVendor@index');
     Route::get('/daftarkeluar/data','controlKeluarVendor@data');
     Route::get('/daftarkeluar/tambah','controlKeluarVendor@tambah');
+    Route::get('/daftarkeluar/{id}','controlKeluarVendor@detail')->name("detailkeluarv");
+    Route::get('/daftarkeluar/daftarbarang/{id}','controlKeluarVendor@daftarbarangkeluar');
 
 
     // Hapus dan ubah

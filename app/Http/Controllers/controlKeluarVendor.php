@@ -36,12 +36,12 @@ class controlKeluarVendor extends Controller
 
     public function detail($id){
         $data = modelKeluar::where('idkeluar',$id)->get()->first();
-        return view('vendor.keluarkan',compact('data'));
+        return view('vendor.keluarkan',compact('data','id'));
     }
 
     public function daftarbarangkeluar($id){
-        $data = modelDetailKeluar::where('idkeluar',$id)->get();
-        return view('vendor.include.databarang',compact('data','id'));
+        $tolak = DB::table('daftarbarangditolak')->where('kdvendor',session('idvendor'))->get();
+        return view('vendor.include.daftarbarangditolak',compact('tolak'));
     }
 
     public function simpanbarang(Request $r,$id){

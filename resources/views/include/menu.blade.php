@@ -186,6 +186,7 @@
       <li><a href="{{url('kirimnonpo')}}"><i class="fa fa-circle-o"></i> Barang Non PO</a></li>
     </ul>
   </li>
+  <li><a href="{{url('daftarkeluar')}}"><i class="fa fa-history"></i> <span>Keluarkan Barang</span></a></li>
   <li><a href="{{url('daftartolak')}}"><i class="fa fa-times"></i> <span>Barang Ditolak</span></a></li>
   <li><a href="{{url('ubahpassv')}}"><i class="fa fa-book"></i> <span>Ubah Password</span></a></li>
   <li><a href="{{url('keluarvendor')}}"><i class="fa fa-sign-out"></i> <span>Keluar</span></a></li>

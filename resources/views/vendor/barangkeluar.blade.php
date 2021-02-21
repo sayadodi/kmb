@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="callout callout-success">
+        <div class="callout callout-danger">
             <h4><i class="icon fa fa-info"></i> Info!</h4>
                 - Klik nama pengiriman untuk mengatur kiriman <br>
                 - Daftar dibawah adalah daftar pengeluaran barang dari barang yang ditolak<br>
@@ -33,9 +33,9 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-            <button type="button" class="btn btn-success btn-keluarkan">
-                Tambah kiriman
-                </button>
+            <a href="{{ url("daftarkeluar/tambah") }}" class="btn btn-danger btn-keluarkan">
+                Tambah Pengeluaran
+            </a>
         </div>
         <!-- /.box-footer -->
         </div>
@@ -54,55 +54,6 @@
         $(".daftarkiriman").load(url);
 
         var urltambah = url_local+"/kmb/public/daftarkeluar/tambah";
-
-        $(".tambahkiriman").click(function(){
-            $.ajaxSetup({
-                headers:{
-                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-                }
-            })
-
-            var formData = {
-                nopo: $(".nopo").val(),
-                keperluan: $(".keperluan").val(),
-            }
-
-            var type = "POST";
-            var my_url = urltambah;
-            $.ajax({
-                type : type,
-                url : my_url,
-                data : formData,
-                dataType: 'json',
-                beforeSend: function(){
-                    setVisible('#proses',true);
-                    setVisible("#formtambahpo",false);
-                },
-                success: function(data){
-                    console.log(data.errors);
-                    if(data.errors){
-                        if(data.errors.nopo){
-                            setVisible('#proses',false);
-                            setVisible("#formtambahpo",true);
-                        }else if(data.errors.keperluan){
-                            setVisible('#proses',false);
-                            setVisible("#formtambahpo",true);
-                        }
-                    }else{
-                        setVisible('#proses',false);
-                        setVisible("#formtambahpo",true);
-                        $('#formtambahpo').trigger("reset");
-                        $(".daftarkiriman").load(url);
-                        $("#masukkanpo").modal('hide');
-                    }
-                    
-                    // 
-                },
-                error: function(data){
-                    console.log(data);
-                }
-            });
-        });
 	});
 </script>
 @stop

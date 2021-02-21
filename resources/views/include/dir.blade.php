@@ -229,6 +229,28 @@
         <li class="active">Detail Barang Keluar</li>
       </ol>
     @endif
+
+    @if(is_active('daftarkeluar'))
+      <h1>
+      Keluarkan Barang
+      <small>Daftar Pengeluaran Barang</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Barang Keluar</li>
+      </ol>
+    @endif
+
+    @if(is_active('detailkeluarv'))
+      <h1>
+      Detail Barang Keluar
+      <small>Detail Pengeluaran Barang</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Detail Barang Keluar</li>
+      </ol>
+    @endif
     <!-- Admin -->
     @if(is_active('aturhak'))
       <h1>
