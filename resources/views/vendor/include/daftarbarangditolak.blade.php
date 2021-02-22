@@ -17,7 +17,11 @@
             @if (count($tolak) > 0)
             @foreach ($tolak as $d)
             <tr>
-                <td><input type="checkbox" name="kdbrg" class="kdbrg" data-kode="{{ $d->iddetailkirim }}"></td>
+                <td>
+                    <form action="" method="post" id="formbrg" name="formbrg">
+                        <input type="checkbox" id="kdbrg" name="kdbrg" class="kdbrg" value="{{ $d->iddetailkirim }}">
+                    </form>
+                </td>
                 <td>{{$d->nopo}}</td>
                 <td>{{$d->keperluan}}</td>
                 <td>{{$d->tglkirim}}</td>

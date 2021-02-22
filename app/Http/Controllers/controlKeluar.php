@@ -109,5 +109,32 @@ class controlKeluar extends Controller
         return \Response::json($h);
     }
 
+    public function permintaankeluar(){
+        return view('keluar.permintaan');
+    }
 
+    public function datamintakeluar(){
+        $data = modelKeluar::where('status',"Meminta")->get();
+        return view('keluar.include.databarangkeluar',compact('data'));
+    }
+
+    public function detailpermintaan($id){
+        $data = modelKeluar::where('idkeluar',$id)->get()->first();
+        return view('keluar.detailpermintaan',compact('data','id'));
+    }
+
+    public function mintabarang($id){
+        $tolak = modelDetailKeluar::where('idkeluar',$id)->get();
+        return view('keluar.include.daftarbarangditolak',compact('tolak','id'));
+    }
+
+    public function mintapembawa($id){
+        $data = DB::table('tbhistoritamu as h')->join('tbdetailtamu as d','h.iddetailtamu','=','d.iddetailtamu')->select('d.*','h.idhistori','h.nopass','h.nopassa')->where('h.idtamu',$id)->where('h.jenis','Keluar')->get();
+        return view('keluar.include.datapembawam',compact('data','id'));
+    }
+
+    public function mintakendaraan($id){
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengeluaran')->get();
+        return view('keluar.include.datakendaraan',compact('data','id'));
+    }
 }

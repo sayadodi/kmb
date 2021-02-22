@@ -26,10 +26,12 @@
     <div class="col-md-12">
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-          <li><a href="#tbarang" data-toggle="tab">Barang</a></li>
+          <li class="active"><a href="#tbarang" data-toggle="tab">Barang</a></li>
           <li><a href="#tpembawa" data-toggle="tab">Pembawa barang</a></li>
-          <li><a href="#ttujuan" data-toggle="tab">Tujuan</a></li>
-
+          <li><a href="#ttujuan" data-toggle="tab">Kendaraan</a></li>
+          <div class="text-right" style="padding: 5px">
+            <input type="button" value="Simpan" class="btn btn-danger btn-sm btn-simpan">
+          </div>
         </ul>
         <div class="tab-content">
           {{-- Barang --}}
@@ -43,13 +45,10 @@
           </div>
 
           {{-- Tujuan dan kendaraan --}}
-          <div class="tab-pane dkendaraan" id="tkendaraan">
-            
-          </div>
+          <div class="tab-pane" id="ttujuan">
+              <div class="dkendaraan">
 
-          {{-- Tujuan dan kendaraan --}}
-          <div class="tab-pane dtujuan" id="ttujuan">
-            
+              </div>
           </div>
         </div>
       </div>
@@ -67,8 +66,44 @@
       $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         var urlb = url_local+"/kmb/public/daftarkeluar/daftarbarang/{{ $id }}";
+        var urlp = url_local+"/kmb/public/daftarkeluar/daftarpembawa/{{ $id }}";
+        var urlk = url_local+"/kmb/public/daftarkeluar/daftarkendaraan/{{ $id }}";
+        var urlsp = url_local+"/kmb/public/daftarkeluar/simpan/{{ $id }}";
 
         $(".dbarang").load(urlb);
+        $(".dpembawa").load(urlp);
+        $(".dkendaraan").load(urlk);
+
+        $(".btn-simpan").click(function(){
+            $.ajaxSetup({
+                headers:{
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+
+            var myCheckboxes = new Array();
+            $("input:checked").each(function() {
+              myCheckboxes.push($(this).val());
+            });
+            var type = "POST";
+            var my_url = urlsp;
+            console.log(myCheckboxes);
+            $.ajax({
+                type : type,
+                url : my_url,
+                data : 'kdbrg='+myCheckboxes,
+                dataType: 'json',
+                beforeSend: function(){
+                    
+                },
+                success: function(data){
+                    console.log(data); 
+                },
+                error: function(data){
+                    
+                }
+            });
+        });
       });
     </script>
 @stop

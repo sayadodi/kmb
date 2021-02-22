@@ -85,12 +85,20 @@ Route::get('/menungguapprover','controlPos@menungguapprover');
 // Pengeluaran Barang
 Route::get('/barangkeluar','controlKeluar@barangkeluar');
 Route::get('/barangkeluar/{id}','controlKeluar@detailkeluar')->name('detailkeluar');
-Route::get('/permintaankeluar','controlKeluar@permintaankeluar');
 Route::post('/barangkeluar/tambah','controlKeluar@tambah');
 Route::post('/barangkeluar/simpanbarang/{id}','controlKeluar@simpanbarang');
 Route::get('/pernahmembawa','controlKeluar@pernahmembawa');
 Route::post('/barangkeluar/simpanpembawa','controlKeluar@simpanpembawa');
 Route::post('/barangkeluar/simpan/{id}','controlKeluar@simpankeluar');
+
+// Permintaan Keluar
+Route::get('/permintaankeluar','controlKeluar@permintaankeluar');
+Route::get('/permintaankeluar/data','controlKeluar@datamintakeluar');
+Route::get('/mintakeluar/{id}','controlKeluar@detailpermintaan')->name('detailmintakeluar');
+Route::get('/mintakeluar/daftarbarang/{id}','controlKeluar@mintabarang');
+Route::get('/mintakeluar/daftarkendaraan/{id}','controlKeluar@mintakendaraan');
+Route::get('/mintakeluar/daftarpembawa/{id}','controlKeluar@mintapembawa');
+Route::get('/mintakeluar/simpan/{id}','controlKeluar@mintasimpan');
 
 // include ajax pengeluaran
 Route::get('/datadaftarpengeluaran','controlKeluar@datadaftarpengeluaran');
@@ -184,6 +192,11 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/daftarkeluar/tambah','controlKeluarVendor@tambah');
     Route::get('/daftarkeluar/{id}','controlKeluarVendor@detail')->name("detailkeluarv");
     Route::get('/daftarkeluar/daftarbarang/{id}','controlKeluarVendor@daftarbarangkeluar');
+    Route::get('/daftarkeluar/daftarpembawa/{id}','controlKeluarVendor@daftarpembawa');
+    Route::post('/daftarkeluar/simpanpembawa','controlKeluarVendor@simpanpembawa');
+    Route::get('/daftarkeluar/daftarkendaraan/{id}','controlKeluarVendor@daftarkendaraan');
+    Route::post('/daftarkeluar/simpankendaraan','controlKeluarVendor@simpankendaraan');
+    Route::post('/daftarkeluar/simpan/{id}','controlKeluarVendor@simpan');
 
 
     // Hapus dan ubah

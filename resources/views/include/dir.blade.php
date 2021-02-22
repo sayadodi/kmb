@@ -230,6 +230,17 @@
       </ol>
     @endif
 
+    @if(is_active('detailmintakeluar'))
+      <h1>
+      Detail Permintaan Keluar
+      <small>Detail Pengeluaran Barang</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Detail Barang Keluar</li>
+      </ol>
+    @endif
+
     @if(is_active('daftarkeluar'))
       <h1>
       Keluarkan Barang
