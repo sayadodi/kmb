@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\modelMasterVendor;
+use App\Models\modelBlokir;
 use Mail;
 
 class controlDaftar extends Controller
@@ -17,20 +18,29 @@ class controlDaftar extends Controller
         $vendor = $r->vendor;
         $tlp = $r->tlp;
         $alamat = $r->alamat;
+        $cek = modelBlokir::where('email',$email)->get()->count();
+        if($cek > 0){
+            return redirect('errorblokir');
+        }else{
+            $s = new modelMAsterVendor();
+            $s->namavendor = $vendor;
+            $s->email = $email;
+            $s->telepon = $tlp;
+            $s->alamat = $alamat;
+            $s->save();
 
-        $s = new modelMAsterVendor();
-        $s->namavendor = $vendor;
-        $s->email = $email;
-        $s->telepon = $tlp;
-        $s->alamat = $alamat;
-        $s->save();
-
-        \Alert::success('Berhasil', 'Info')->autoClose(2000);
-        return redirect('daftarsukses');
+            \Alert::success('Berhasil', 'Info')->autoClose(2000);
+            return redirect('daftarsukses');
+        }
+        
     }
 
     public function sukses(){
         return view('vendor.berhasil');
+    }
+
+    public function blokir(){
+        return view('vendor.blokir');
     }
 
     public function lupapassword(){

@@ -31,15 +31,6 @@
             </tr>
             @endif
         </tbody>
-        <tfoot>
-            <tr>
-                <th>#</th>
-                <th>Nama Barang</th>
-                <th>Jumlah</th>
-                <th>Spesifikasi</th>
-                <th>Gambar</th>
-            </tr>
-        </tfoot>
     </table>
     
 </div>

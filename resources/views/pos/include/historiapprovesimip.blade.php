@@ -52,7 +52,7 @@
         @endif
     @endforeach
 
-    @if (empty($kiriman->k3))
+    @if (empty($kiriman->sk3))
         
     @else
         <li>

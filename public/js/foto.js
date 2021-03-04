@@ -1,7 +1,6 @@
 $(document).ready(function(){
     var url_local = window.location.protocol+'//'+window.location.host;
 	var urlfoto = url_local+"/kmb/public/foto";
-	var urlpaa = url_local+"/kmb/public/datapembawapos/{{$id}}";
 
 	$(document).on('click', '.aturikut', function (e) {
 		document.getElementById('idikut').value = $(this).attr('data-id');
@@ -19,7 +18,8 @@ $(document).ready(function(){
         	idikut: $(".idikut").val(),
             namafoto: $(".namafoto").val(),
         }
-
+        var urlpa = url_local+"/kmb/public/datapembawapos/"+$(".idkirim").val();
+        var urlla = url_local+"/kmb/public/langkah/"+$(".idkirim").val();
         var type = "POST";
         var my_url = urlfoto;
 
@@ -33,9 +33,10 @@ $(document).ready(function(){
             		$('.error').removeClass('hidden');
             		$('.error').text("Terjadi kesalahan, mohon periksa kevalidan data");
             	}else{
-            		$('.dpembawa').load(urlpaa); 
+            		$('.dpembawa').load(urlpa); 
+                    $('.langkah').load(urlla);
+                    $("#modal-pengikut").modal('hide');
                 }
-                $('.dpembawa').load(urlpaa); 
             },
             error: function(data){
                 

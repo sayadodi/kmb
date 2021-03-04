@@ -58,7 +58,7 @@ Route::get('/datapembawar/{id}','controlGudang@datapembawa');
 Route::get('/datakendaraanr/{id}','controlGudang@datakendaraan');
 // Rute POS
 Route::get('/barangmasuk','controlPos@barangmasuk');
-Route::post('/barangmasukterima','controlPos@terimabarang');
+Route::post('/barangmasukterima/{id}','controlPos@terimabarang');
 Route::get('/kunjungan','controlPos@tamu');
 Route::get('/daftartamu','controlPos@daftartamupos');
 Route::get('/simip','controlPos@simip');
@@ -98,7 +98,8 @@ Route::get('/mintakeluar/{id}','controlKeluar@detailpermintaan')->name('detailmi
 Route::get('/mintakeluar/daftarbarang/{id}','controlKeluar@mintabarang');
 Route::get('/mintakeluar/daftarkendaraan/{id}','controlKeluar@mintakendaraan');
 Route::get('/mintakeluar/daftarpembawa/{id}','controlKeluar@mintapembawa');
-Route::get('/mintakeluar/simpan/{id}','controlKeluar@mintasimpan');
+Route::get('/mintakeluar/simip/{id}','controlKeluar@simip');
+Route::post('/mintakeluar/simpan/{id}','controlKeluar@mintasimpan');
 
 // include ajax pengeluaran
 Route::get('/datadaftarpengeluaran','controlKeluar@datadaftarpengeluaran');
@@ -114,9 +115,6 @@ Route::get('/historiapprovesimip/{id}','controlPos@historiapprovesimip');
 Route::get('/tombol/{id}','controlPos@tombol');
 Route::get('/penentuansimip/{id}','controlPos@penentuansimip');
 Route::get('/langkah/{id}','controlPos@langkah');
-Route::post('/p1','controlPos@p1');
-Route::post('/p2','controlPos@p2');
-
 
 // Rute Lobby
 Route::get('/scan','controlLobby@scan');
@@ -126,9 +124,6 @@ Route::get('/blokiremail','controlGudang@blokir');
 Route::post('/blokiremail/tambah','controlGudang@tambahblokir');
 Route::get('/hapusblokir/{id}','controlGudang@hapusblokir');
 
-
-
-
 // Cetak
 Route::get('/cetaktamu/{id}','controlCetak@tamu');
 Route::get('/cetaksimip/{id}','controlCetak@simip');
@@ -137,8 +132,6 @@ Route::get('/laporanbarangmasuk','controlCetak@laporanbarangmasuk');
 Route::get('/laporantamu','controlCetak@laporantamu');
 Route::get('/laporanbarangmasuk/cetak','controlCetak@cetaklaporanbarangmasuk');
 Route::get('/laporantamu/cetak','controlCetak@cetaklaporantamu');
-
-
 // Vendor daftar
 
 // Vendor proses
@@ -148,6 +141,7 @@ Route::group(['middleware' => ['cekbrowser']],function(){
     Route::get('/daftar','controlDaftar@index');
     Route::post('/daftar','controlDaftar@postDaftar');
     Route::get('/daftarsukses','controlDaftar@sukses');
+    Route::get('/errorblokir','controlDaftar@blokir');
     Route::get('/lupapassword','controlDaftar@lupapassword');
     Route::post('/lupapassword','controlDaftar@kirimemaillupa');
     Route::get('/infolupaspassword','controlDaftar@infolupapassword');
@@ -175,7 +169,7 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::get('/datapembawa/{jenis}/{id}','controlVendor@datapembawa');
     Route::get('/datatujuan/{jenis}/{id}','controlVendor@datatujuan');
     Route::get('/datakendaraan/{jenis}/{id}','controlVendor@datakendaraan');
-    Route::get('/ketsamping/{id}','controlVendor@ketsamping');
+    Route::get('/ketsamping/{jenis}/{id}','controlVendor@ketsamping');
     Route::get('/carihistoritamu/{id}','controlVendor@carihistoritamu');
     Route::get('/carihistorikend/{id}','controlVendor@carihistorikend');
 

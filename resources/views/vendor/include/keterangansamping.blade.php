@@ -104,7 +104,11 @@
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
         var urlkirim = url_local+"/kmb/public/kirimpengiriman";
-        var urlsamping = url_local+"/kmb/public/ketsamping/{{$id}}";
+        var urlsamping = url_local+"/kmb/public/ketsamping/{{$jenis}}/{{$id}}";
+        var urlpo = url_local+"/kmb/public/databarangpo/{{$jenis}}/{{$id}}";
+        var urlpa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
+        var urltu = url_local+"/kmb/public/datatujuan/{{$jenis}}/{{$id}}";
+        var urlke = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
 
         $(".kirimbarang").click(function(){
             swal({
@@ -140,6 +144,10 @@
                     },
                     success: function(data){
                         $('.ketsamping').load(urlsamping);  
+                        $('.dbarang').load(urlpo);
+                        $('.dpembawa').load(urlpa);
+                        $('.dtujuan').load(urltu);
+                        $('.dkendaraan').load(urlke);
                     },
                     error: function(data){
                         console.log(data);

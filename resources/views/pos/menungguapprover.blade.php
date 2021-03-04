@@ -33,6 +33,7 @@
 								<th>Keperluan</th>
 								<th>Tanggal Kirim</th>
                                 <th>Approver Barang</th>
+                                <th>Approver Simip</th>
                                 <th>Cetak</th>
 							</tr>
 						</thead>
@@ -53,6 +54,13 @@
                                         <span class="label label-primary">{{controlEtc::approverbarang($d->idapprove, $d->idpengaturan)}}</span>
                                     </div>
                                 </td>
+								<td>
+									@if($d->areakhusus == 'Y')
+									<div class="approver">
+                                        <span class="label label-primary">{{controlEtc::approversimip($d->idapprove, $d->kodekirim)}}</span>
+                                    </div>
+									@endif
+								</td>
                                 <td>
                                     <a target="_blank" href="{{url('cetakpengiriman/'.$d->kodekirim)}}"><i class="fa fa-print"></i></a>
                                 </td>

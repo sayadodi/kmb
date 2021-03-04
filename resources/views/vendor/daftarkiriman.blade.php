@@ -91,6 +91,7 @@
 
         var urltambah = url_local+"/kmb/public/kirimpo/tambah";
         var url = url_local+"/kmb/public/datadaftarkiriman";
+        var redirect = url_local+"/kmb/public/kirimbarang/po/";
 
         $(".tambahkiriman").click(function(){
             $.ajaxSetup({
@@ -116,7 +117,6 @@
                     setVisible("#formtambahpo",false);
                 },
                 success: function(data){
-                    console.log(data.errors);
                     if(data.errors){
                         if(data.errors.nopo){
                             setVisible('#proses',false);
@@ -131,6 +131,7 @@
                         $('#formtambahpo').trigger("reset");
                         $(".daftarkiriman").load(url);
                         $("#masukkanpo").modal('hide');
+                        window.location.href = redirect+data.id;
                     }
                     
                     // 

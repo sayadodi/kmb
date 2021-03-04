@@ -107,8 +107,6 @@ class controlGudang extends Controller
     public function terimakiriman(Request $r){
         $kode = $r->idkirim;
         $status = $r->status;
-        $cariset = modelPengaturan::where('jenis','Masuk')->get()->first();
-        $kodeset = $cariset->kodeatur;
         $s = modelPengiriman::findOrFail($kode);
         $histori = new modelHistoriVendor();
         $histori->kdvendor = $s->kodevendor;
@@ -120,13 +118,7 @@ class controlGudang extends Controller
 
         if($status == "Terima"){
             $s->statuskiriman = "Diterima Gudang";
-            $s->idpengaturan = $kodeset;
             $histori->status = "Terima";
-            $a = new modelAprrove();
-            $a->tglapprove = date("Y-m-d H:i:s");
-            $a->jenisapprove = "Barang";
-            $a->idpengiriman = $kode;
-            $a->save();
         }else if($status == "Tolak"){
             $s->statuskiriman = "Ditolak Gudang";
             $histori->status = "Tolak";
@@ -135,8 +127,6 @@ class controlGudang extends Controller
         }
         $histori->save();
         $s->save();
-
-        
 
         return \Response::json($s);
         

@@ -30,11 +30,7 @@
                             <td>{{$d->namakendaraan}}</td>
                             <td>{{$d->plat}}</td>
                             <td>
-                            @if(!empty($kiriman->k3))
                                 <b>A</b> <input type="text" name="" size="5" id="gatepass" placeholder="09" class="gatepass" data-kode="{{$d->idhistorikend}}" value="{{ $d->nogate }}">
-                            @else
-
-                            @endif
                             </td>
                         </tr>
                     @endforeach
@@ -52,7 +48,7 @@
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         var urlke = url_local+"/kmb/public/datakendaraanpos/{{$id}}";
-
+        var urlla = url_local+"/kmb/public/langkah/{{$id}}";
 
         $(".gatepass").keyup(function(event) {
             if (event.keyCode === 13) {
@@ -85,6 +81,7 @@
                     },
                     success: function(data){
                         $('.dkendaraan').load(urlke);
+                        $('.langkah').load(urlla);
                     },
                     error: function(data){
                         console.log(data);

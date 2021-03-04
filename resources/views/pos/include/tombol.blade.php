@@ -7,7 +7,7 @@
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         // Simpan barang
-        var urlkirim = url_local+"/kmb/public/barangmasukterima";
+        var urlkirim = url_local+"/kmb/public/barangmasukterima/{{$id}}";
 
         $(".konfirmasikiriman").click(function(){
             swal({
@@ -25,9 +25,7 @@
                     }
                 })
 
-                var formData = {
-                    idkirim: $('.idkirim').val(),
-                }
+                var formData = new FormData($('#formsimip')[0]);
                 var type = "POST";
                 var my_url = urlkirim;
 
@@ -36,6 +34,9 @@
                     url : my_url,
                     data : formData,
                     dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
                     beforeSend: function(){
                         
                     },

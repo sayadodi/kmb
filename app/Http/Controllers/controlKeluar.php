@@ -7,6 +7,9 @@ use App\Models\modelKeluar;
 use App\Models\modelDetailKeluar;
 use App\Models\modelDetailTamu;
 use App\Models\modelHistoriTamu;
+use App\Models\modelSimip;
+use App\Models\modelAprrove;
+use App\Models\modelPengaturan;
 use DB;
 class controlKeluar extends Controller
 {
@@ -20,12 +23,14 @@ class controlKeluar extends Controller
     }
 
     public function tambah(Request $r){
+        $pk = modelPengaturan::where('jenis','Keluar')->where('status','Y')->get()->first()['kodeatur'];
         $keperluan = $r->keperluan;
         $s = new modelKeluar();
         $s->keperluan = $keperluan;
         $s->tujuan = $r->tujuan;
         $s->jenisbarang = $r->jenis;
         $s->tgl = date("Y-m-d H:i:s");
+        $s->idpengaturan = $pk;
         $s->save();
         $id = $s->idkeluar;
         return \Response::json(array('id' => $id));
@@ -104,9 +109,13 @@ class controlKeluar extends Controller
     }
 
     public function simpankeluar(Request $r,$id){
-        $s = modelKeluar::where('idkeluar',$id)->get()->first();
-        
-        return \Response::json($h);
+        $a1 = new modelAprrove();
+        $a1->tglapprove = date("Y-m-d H:i:s");
+        $a1->jenisapprove = "Keluar";
+        $a1->idkeluar = $id;
+        $a1->status = "Proses";
+        $a1->save();
+        return \Response::json($a1);
     }
 
     public function permintaankeluar(){
@@ -119,7 +128,7 @@ class controlKeluar extends Controller
     }
 
     public function detailpermintaan($id){
-        $data = modelKeluar::where('idkeluar',$id)->get()->first();
+        $data = DB::table('tbkeluar as k')->leftjoin('tbvendor as v','k.kdvendor','=','v.kdvendor')->where('k.idkeluar',$id)->get()->first();
         return view('keluar.detailpermintaan',compact('data','id'));
     }
 
@@ -134,7 +143,62 @@ class controlKeluar extends Controller
     }
 
     public function mintakendaraan($id){
-        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend')->where('h.idtamu',$id)->where('h.jenis','Pengeluaran')->get();
+        $data = DB::table('tbhistorikendaraan as h')->join('tbkendaraan as k','h.idkendaraan','=','k.idkendaraan')->select('k.*','h.idhistorikend','h.nogate')->where('h.idtamu',$id)->where('h.jenis','Pengeluaran')->get();
         return view('keluar.include.datakendaraan',compact('data','id'));
+    }
+
+    public function simip($id){
+        $data = DB::table('tbkeluar as p')->leftJoin('tbsimip as s','p.idkeluar','=','s.idpengeluaran')->where('p.idkeluar',$id)->get()->first();
+        return view('keluar.include.penentuansimip',compact('data','id'));
+    }
+
+    public function mintasimpan(Request $r,$id){
+        $p1 = $r->p1;
+        $p2 = $r->p2;
+        $cm = DB::table('daftarmansimip')->where('jabatan','LIKE','%LOGISTIK%')->get()->first();
+        $m = $cm->idKaryawan;
+        $ck3 = DB::table('daftarmansimip')->where('jabatan','LIKE','%K3%')->get()->first();
+        $k3 = $ck3->idKaryawan;
+        $p = modelPengaturan::where('jenis','Simip')->where('status','Y')->get()->first()['kodeatur'];
+        $s = modelKeluar::findOrFail($id);
+        
+        if($p1 == 'Y'){
+            $s->areakhusus = 'Y';
+            $simip = new modelSimip();
+            $simip->kepentingan = "Pengeluaran Barang";
+            $simip->tglsimip = date("Y-m-d H:i:s");         
+            $simip->statuspossimip = "Diterima";
+            $simip->pendamping = "Gudang";
+            $simip->idpengeluaran = $id;
+            $simip->idpengaturan = $p;
+            $simip->manager = $m;
+            if($p2 == 'Y'){
+                $simip->k3 = $k3;
+                $simip->kendaraan = "Roda 4";
+            }
+            $simip->save();
+            $idsimip = $simip->idtamu;
+
+            $a = new modelAprrove();
+            $a->tglapprove = date("Y-m-d H:i:s");
+            $a->jenisapprove = "Simip";
+            $a->idsimip = $idsimip;
+            $a->status = "Proses";
+            $a->save();
+
+            $a1 = new modelAprrove();
+            $a1->tglapprove = date("Y-m-d H:i:s");
+            $a1->jenisapprove = "Keluar";
+            $a1->idkeluar = $id;
+            $a1->status = "Proses";
+            $a1->save();
+        }elseif($p1 == 'N'){
+            $s->areakhusus = 'N';
+        }else{
+
+        }
+        $s->save();
+
+        return \Response::json($s);
     }
 }

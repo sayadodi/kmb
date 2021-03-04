@@ -11,6 +11,7 @@
                         <th>Jenis</th>
                         <th>Nama</th>
                         <th>Plat</th>
+                        <th>Gate Pass</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,6 +25,9 @@
                             <td>{{$d->jeniskendaraan}}</td>
                             <td>{{$d->namakendaraan}}</td>
                             <td>{{$d->plat}}</td>
+                            <td>
+                            <b>A</b> <input type="text" name="" size="5" id="gatepass" placeholder="09" class="gatepass" data-kode="{{$d->idhistorikend}}" value="{{ $d->nogate }}">
+                            </td>
                         </tr>
                     @endforeach
                 @else
@@ -39,6 +43,45 @@
 <script>
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
+        var urlke = url_local+"/kmb/public/mintakeluar/daftarkendaraan/{{ $id }}";
+
+        $(".gatepass").keyup(function(event) {
+            if (event.keyCode === 13) {
+                var gatepass = url_local+"/kmb/public/ubahgatepass";
+                
+                var q = $(this).data('kode');
+                var w = $(this).val();
+                var id = $(".idkirim").val();
+
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                var formData = {
+                    kode : q,
+                    no: w,
+                }
+                var type = "POST";
+                var my_url = gatepass;
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        $('.dkendaraan').load(urlke);
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            }
+        });
     });
 </script>
 <script>

@@ -37,7 +37,7 @@
               <tr>
                 <td>
                   <div class="checkbox icheck">
-                  <input name="h3" type="checkbox" id="h3" value="Pos" @if(!empty($hak->gudang)) checked="" @endif /> Pos
+                  <input name="h3" type="checkbox" id="h3" value="Pos" @if(!empty($hak->pos)) checked="" @endif /> Pos
                 </div>
                 </td>
               </tr>
@@ -91,7 +91,7 @@
               <tr>
                 <td>
                 <div class="checkbox icheck">
-                  <input name="h11" type="checkbox" id="h4" value="Gudang" @if(!empty($hak->pos)) checked="" @endif /> Gudang.
+                  <input name="h4" type="checkbox" id="h4" value="Gudang" @if(!empty($hak->gudang)) checked="" @endif /> Gudang.
                 </div>
                 </td>
               </tr>

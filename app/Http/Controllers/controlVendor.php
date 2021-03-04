@@ -11,6 +11,7 @@ use App\Models\modelKendaraan;
 use App\Models\modelHistoriVendor;
 use App\Models\modelHistoriTamu;
 use App\Models\modelHistoriKendaraan;
+use App\Models\modelPengaturan;
 use DB;
 
 
@@ -124,7 +125,7 @@ class controlVendor extends Controller
         return view('vendor.include.keterangankirim',compact('data','id','jenis','kirim'));
     }
 
-    public function ketsamping($id){
+    public function ketsamping($jenis,$id){
         $data = modelPengiriman::where('kodekirim',$id)->get()->first();
         $jmlbarang = modelDetailBarangpo::where('idkirim',$id)->where('jenisbarang','PO')->count();
         $jmlbawa = modelHistoriTamu::where('idtamu',$id)->where('jenis','Pengiriman')->count();
@@ -132,7 +133,7 @@ class controlVendor extends Controller
         $jmlken = modelHistoriKendaraan::where('idtamu',$id)->where('jenis','Pengiriman')->count();
         $histori = modelHistoriVendor::where('idkirim',$id)->get();
 
-        return view('vendor.include.keterangansamping',compact('data','id','jmlbarang','jmlbawa','jmltools','jmlken','histori'));
+        return view('vendor.include.keterangansamping',compact('data','id','jmlbarang','jmlbawa','jmltools','jmlken','histori','jenis'));
     }
 
     public function tambahpo(Request $r){
@@ -146,14 +147,17 @@ class controlVendor extends Controller
             return \Response::json(array('errors' => $validator->getMessageBag()->toarray()));
         }
         $nopo = $r->nopo;
+        $pk = modelPengaturan::where('jenis','Keluar')->where('status','Y')->get()->first()['kodeatur'];
         $simpan = new modelPengiriman();
         $simpan->nopo = $nopo;
         $simpan->keperluan = $r->keperluan;
         $simpan->tglbuat = date("Y-m-d H:i:s");
         $simpan->kodevendor = session('idvendor');
         $simpan->status = 'PO';
+        $simpan->idpengaturan = $pk;
         $simpan->save();
-        return \Response::json($simpan);
+        $id = $simpan->kodekirim;
+        return \Response::json(array('id' => $id));
     }
 
     public function hapuskirimanpo($id){

@@ -132,15 +132,19 @@
         var urlhis = url_local+"/kmb/public/historiapprovesimip/{{$id}}";
         var khusus = "{{$kiriman->areakhusus}}";
         if(khusus == 'Y'){
-          $('.historiapprovesimip').load(urlhis);
+          setInterval(function(){
+            $('.historiapprovesimip').load(urlhis);
+          },1000)
         }
 
+        setInterval(function(){
+          $('.historiapprove').load(urlhi);
+        },1000)
         // Simpan barang
         $('.dbarang').load(urlpo);
         $('.dpembawa').load(urlpa);
         $('.dkendaraan').load(urlke);
         $('.dsimip').load(urlsi);
-        $('.historiapprove').load(urlhi);
         $('.tombol').load(urlto);
         $('.langkah').load(urlla);
       });

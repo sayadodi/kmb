@@ -11,25 +11,25 @@
     <div class="row">
     <div class="col-xs-12">
         <h2 class="page-header">
-        <i class="fa fa-globe"></i> Isi
-        <small class="pull-right">Date: Disini4</small>
+        <i class="fa fa-globe"></i> Pengeluaran Barang
+        <small class="pull-right">Date: {{date("d-m-Y")}}</small>
         </h2>
     </div>
     <!-- /.col -->
     </div>
     <!-- info row -->
     <div class="row invoice-info">
-    <div class="col-sm-4 invoice-col">
+    <div class="col-sm-6 invoice-col">
         Dari
         <address>
-        <strong>Disini.</strong><br>
-        Disini<br>
-        Phone: Disini<br>
-        Email: Disini
+        <strong>{{$data->namavendor}}</strong><br>
+        {{$data->alamat}}<br>
+        Phone: {{$data->telepon}}<br>
+        Email: {{$data->email}}
         </address>
     </div>
     <!-- /.col -->
-    <div class="col-sm-4 invoice-col">
+    <div class="col-sm-6 invoice-col">
         Kepada
         <address>
         <strong>Gudang</strong><br>
@@ -38,15 +38,6 @@
         Email: pjb@gmail.com
         </address>
     </div>
-    <!-- /.col -->
-    <div class="col-sm-4 invoice-col">
-        <b>Disini</b><br>
-        <br>
-        <b>Order ID:</b> Disini<br>
-        <b>Tangga kirim:</b> Disini<br>
-        <b>Account:</b> Disini
-    </div>
-    <!-- /.col -->
     </div>
     <!-- /.row -->
 
@@ -96,11 +87,7 @@
     </div>
     <!-- /.col -->
     <div class="col-xs-4">
-        <p class="lead">Langkah-Langkah</p>
-
-        <div class="table-responsive langkah">
         
-        </div>
     </div>
     <!-- /.col -->
     </div>
@@ -109,7 +96,7 @@
     <!-- this row will not appear when printing -->
     <div class="row no-print">
     <div class="col-xs-12 tombol">
-        
+        <button type="button" class="btn btn-primary btn-setujui">Setujui</button>
     </div>
     </div>
 </section>
@@ -125,11 +112,57 @@
         var urlb = url_local+"/kmb/public/mintakeluar/daftarbarang/{{ $id }}";
         var urlp = url_local+"/kmb/public/mintakeluar/daftarpembawa/{{ $id }}";
         var urlk = url_local+"/kmb/public/mintakeluar/daftarkendaraan/{{ $id }}";
+        var urls = url_local+"/kmb/public/mintakeluar/simip/{{ $id }}";
         var urlsp = url_local+"/kmb/public/mintakeluar/simpan/{{ $id }}";
-
+        $(".dsimip").load(urls);
         $(".dbarang").load(urlb);
         $(".dpembawa").load(urlp);
         $(".dkendaraan").load(urlk);
+
+        $(".btn-setujui").click(function(){
+            swal({
+            title: "Anda yakin ?",
+            text: "Sebelum konfirmasi pastikan kelengkapan data, aksi ini tidak bisa dibatalkan!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                var urlkirim = url_local+"/kmb/public/mintakeluar/simpan/{{$id}}";
+                $.ajaxSetup({
+                    headers:{
+                        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+
+                var formData = new FormData($('#formsimip')[0]);
+                var type = "POST";
+                var my_url = urlkirim;
+                console.log(formData);
+                $.ajax({
+                    type : type,
+                    url : my_url,
+                    data : formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    beforeSend: function(){
+                        
+                    },
+                    success: function(data){
+                        window.location.reload();  
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+                });
+            } else {
+                swal("Pengiriman dibatalkan!");
+            }
+            });
+        });
       });
     </script>
 @stop

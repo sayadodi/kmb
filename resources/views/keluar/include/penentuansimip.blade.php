@@ -5,9 +5,9 @@
     <div class="row">
         <div class="col-md-12">
             <form action="" method="post" id="formsimip">
-                <input type="hidden" name="idkirimnya" class="idkirimnya" value="{{ $id }}">
+                <input type="hidden" name="idkeluarnya" class="idkeluarnya" value="{{ $id }}">
                 <div class="form-group">
-                    <label class="col-md-12 col-sm-12 col-xs-12 namb">Apakah barang akan dibawa masuk kewilayah A(Khusus) ?<code>*</code></label>
+                    <label class="col-md-12 col-sm-12 col-xs-12 namb">Apakah barang yang akan dikeluarkan ada diwilayah A(Khusus) ?<code>*</code></label>
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         @if($data->areakhusus == "")
                             <input type="radio" name="p1" id="" value="Y"> Iya
@@ -46,8 +46,6 @@
 </div>
 <script>
     $(document).ready(function(){
-        var url_local = window.location.protocol+'//'+window.location.host;
-
         $('input:radio[name=p1]').change(function() {
             var va = $(this).val();
             if (this.value == 'Y') {
@@ -57,6 +55,7 @@
                 $('.kenda').addClass('hidden');
             }
         });
+
     });
 </script>
 <script>

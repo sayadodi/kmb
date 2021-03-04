@@ -15,6 +15,8 @@ use App\Models\modelKaryawan;
 use App\Models\modelTamu;
 use App\Models\modelHistoriTamu;
 use App\Models\modelHistoriKendaraan;
+use App\Models\modelPengaturan;
+use App\Models\modelMasterVendor;
 
 use Validator;
 use DB;
@@ -140,13 +142,58 @@ class controlPos extends Controller
         return \Response::json($s);
     }
 
-    public function terimabarang(Request $r){
-        $id = $r->idkirim;
+    public function terimabarang(Request $r,$id){
+        $p1 = $r->p1;
+        $p2 = $r->p2;
+        $cm = DB::table('daftarmansimip')->where('jabatan','LIKE','%LOGISTIK%')->get()->first();
+        $m = $cm->idKaryawan;
+        $ck3 = DB::table('daftarmansimip')->where('jabatan','LIKE','%K3%')->get()->first();
+        $k3 = $ck3->idKaryawan;
+        $p = modelPengaturan::where('jenis','Simip')->where('status','Y')->get()->first()['kodeatur'];
         $s = modelPengiriman::findOrFail($id);
+        $per = modelMasterVendor::findOrFail($s->kodevendor);
+        
+        if($p1 == 'Y'){
+            $s->areakhusus = 'Y';
+            $simip = new modelSimip();
+            $simip->kepentingan = $s->keperluan;
+            $simip->perusahaan = $per->namavendor;
+            $simip->tglsimip = date("Y-m-d H:i:s");         
+            $simip->statuspossimip = "Diterima";
+            $simip->pendamping = "Gudang";
+            $simip->idpengiriman = $id;
+            $simip->idpengaturan = $p;
+            $simip->manager = $m;
+            if($p2 == 'Y'){
+                $simip->k3 = $k3;
+                $simip->kendaraan = "Roda 4";
+            }
+            $simip->save();
+            $idsimip = $simip->idtamu;
+
+            $a = new modelAprrove();
+            $a->tglapprove = date("Y-m-d H:i:s");
+            $a->jenisapprove = "Simip";
+            $a->idsimip = $idsimip;
+            $a->status = "Proses";
+            $a->save();
+
+            $a1 = new modelAprrove();
+            $a1->tglapprove = date("Y-m-d H:i:s");
+            $a1->jenisapprove = "Barang";
+            $a1->idpengiriman = $id;
+            $a1->status = "Proses";
+            $a1->save();
+        }elseif($p1 == 'N'){
+            $s->areakhusus = 'N';
+        }else{
+
+        }
         $s->statuskiriman = "Diterima Pos";
         $s->tglmasuk = date("Y-m-d H:i:s");
         $s->pos = session('idkaryawan');
         $s->save();
+
         return \Response::json($s);
     }
 
@@ -174,7 +221,7 @@ class controlPos extends Controller
         $pengaturan = DB::table('tbpengaturan as pe')->join('tbdetailpengaturan as dp','pe.kodeatur','=','dp.idatur')->where('pe.kodeatur',$idatur)->get();
         $aprrover = modelAprrove::where('jenisapprove','Barang')->where('idpengiriman',$id)->first();
         $idapprove = $aprrover->idapprove;
-        return view('pos.include.tombol',compact('kiriman','pengaturan','idapprove'));
+        return view('pos.include.tombol',compact('kiriman','pengaturan','idapprove','id'));
     }
 
     public function daftartamu($id){
@@ -211,59 +258,6 @@ class controlPos extends Controller
     public function penentuansimip($id){
         $data = DB::table('tbpengiriman as p')->leftJoin('tbsimip as s','p.kodekirim','=','s.idpengiriman')->where('p.kodekirim',$id)->get()->first();
         return view('pos.include.penentuansimip',compact('id','data'));
-    }
-
-    public function p1(Request $r){
-        $id = $r->idkirim;
-        $p1 = $r->p1;
-        $cm = DB::table('daftarmansimip')->where('jabatan','LIKE','%LOGISTIK%')->get()->first();
-        $m = $cm->idKaryawan;
-        $s = modelPengiriman::findOrFail($id);
-        
-        if($p1 == 'Y'){
-            $s->areakhusus = 'Y';
-            $simip = new modelSimip();
-            $simip->kepentingan = "Pengiriman Barang";
-            $simip->tglsimip = date("Y-m-d H:i:s");         
-            $simip->statuspossimip = "Diterima";
-            $simip->idpengiriman = $id;
-            $simip->manager = $m;
-            $simip->save();
-            $idsimip = $simip->idtamu;
-
-            $a = new modelAprrove();
-            $a->tglapprove = date("Y-m-d H:i:s");
-            $a->jenisapprove = "Simip";
-            $a->idsimip = $idsimip;
-            $a->status = "Proses";
-            $a->save();
-        }elseif($p1 == 'N'){
-            $s->areakhusus = 'N';
-        }else{
-
-        }
-        $s->save();
-        return \Response::json($s);
-    }
-
-    public function p2(Request $r){
-        $id = $r->idkirim;
-        $p2 = $r->p2;
-        $ck3 = DB::table('daftarmansimip')->where('jabatan','LIKE','%K3%')->get()->first();
-        $k3 = $ck3->idKaryawan;
-        $simip = modelSimip::where('idpengiriman',$id)->get()->first();
-        if($p2 == 'Y'){
-            $simip->k3 = $k3;
-            $simip->pendamping = "Gudang";
-            $simip->kendaraan = "Roda 4";
-        }elseif($p2 == 'N'){  
-            $simip->pendamping = "Gudang";
-            $simip->kendaraan = "Roda 4";
-        }else{
-
-        }
-        $simip->save();
-        return \Response::json($simip);
     }
 
     public function langkah($id){

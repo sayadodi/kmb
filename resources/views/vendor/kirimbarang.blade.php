@@ -84,7 +84,7 @@
         var urlpa = url_local+"/kmb/public/datapembawa/{{$jenis}}/{{$id}}";
         var urltu = url_local+"/kmb/public/datatujuan/{{$jenis}}/{{$id}}";
         var urlke = url_local+"/kmb/public/datakendaraan/{{$jenis}}/{{$id}}";
-        var urlsa = url_local+"/kmb/public/ketsamping/{{$id}}";
+        var urlsa = url_local+"/kmb/public/ketsamping/{{$jenis}}/{{$id}}";
 
         // Simpan barang
         $('.dbarang').load(urlpo);

@@ -11,6 +11,7 @@ use App\Models\modelHistoriTamu;
 use App\Models\modelKendaraan;
 use App\Models\modelHistoriKendaraan;
 use App\Models\modelDetailBarangpo;
+use App\Models\modelAprrove;
 
 use DB;
 
@@ -27,11 +28,13 @@ class controlKeluarVendor extends Controller
     }
 
     public function tambah(){
+        $pk = modelPengaturan::where('jenis','Keluar')->where('status','Y')->get()->first()['kodeatur'];
         $s = new modelKeluar();
         $s->tujuan = "Unit 09";
         $s->jenisbarang = 'Kontrak';
         $s->keperluan = "Pengeluaran Barang Ditolak";
         $s->status = "Mengatur";
+        $s->idpengaturan = $pk;
         $s->kdvendor = session('idvendor');
         $s->save();
         $id = $s->idkeluar;

@@ -38,12 +38,8 @@
                             <td>{{$d->alamattamu}}</td>
                             <td>{{$d->jabatan}}</td>
                             <td>
-                                @if($kiriman->areakhusus == 'Y')
                                     <b>A</b> <input type="text" name="" id="passa" placeholder="09" size="5" class="passa" data-kode="{{$d->idhistori}}" value="{{ $d->nopassa }}">
-                                @elseif($kiriman->areakhusus == 'N')
                                     <b>B</b> <input type="text" name="" id="passb" placeholder="09" size="5" class="passb" data-kode="{{$d->idhistori}}" value="{{$d->nopass}}">
-                                @endif
-                            </div>
                             </td>
                         </tr>
                     @endforeach
@@ -72,6 +68,7 @@
             {{ csrf_field() }}
             <input type="hidden" name="idikut" id="idikut" class="idikut">
             <input type="hidden" class="namafoto" name="namafoto" id="namafoto">
+            <input type="hidden" class="idkirim" id="idkirim" value="{{$id}}">
             <div class="col-md-12">
                 <input type="hidden" id="namafoto" class="namafoto"  name="namafoto" value="">
                 <div id="camera">Foto</div>
@@ -100,6 +97,8 @@
     $(document).ready(function(){
         var url_local = window.location.protocol+'//'+window.location.host;
         var urlpa = url_local+"/kmb/public/datapembawapos/{{$id}}";
+        var urlla = url_local+"/kmb/public/langkah/{{$id}}";
+
         $(".passa").keyup(function(event) {
             if (event.keyCode === 13) {
                 var urlkirim = url_local+"/kmb/public/ubahnopassa";
@@ -131,6 +130,7 @@
                     },
                     success: function(data){
                         $('.dpembawa').load(urlpa); 
+                        $('.langkah').load(urlla);
                     },
                     error: function(data){
                         console.log(data);
@@ -168,6 +168,7 @@
                     },
                     success: function(data){
                         $('.dpembawa').load(urlpa); 
+                        $('.langkah').load(urlla);
                     },
                     error: function(data){
                         console.log(data);
