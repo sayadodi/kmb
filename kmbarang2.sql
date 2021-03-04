@@ -50,7 +50,7 @@ CREATE TABLE `daftarbarangditolak` (
 	`alasantolak` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
 	`fotobarang` VARCHAR(50) NOT NULL COLLATE 'latin1_swedish_ci',
 	`dokumen` VARCHAR(50) NOT NULL COLLATE 'latin1_swedish_ci',
-	`keperluan` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
+	`keperluan` VARCHAR(250) NULL COLLATE 'latin1_swedish_ci',
 	`nopo` VARCHAR(10) NULL COLLATE 'latin1_swedish_ci',
 	`kdvendor` SMALLINT(5) NULL,
 	`namavendor` VARCHAR(100) NULL COLLATE 'latin1_swedish_ci',
@@ -100,7 +100,7 @@ CREATE TABLE `daftarpengiriman` (
 	`idapprove` INT(5) NOT NULL,
 	`kodekirim` INT(7) NULL,
 	`kodevendor` SMALLINT(5) NULL,
-	`keperluan` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
+	`keperluan` VARCHAR(250) NULL COLLATE 'latin1_swedish_ci',
 	`tglbuat` DATETIME NULL,
 	`tglkirim` DATE NULL,
 	`tglmasuk` DATETIME NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `daftarsimip` (
 	`idsimip` INT(6) NULL COMMENT 'jika tamu simip',
 	`status` ENUM('Selesai','Proses') NULL COLLATE 'latin1_swedish_ci',
 	`idtamu` INT(11) NULL,
-	`kepentingan` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
+	`kepentingan` VARCHAR(250) NULL COLLATE 'latin1_swedish_ci',
 	`tglsimip` DATETIME NULL,
 	`pendamping` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
 	`statuspossimip` ENUM('Diterima') NULL COLLATE 'latin1_swedish_ci',
@@ -139,9 +139,12 @@ CREATE TABLE `daftarsimip` (
 	`smanager` TINYINT(1) NULL,
 	`sk3` TINYINT(1) NULL,
 	`idpengiriman` INT(6) NULL,
+	`idpengeluaran` INT(6) NULL,
 	`tujuan` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
 	`perusahaan` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
 	`idpengaturan` INT(2) NULL,
+	`tglkeluar` DATETIME NULL,
+	`kendaraan` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
 	`selanjutnya` INT(11) NULL
 ) ENGINE=MyISAM;
 
@@ -156,19 +159,13 @@ CREATE TABLE IF NOT EXISTS `tbapprove` (
   `idkeluar` int(6) DEFAULT NULL COMMENT 'jika keluar',
   `status` enum('Selesai','Proses') DEFAULT 'Proses',
   PRIMARY KEY (`idapprove`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbapprove: ~6 rows (approximately)
+-- Dumping data for table kmbarang2.tbapprove: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tbapprove` DISABLE KEYS */;
 INSERT INTO `tbapprove` (`idapprove`, `tglapprove`, `jenisapprove`, `idtamu`, `idpengiriman`, `idsimip`, `idkeluar`, `status`) VALUES
-	(9, '2021-02-04 13:27:19', 'Barang', NULL, 13, NULL, NULL, 'Proses'),
-	(10, '2021-02-04 13:28:57', 'Simip', NULL, NULL, 8, NULL, 'Proses'),
-	(11, '2021-02-04 14:02:31', 'Barang', NULL, 14, NULL, NULL, 'Proses'),
-	(12, '2021-02-04 14:02:59', 'Barang', NULL, 15, NULL, NULL, 'Proses'),
-	(13, '2021-02-04 14:06:23', 'Simip', NULL, NULL, 10, NULL, 'Proses'),
-	(14, '2021-02-04 14:10:42', 'Simip', NULL, NULL, 11, NULL, 'Proses'),
-	(17, '2021-02-23 13:15:15', 'Simip', NULL, NULL, 16, NULL, 'Proses'),
-	(18, '2021-02-23 13:15:15', 'Keluar', NULL, NULL, NULL, 3, 'Proses');
+	(22, '2021-03-03 21:33:49', 'Simip', NULL, NULL, 18, NULL, 'Selesai'),
+	(23, '2021-03-03 21:33:49', 'Barang', NULL, 18, NULL, NULL, 'Proses');
 /*!40000 ALTER TABLE `tbapprove` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbblokiremail
@@ -177,10 +174,12 @@ CREATE TABLE IF NOT EXISTS `tbblokiremail` (
   `email` varchar(250) NOT NULL,
   `tglblok` datetime NOT NULL,
   PRIMARY KEY (`idblokir`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table kmbarang2.tbblokiremail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbblokiremail` DISABLE KEYS */;
+INSERT INTO `tbblokiremail` (`idblokir`, `email`, `tglblok`) VALUES
+	(2, 'gatotkoco419@gmail.com', '2021-03-03 19:14:23');
 /*!40000 ALTER TABLE `tbblokiremail` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbdetailapprove
@@ -191,10 +190,16 @@ CREATE TABLE IF NOT EXISTS `tbdetailapprove` (
   `idjabatan` int(11) DEFAULT NULL,
   `urutan` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddetailapprove`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbdetailapprove: ~2 rows (approximately)
+-- Dumping data for table kmbarang2.tbdetailapprove: ~4 rows (approximately)
 /*!40000 ALTER TABLE `tbdetailapprove` DISABLE KEYS */;
+INSERT INTO `tbdetailapprove` (`iddetailapprove`, `idapprove`, `idkaryawan`, `idjabatan`, `urutan`) VALUES
+	(24, 23, 1, 1, 1),
+	(25, 23, 6, 6, 2),
+	(26, 22, 2, 2, 1),
+	(27, 22, 14, 14, 2),
+	(29, 22, 38, 26, 3);
 /*!40000 ALTER TABLE `tbdetailapprove` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbdetailkeluar
@@ -209,10 +214,8 @@ CREATE TABLE IF NOT EXISTS `tbdetailkeluar` (
   PRIMARY KEY (`iddetailkeluar`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbdetailkeluar: ~0 rows (approximately)
+-- Dumping data for table kmbarang2.tbdetailkeluar: ~1 rows (approximately)
 /*!40000 ALTER TABLE `tbdetailkeluar` DISABLE KEYS */;
-INSERT INTO `tbdetailkeluar` (`iddetailkeluar`, `idkeluar`, `namabarang`, `satuan`, `jumlah`, `fotobarang`, `spesifikasi`) VALUES
-	(9, 3, 'Sodium Bisulfate', 'Kg', 600, 'Gambar20210204135617.JPG', 'Kuriflot SB');
 /*!40000 ALTER TABLE `tbdetailkeluar` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbdetailpengaturan
@@ -255,15 +258,12 @@ CREATE TABLE IF NOT EXISTS `tbdetailpengiriman` (
   `fotobarang` varchar(50) NOT NULL,
   `dokumen` varchar(50) NOT NULL,
   PRIMARY KEY (`iddetailkirim`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbdetailpengiriman: ~4 rows (approximately)
+-- Dumping data for table kmbarang2.tbdetailpengiriman: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbdetailpengiriman` DISABLE KEYS */;
 INSERT INTO `tbdetailpengiriman` (`iddetailkirim`, `kodebarang`, `namabarang`, `jumlahbarang`, `satuan`, `jenisbarang`, `keterangan`, `idkirim`, `idpengaturan`, `statusbarang`, `alasantolak`, `fotobarang`, `dokumen`) VALUES
-	(20, 'gmknwa', 'Masker', 400, 'Box', 'PO', 'Masker Ply Standart BNPB Warna Biru Ear Pass', 13, 1, 'Baru', NULL, 'Gambar20210204132505.jpeg', 'Berkas20210204132505.jpeg'),
-	(21, 'ldlfum', 'Sodium Bisulfate', 600, 'Kg', 'PO', 'Kuriflot SB', 14, 1, 'Proses Return', NULL, 'Gambar20210204135617.JPG', 'Berkas20210204135617.JPG'),
-	(22, 'hquyjn', 'Kawat Las', 40, 'KG', 'PO', 'Type: Hard Sufacing', 15, 1, 'Baru', NULL, 'Gambar20210204135958.jpeg', 'Berkas20210204135958.jpeg'),
-	(23, 'fgjfgh', 'Bakso', 2, 'Kg', 'PO', '0', 14, 1, 'Ditolak', NULL, '', '');
+	(25, '0nkwr5', 'Kawat Las Elektrik', 40, 'Kg', 'PO', 'Type : Hard Surfacing Electrode', 18, 1, 'Baru', NULL, 'Gambar20210303210506.jpg', '');
 /*!40000 ALTER TABLE `tbdetailpengiriman` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbdetailtamu
@@ -277,18 +277,12 @@ CREATE TABLE IF NOT EXISTS `tbdetailtamu` (
   `alamattamu` varchar(100) DEFAULT NULL,
   `fototamu` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`iddetailtamu`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbdetailtamu: ~6 rows (approximately)
+-- Dumping data for table kmbarang2.tbdetailtamu: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbdetailtamu` DISABLE KEYS */;
 INSERT INTO `tbdetailtamu` (`iddetailtamu`, `namatamu`, `pengenal`, `nopengenal`, `jabatan`, `notlptamu`, `alamattamu`, `fototamu`) VALUES
-	(14, 'Bayu Santoso', 'KTP', '351982335875', 'Pengirim', '082334161787', 'Paiton', 'tamu20210130032219.png'),
-	(15, 'Gatot Suherman', 'KTP', '34567', 'Programer', '082334556117', 'Alastengah', 'tamu20210201053414.png'),
-	(16, 'Toso', 'KTP', '351908765282776001', 'Pengirim', '0813452627', 'Paiton', 'tamu20210204012755.png'),
-	(17, 'Agel', 'KTP', '3519272687364', 'Main Game', '0868474651', 'Alastengah', 'tamu20210204013105.png'),
-	(18, 'Rapli', 'KTP', '3517892827262', 'Main Game', '09383368474', 'Alastengah', 'tamu20210204013304.png'),
-	(19, 'Bilal', 'KTP', '3528958945849', 'Pengirim', '093489328', 'Karawang', 'tamu20210204020333.png'),
-	(20, 'Ceria', 'SIM', '0954534866', 'Ekspedisi', '09999', 'Surabaya', 'tamu20210204021017.png');
+	(22, 'Doni Sumargo', 'KTP', '352184947464', 'Pengirim', '0876673837', 'Surabaya', 'tamu20210303092703.png');
 /*!40000 ALTER TABLE `tbdetailtamu` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbhak
@@ -300,13 +294,14 @@ CREATE TABLE IF NOT EXISTS `tbhak` (
   `pos` varchar(5) DEFAULT NULL,
   `gudang` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idhak`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table kmbarang2.tbhak: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tbhak` DISABLE KEYS */;
 INSERT INTO `tbhak` (`idhak`, `idjabatan`, `admin`, `approver`, `pos`, `gudang`) VALUES
 	(1, 2, 'Admin', 'Approver', NULL, NULL),
-	(2, 43, NULL, NULL, 'Pos', NULL);
+	(2, 43, NULL, NULL, 'Pos', NULL),
+	(3, 41, NULL, NULL, NULL, 'Gudang');
 /*!40000 ALTER TABLE `tbhak` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbhistorikendaraan
@@ -319,15 +314,12 @@ CREATE TABLE IF NOT EXISTS `tbhistorikendaraan` (
   `nogate` varchar(5) DEFAULT NULL,
   `kdvendor` int(6) DEFAULT NULL,
   PRIMARY KEY (`idhistorikend`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table kmbarang2.tbhistorikendaraan: ~3 rows (approximately)
+-- Dumping data for table kmbarang2.tbhistorikendaraan: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbhistorikendaraan` DISABLE KEYS */;
 INSERT INTO `tbhistorikendaraan` (`idhistorikend`, `idtamu`, `jenis`, `tglmasuk`, `idkendaraan`, `nogate`, `kdvendor`) VALUES
-	(6, 13, 'Pengiriman', '2021-02-04 13:26:04', 13, NULL, 11),
-	(7, 14, 'Pengiriman', '2021-02-04 13:57:03', 14, '40', 12),
-	(8, 15, 'Pengiriman', '2021-02-04 14:01:33', 15, NULL, 13),
-	(9, 3, 'Pengeluaran', '2021-02-21 19:32:39', 14, '60', 12);
+	(11, 18, 'Pengiriman', '2021-03-03 21:05:47', 17, '30', 11);
 /*!40000 ALTER TABLE `tbhistorikendaraan` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbhistoritamu
@@ -341,17 +333,12 @@ CREATE TABLE IF NOT EXISTS `tbhistoritamu` (
   `nopassa` varchar(6) DEFAULT NULL,
   `kdvendor` int(6) DEFAULT NULL,
   PRIMARY KEY (`idhistori`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table kmbarang2.tbhistoritamu: ~4 rows (approximately)
+-- Dumping data for table kmbarang2.tbhistoritamu: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbhistoritamu` DISABLE KEYS */;
 INSERT INTO `tbhistoritamu` (`idhistori`, `iddetailtamu`, `idtamu`, `jenis`, `tgltamu`, `nopass`, `nopassa`, `kdvendor`) VALUES
-	(8, 16, 13, 'Pengiriman', '2021-02-04 13:25:42', NULL, '30', 11),
-	(9, 17, 4, 'Tamu', '2021-02-04 13:31:05', '40', NULL, NULL),
-	(10, 18, 9, 'Simip', '2021-02-04 13:33:04', '30', NULL, NULL),
-	(11, 19, 14, 'Pengiriman', '2021-02-04 13:56:44', NULL, '34', 12),
-	(12, 20, 15, 'Pengiriman', '2021-02-04 14:00:38', NULL, '20', 13),
-	(13, 19, 3, 'Keluar', '2021-02-21 16:13:25', NULL, NULL, NULL);
+	(15, 22, 18, 'Pengiriman', '2021-03-03 21:05:33', NULL, '87', 11);
 /*!40000 ALTER TABLE `tbhistoritamu` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbhistorivendor
@@ -365,20 +352,15 @@ CREATE TABLE IF NOT EXISTS `tbhistorivendor` (
   `keterangan` enum('Minta Kirim','Minta Vendor','Ubah Password') DEFAULT NULL,
   `idkirim` int(11) DEFAULT NULL COMMENT 'terisi kodepengiriman jika ditolak atau diterima kirimannya',
   PRIMARY KEY (`idhistoriv`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1 COMMENT='berisi data histori penerimaan vendor';
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1 COMMENT='berisi data histori penerimaan vendor';
 
--- Dumping data for table kmbarang2.tbhistorivendor: ~9 rows (approximately)
+-- Dumping data for table kmbarang2.tbhistorivendor: ~3 rows (approximately)
 /*!40000 ALTER TABLE `tbhistorivendor` DISABLE KEYS */;
 INSERT INTO `tbhistorivendor` (`idhistoriv`, `kdvendor`, `kdkaryawan`, `tgltt`, `alasan`, `status`, `keterangan`, `idkirim`) VALUES
 	(28, 11, 1, '2021-01-27 13:46:28', 'Terim kasih', 'Aktif', 'Minta Vendor', NULL),
-	(31, 11, NULL, '2021-01-30 15:20:57', 'Meminta kiriman', 'Meminta', 'Minta Kirim', 12),
-	(32, 11, 1, '2021-01-30 15:21:37', 'Kirim ga tuh', 'Terima', 'Minta Kirim', 12),
-	(33, 11, NULL, '2021-02-04 13:26:32', 'Meminta kiriman', 'Meminta', 'Minta Kirim', 13),
-	(34, 11, 1, '2021-02-04 13:27:19', 'Kirim', 'Terima', 'Minta Kirim', 13),
-	(35, 12, NULL, '2021-02-04 13:57:30', 'Meminta kiriman', 'Meminta', 'Minta Kirim', 14),
-	(36, 13, NULL, '2021-02-04 14:01:37', 'Meminta kiriman', 'Meminta', 'Minta Kirim', 15),
-	(37, 12, 1, '2021-02-04 14:02:31', NULL, 'Terima', 'Minta Kirim', 14),
-	(38, 13, 1, '2021-02-04 14:02:59', 'Kirim', 'Terima', 'Minta Kirim', 15);
+	(41, 11, NULL, '2021-03-03 21:06:10', 'Meminta kiriman', 'Meminta', 'Minta Kirim', 18),
+	(42, 11, NULL, '2021-03-03 21:13:25', 'Meminta kiriman', 'Meminta', 'Minta Kirim', 18),
+	(43, 11, 58, '2021-03-03 21:14:25', 'Segera Kirim', 'Terima', 'Minta Kirim', 18);
 /*!40000 ALTER TABLE `tbhistorivendor` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbjabatan
@@ -537,11 +519,8 @@ CREATE TABLE IF NOT EXISTS `tbkeluar` (
   PRIMARY KEY (`idkeluar`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbkeluar: ~1 rows (approximately)
+-- Dumping data for table kmbarang2.tbkeluar: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbkeluar` DISABLE KEYS */;
-INSERT INTO `tbkeluar` (`idkeluar`, `tgl`, `tujuan`, `tglkembali`, `jenisbarang`, `keperluan`, `status`, `dokumen`, `kdvendor`, `areakhusus`, `idpengaturan`) VALUES
-	(2, '2021-02-08 19:00:34', 'Bengkel ahass', NULL, 'Milik Sendiri', 'Service Mobil Rutin', 'Mengatur', NULL, NULL, NULL, 5),
-	(3, NULL, 'Unit 09', NULL, 'Kontrak', 'Pengeluaran Barang Ditolak', 'Meminta', NULL, 12, 'Y', 5);
 /*!40000 ALTER TABLE `tbkeluar` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbkendaraan
@@ -551,15 +530,12 @@ CREATE TABLE IF NOT EXISTS `tbkendaraan` (
   `namakendaraan` varchar(50) DEFAULT NULL,
   `plat` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idkendaraan`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbkendaraan: ~3 rows (approximately)
+-- Dumping data for table kmbarang2.tbkendaraan: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbkendaraan` DISABLE KEYS */;
 INSERT INTO `tbkendaraan` (`idkendaraan`, `jeniskendaraan`, `namakendaraan`, `plat`) VALUES
-	(12, 'Motor', 'Roda 3', 'N 10 BH'),
-	(13, 'Pick up', 'Dino Dutro', 'N 990 PM'),
-	(14, 'Pick up', 'Dino', 'D 09 BN'),
-	(15, 'Motor', 'Ekspedisi', '0000');
+	(17, 'Pick up', 'Dina', 'N 987 PQ');
 /*!40000 ALTER TABLE `tbkendaraan` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbpengaturan
@@ -585,7 +561,7 @@ INSERT INTO `tbpengaturan` (`kodeatur`, `tglbuat`, `tglakhir`, `jenis`, `status`
 CREATE TABLE IF NOT EXISTS `tbpengiriman` (
   `kodekirim` int(7) NOT NULL AUTO_INCREMENT,
   `kodevendor` smallint(5) DEFAULT NULL,
-  `keperluan` varchar(50) DEFAULT NULL,
+  `keperluan` varchar(250) DEFAULT NULL,
   `tglbuat` datetime DEFAULT NULL,
   `tglkirim` date DEFAULT NULL,
   `tglmasuk` datetime DEFAULT NULL,
@@ -601,20 +577,18 @@ CREATE TABLE IF NOT EXISTS `tbpengiriman` (
   `gudang` smallint(3) DEFAULT NULL,
   `areakhusus` enum('Y','N') DEFAULT NULL,
   PRIMARY KEY (`kodekirim`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbpengiriman: ~3 rows (approximately)
+-- Dumping data for table kmbarang2.tbpengiriman: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbpengiriman` DISABLE KEYS */;
 INSERT INTO `tbpengiriman` (`kodekirim`, `kodevendor`, `keperluan`, `tglbuat`, `tglkirim`, `tglmasuk`, `tglkeluar`, `nopo`, `statuskiriman`, `idpengaturan`, `tujuan`, `berkas`, `status`, `pos`, `loby`, `gudang`, `areakhusus`) VALUES
-	(13, 11, 'Pengadaan Masker Ply', '2021-02-04 13:24:06', '2021-02-05', '2021-02-04 13:28:57', NULL, 'IK0098', 'Diterima Pos', 3, 'Gudang', '20210204132625.jpeg', 'PO', 1, NULL, NULL, 'Y'),
-	(14, 12, 'DD VI Kontrak Payung Chemical', '2021-02-04 13:54:58', '2021-02-04', '2021-02-04 14:06:23', NULL, 'OK0842', 'Diterima Pos', 3, 'Gudang', '20210204135723.JPG', 'PO', 1, NULL, NULL, 'Y'),
-	(15, 13, 'Pengadaan kawat chemical outage', '2021-02-04 13:58:54', '2021-02-04', '2021-02-04 14:10:42', NULL, 'OL0007', 'Diterima Pos', 3, 'Gudang', '20210204140106.JPG', 'PO', 1, NULL, NULL, 'Y');
+	(18, 11, 'Pengandaan Electrode Welding Non Stock Bidang Outage', '2021-03-03 21:02:46', '2021-03-04', '2021-03-03 21:33:49', NULL, 'OL0007', 'Proses Approve', 3, 'Gudang', '20210303210603.jpg', 'PO', 61, NULL, NULL, 'Y');
 /*!40000 ALTER TABLE `tbpengiriman` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbsimip
 CREATE TABLE IF NOT EXISTS `tbsimip` (
   `idtamu` int(11) NOT NULL AUTO_INCREMENT,
-  `kepentingan` varchar(50) NOT NULL,
+  `kepentingan` varchar(250) NOT NULL,
   `tglsimip` datetime DEFAULT NULL,
   `pendamping` varchar(50) DEFAULT NULL,
   `statuspossimip` enum('Diterima') DEFAULT NULL,
@@ -630,16 +604,12 @@ CREATE TABLE IF NOT EXISTS `tbsimip` (
   `tglkeluar` datetime DEFAULT NULL,
   `kendaraan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idtamu`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
--- Dumping data for table kmbarang2.tbsimip: ~3 rows (approximately)
+-- Dumping data for table kmbarang2.tbsimip: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbsimip` DISABLE KEYS */;
 INSERT INTO `tbsimip` (`idtamu`, `kepentingan`, `tglsimip`, `pendamping`, `statuspossimip`, `k3`, `manager`, `smanager`, `sk3`, `idpengiriman`, `idpengeluaran`, `tujuan`, `perusahaan`, `idpengaturan`, `tglkeluar`, `kendaraan`) VALUES
-	(8, 'Pengiriman Barang', '2021-02-04 13:27:40', NULL, 'Diterima', NULL, 52, NULL, NULL, 13, NULL, NULL, NULL, 6, NULL, NULL),
-	(9, 'Study lingkngan', '2021-02-04 13:32:29', 'PAndi', 'Diterima', NULL, 14, NULL, NULL, NULL, NULL, 'Lab Kimia', 'Kopo', 6, NULL, NULL),
-	(10, 'Pengiriman Barang', '2021-02-04 14:03:21', 'Gudang', 'Diterima', 36, 52, NULL, NULL, 14, NULL, NULL, NULL, 6, NULL, 'Roda 4'),
-	(11, 'Pengiriman Barang', '2021-02-04 14:09:32', 'Gudang', 'Diterima', NULL, 52, NULL, NULL, 15, NULL, NULL, NULL, 6, NULL, 'Roda 4'),
-	(16, 'Pengeluaran Barang', '2021-02-23 13:15:15', 'Gudang', 'Diterima', 36, 52, NULL, NULL, NULL, 3, NULL, NULL, 6, NULL, 'Roda 4');
+	(18, 'Pengandaan Electrode Welding Non Stock Bidang Outage', '2021-03-03 21:33:49', 'Gudang', 'Diterima', 36, 52, 1, NULL, 18, NULL, NULL, 'Kopkar Mitra Energi Sejahtera', 6, NULL, 'Roda 4');
 /*!40000 ALTER TABLE `tbsimip` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbtamu
@@ -659,8 +629,6 @@ CREATE TABLE IF NOT EXISTS `tbtamu` (
 
 -- Dumping data for table kmbarang2.tbtamu: ~0 rows (approximately)
 /*!40000 ALTER TABLE `tbtamu` DISABLE KEYS */;
-INSERT INTO `tbtamu` (`kodetamu`, `keperluan`, `tglmasuk`, `perusahaan`, `tglkeluar`, `janji`, `bertemu`, `kodepos`, `kendaraan`, `noplat`) VALUES
-	(4, 'Main ML', '2021-02-04 13:31:05', 'Kopo', NULL, 'Y', '45', 1, 'Beat', '-');
 /*!40000 ALTER TABLE `tbtamu` ENABLE KEYS */;
 
 -- Dumping structure for table kmbarang2.tbvendor
@@ -678,7 +646,7 @@ CREATE TABLE IF NOT EXISTS `tbvendor` (
 -- Dumping data for table kmbarang2.tbvendor: ~3 rows (approximately)
 /*!40000 ALTER TABLE `tbvendor` DISABLE KEYS */;
 INSERT INTO `tbvendor` (`kdvendor`, `namavendor`, `email`, `telepon`, `password`, `alamat`, `status`) VALUES
-	(11, 'Kopkar Mitra Energi Sejahtera', 'gatotkoco419@gmail.com', '087653433231', 'cda5af8eedb5939e10c66a56e997b8e1', 'Jl. Raya Rurabaya - Situbondo KM. 141 Paiton - Probolinggo', 'Aktif'),
+	(11, 'Kopkar Mitra Energi Sejahtera', 'gatotkoco419@gmail.com', '087653433231', '202cb962ac59075b964b07152d234b70', 'Jl. Raya Rurabaya - Situbondo KM. 141 Paiton - Probolinggo', 'Aktif'),
 	(12, 'PT Kurita Indonesia', 'kurita@gmail.com', '083673489847', '202cb962ac59075b964b07152d234b70', 'Jl. ', 'Aktif'),
 	(13, 'PT Mitra Energi Sembilan', 'energi@gmail.com', '094985347548', '202cb962ac59075b964b07152d234b70', 'Jl.', 'Aktif');
 /*!40000 ALTER TABLE `tbvendor` ENABLE KEYS */;
@@ -696,17 +664,6 @@ CREATE TABLE `urutanaprove` (
 	`urutan` TINYINT(2) NOT NULL,
 	`kodejabatan` INT(4) NOT NULL
 ) ENGINE=MyISAM;
-
--- Dumping structure for trigger kmbarang2.pengaturankirim
-SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
-DELIMITER //
-CREATE TRIGGER `pengaturankirim` AFTER INSERT ON `tbpengiriman` FOR EACH ROW BEGIN
-	DECLARE kode INT DEFAULT 0;
-	SELECT kodeatur INTO kode FROM tbpengaturan WHERE status = 'Y' AND jenis = 'Masuk';
-	UPDATE tbpengiriman SET idpengaturan = kode WHERE kodekirim = NEW.kodekirim;
-END//
-DELIMITER ;
-SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 -- Dumping structure for view kmbarang2.daftarbarangditolak
 -- Removing temporary table and create final VIEW structure
