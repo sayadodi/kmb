@@ -57,13 +57,27 @@
 								<td>
 									@if($d->areakhusus == 'Y')
 									<div class="approver">
-                                        <span class="label label-primary">{{controlEtc::approversimip($d->idapprove, $d->kodekirim)}}</span>
+                                        <span class="label label-primary">{{controlEtc::approversimip($d->kodekirim)}}</span>
                                     </div>
 									@endif
 								</td>
                                 <td>
-                                    <a target="_blank" href="{{url('cetakpengiriman/'.$d->kodekirim)}}"><i class="fa fa-print"></i></a>
-                                </td>
+									@if($d->areakhusus == 'T')
+										@if(controlEtc::approverbarang($d->idapprove, $d->idpengaturan) == "Selesai")
+											<a target="_blank" href="{{url('cetakpengiriman/'.$d->kodekirim)}}"><i class="fa fa-print"></i></a>
+										@else
+											<span class="text-danger"><i class="fa fa-clock-o"></i></span>
+										@endif
+									@endif
+
+									@if($d->areakhusus == 'Y')
+										@if(controlEtc::approverbarang($d->idapprove, $d->idpengaturan) == "Selesai" && controlEtc::approversimip($d->kodekirim) == "Selesai")
+											<a target="_blank" href="{{url('cetakpengiriman/'.$d->kodekirim)}}"><i class="fa fa-print"></i></a>
+										@else
+											<span class="text-danger"><i class="fa fa-clock-o"></i></span>
+										@endif
+									@endif
+								</td>
 							</tr>
 							@endforeach
 							@else

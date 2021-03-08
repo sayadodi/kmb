@@ -22,21 +22,31 @@ class controlDaftar extends Controller
         if($cek > 0){
             return redirect('errorblokir');
         }else{
-            $s = new modelMAsterVendor();
-            $s->namavendor = $vendor;
-            $s->email = $email;
-            $s->telepon = $tlp;
-            $s->alamat = $alamat;
-            $s->save();
+            $cari = modelMasterVendor::where('email',$email)->count();
+            if($cari > 0){
+                return redirect('terdaftar');
+            }else{
+                $s = new modelMAsterVendor();
+                $s->namavendor = $vendor;
+                $s->email = $email;
+                $s->telepon = $tlp;
+                $s->alamat = $alamat;
+                $s->save();
 
-            \Alert::success('Berhasil', 'Info')->autoClose(2000);
-            return redirect('daftarsukses');
+                \Alert::success('Berhasil', 'Info')->autoClose(2000);
+                return redirect('daftarsukses');
+            }
+            
         }
         
     }
 
     public function sukses(){
         return view('vendor.berhasil');
+    }
+
+    public function terdaftar(){
+        return view('vendor.terdaftar');
     }
 
     public function blokir(){

@@ -109,7 +109,7 @@
   
   <li class="treeview">
     <a href="#">
-      <i class="fa fa-user-secret"></i> <span>Tamu</span>
+      <i class="fa fa-users"></i> <span>Tamu</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
         <small class="label pull-right bg-red">{{ controlNotifMenu::jmltamumasuk('tamu') }}</small>
@@ -131,7 +131,7 @@
 
   <li class="treeview">
     <a href="#">
-      <i class="fa fa-user-secret"></i> <span>Pengeluaran</span>
+      <i class="fa fa-times"></i> <span>Pengeluaran</span>
       <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
         <small class="label pull-right bg-red">{{ controlNotifMenu::jmlmasuk() }}</small>

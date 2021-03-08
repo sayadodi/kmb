@@ -1,6 +1,3 @@
-<div id="loadingsamping" align="center">
-    Proses...
-</div>
 <div id="samping">
     <form action="" id="formkirim" method="post">
         <input type="hidden" name="idkirim" class="idkirim" value="{{$id}}">
@@ -54,6 +51,9 @@
                     <a target="_blank" class="btn btn-default btn-block btn-sm" href="{{url('cetaksurat/'.$data->kodekirim)}}"><i class="fa fa-print"></i> Cetak Surat</a>
                 @endif
             @endif
+        </div>
+        <div class="overlay" id=loadingsamping>
+            <i class="fas fa fa-refresh"></i>
         </div>
     </div>
     <div class="box box-warning direct-chat direct-chat-warning">

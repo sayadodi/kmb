@@ -1,6 +1,3 @@
-<div id="loading" align="center">
-    Proses...
-</div>
 <div id="kontennya">
 <table class="table no-margin tabled">
     <thead>
@@ -12,6 +9,7 @@
             <th>Tanggal Kirim</th>
             <th>Tujuan</th>
             <th>Status</th>
+            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -61,20 +59,60 @@
                     
                 @endif
             </td>
+            <td>
+                @if($d->statuskiriman == "Mengatur")
+                    <a href="#" data-id="{{$d->kodekirim}}" class="hapusdata" data-div="dbarang"><i class="fa fa-trash"></i></a>
+                @elseif($d->statuskiriman == "Diterima Gudang" || $d->statuskiriman == "Proses Approve" || $d->statuskiriman == "Diterima Pos")
+                    <a target="_blank" href="{{url('cetaksurat/'.$d->kodekirim)}}"><i class="fa fa-print"></i></a>
+                @endif
+            </td>
         </tr>
         @endforeach
         @else
             <tr>
-                <td colspan="7">Tidak ada data</td>
+                <td colspan="8">Tidak ada data</td>
             </tr>
         @endif
     </tbody>
 </table>
 </div>
+@include('vendor.include.konfirmasihapus')
+<script>
+    $(document).ready(function(){
+        var url_local = window.location.protocol+'//'+window.location.host;
+        // Simpan barang
+        var urlh = url_local+"/kmb/public/hapuskiriman/";
 
+        $(".hapusdata").click(function(){
+            var id = $(this).data('id');
+            $(".iddata").val(id);
+            $("#deleteModal").modal();
+        });
+
+        $("#btn-delete").click(function(){
+            var id = $(".iddata").val();
+            var urlhapus = urlh + id;
+            $.ajax({
+                type : 'GET',
+                url : urlhapus,
+                data : id,
+                dataType: 'json',
+                beforeSend: function(){
+                    setVisible('#kontennya', true);
+                },
+                success: function(data){
+                    window.location.reload();
+                },
+                error: function(data){
+                    
+                }
+            });
+        });
+
+    });
+</script>
 <script>
     onReady(function() {
         setVisible('#kontennya', true);
-        setVisible('#loading', false);
     });
 </script>

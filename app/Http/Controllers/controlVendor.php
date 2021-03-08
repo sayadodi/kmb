@@ -84,16 +84,22 @@ class controlVendor extends Controller
         return view('vendor.daftarkirimannonpo');
     }
 
+    public function hapuskiriman(Request $r,$id){
+        $h = modelPengiriman::findOrFail($id);
+        $h->delete();
+        return \Response::json($h);
+    }
+
     // Data data include ajax kiriman
     public function datadaftarkiriman(){
         $vendor = session('idvendor');
-        $data = modelPengiriman::where('kodevendor',$vendor)->where('status','PO')->get();
+        $data = modelPengiriman::where('kodevendor',$vendor)->where('status','PO')->orderBy('kodekirim', 'desc')->get();
         return view('vendor.include.daftarkiriman',compact('data'));
     }
 
     public function datadaftarkirimannonpo(){
         $vendor = session('idvendor');
-        $data = modelPengiriman::where('kodevendor',$vendor)->where('status','NonPO')->get();
+        $data = modelPengiriman::where('kodevendor',$vendor)->where('status','NonPO')->orderBy('kodekirim', 'desc')->get();
         return view('vendor.include.daftarkirimannonpo',compact('data'));
     }
 

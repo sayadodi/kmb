@@ -141,6 +141,7 @@ Route::group(['middleware' => ['cekbrowser']],function(){
     Route::get('/daftar','controlDaftar@index');
     Route::post('/daftar','controlDaftar@postDaftar');
     Route::get('/daftarsukses','controlDaftar@sukses');
+    Route::get('/terdaftar','controlDaftar@terdaftar');
     Route::get('/errorblokir','controlDaftar@blokir');
     Route::get('/lupapassword','controlDaftar@lupapassword');
     Route::post('/lupapassword','controlDaftar@kirimemaillupa');
@@ -159,7 +160,7 @@ Route::group(['middleware' => ['cekbrowser','cekloginvendor']],function(){
     Route::post('/kirimnonpo/tambah','controlVendor@tambahnonpo');
     Route::get('/kirimbarang/{jenis}/{id}','controlVendor@kirimbarang')->name("kirimbarang");
     Route::get('/daftartolak','controlVendor@daftartolak');
-
+    Route::get('/hapuskiriman/{id}','controlVendor@hapuskiriman');
 
     // Include Ajax
     Route::get('/kirimanberanda','controlVendor@kirimanberanda');

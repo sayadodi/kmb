@@ -35,7 +35,9 @@
                         <td>{{ $d->jenisbarang }}</td>
                         <td>{{ $d->keterangan }}</td>
                         <td>
-                            <a href="#" data-id="{{$d->iddetailkirim}}" class="hapusdata">Hapus</a>
+                            <a href="#" data-id="{{$d->iddetailkirim}}" class="ubahdata">Ubah</a>
+                            -
+                            <a href="#" data-id="{{$d->iddetailkirim}}" class="hapusdata" data-div="dbarang">Hapus</a>
                         </td>
                     </tr>
                     @endforeach

@@ -9,14 +9,13 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="callout callout-success">
+        <div class="callout callout-info">
             <h4><i class="icon fa fa-info"></i> Info!</h4>
-                - Klik nama pengiriman untuk melihat lebih lanjut <br>
-                - Daftar dibawah adalah daftar kiriman yang pernah dilakukan oleh vendor<br>
+                - Dibawah ini adalah daftar barang yang ditolak oleh vendor karena beberapa alasan <br>
         </div>
     </div>
     <div class="col-xs-12">
-    <div class="box box-success">
+    <div class="box box-default">
         <div class="box-header with-border">
             <h3 class="box-title">Daftar Barang Ditolak</h3>
 

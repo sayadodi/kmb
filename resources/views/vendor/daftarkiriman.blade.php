@@ -31,6 +31,9 @@
             </div>
             <!-- /.table-responsive -->
         </div>
+        <div class="overlay" id="loadingsamping">
+            <i class="fas fa fa-refresh"></i>
+        </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#masukkanpo">
@@ -142,5 +145,10 @@
             });
         });
 	});
+</script>
+<script>
+    onReady(function() {
+        setVisible('#loadingsamping', false);
+    });
 </script>
 @stop

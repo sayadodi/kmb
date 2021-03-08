@@ -252,6 +252,17 @@
       </ol>
     @endif
 
+    @if(is_active('daftartolak'))
+      <h1>
+      Barang Ditolak
+      <small>Daftar Barang yang ditolak</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Beranda</a></li>
+        <li class="active">Barang Ditolak</li>
+      </ol>
+    @endif
+
     @if(is_active('detailkeluarv'))
       <h1>
       Detail Barang Keluar

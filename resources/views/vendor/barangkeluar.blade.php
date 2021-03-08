@@ -11,12 +11,11 @@
     <div class="col-md-12">
         <div class="callout callout-danger">
             <h4><i class="icon fa fa-info"></i> Info!</h4>
-                - Klik nama pengiriman untuk mengatur kiriman <br>
-                - Daftar dibawah adalah daftar pengeluaran barang dari barang yang ditolak<br>
+                - Ini digunakan jika vendor akan mengeluarkan barang yang ditolak oleh unit<br>
         </div>
     </div>
     <div class="col-xs-12">
-    <div class="box box-success">
+    <div class="box box-danger">
         <div class="box-header with-border">
             <h3 class="box-title">Daftar Pengeluaran Barang</h3>
 
